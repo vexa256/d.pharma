@@ -1,0 +1,1 @@
+Dpharma is an enterprise pharmacy automation and management system built in PHP8.1 (Laravel 9) with JavaScript, HTML/CSS, and Bootstrap 5, and has been thoroughly tested for MySQL/Mariadb compatibility. Over 30 pharmacies in East Africa are currently using Dpharma. Contact Ayebare Timothy at vexa256@gmail.com for more information.

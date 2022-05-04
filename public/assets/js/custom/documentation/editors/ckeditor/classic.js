@@ -1,0 +1,2 @@
+(()=>{"use strict";var t={init:function(){ClassicEditor.create(document.querySelector("#kt_docs_ckeditor_classic")).then((t=>{console.log(t)})).catch((t=>{console.error(t)}))}};KTUtil.onDOMContentLoaded((function(){t.init()}))})();
+//# sourceMappingURL=classic.js.map

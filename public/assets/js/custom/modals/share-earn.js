@@ -1,0 +1,2 @@
+(()=>{"use strict";var e={init:function(){var e,s,n;e=document.querySelector("#kt_share_earn_link_copy_button"),s=document.querySelector("#kt_share_earn_link_input"),(n=new ClipboardJS(e))&&n.on("success",(function(n){var t=e.innerHTML;s.classList.add("bg-success"),s.classList.add("text-inverse-success"),e.innerHTML="Copied!",setTimeout((function(){e.innerHTML=t,s.classList.remove("bg-success"),s.classList.remove("text-inverse-success")}),3e3),n.clearSelection()}))}};KTUtil.onDOMContentLoaded((function(){e.init()}))})();
+//# sourceMappingURL=share-earn.js.map

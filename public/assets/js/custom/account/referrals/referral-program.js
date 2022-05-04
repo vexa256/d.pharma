@@ -1,0 +1,2 @@
+(()=>{"use strict";var e={init:function(){var e,s;e=document.querySelector("#kt_referral_program_link_copy_btn"),s=document.querySelector("#kt_referral_link_input"),new ClipboardJS(e).on("success",(function(n){var t=e.innerHTML;s.classList.add("bg-success"),s.classList.add("text-inverse-success"),e.innerHTML="Copied!",setTimeout((function(){e.innerHTML=t,s.classList.remove("bg-success"),s.classList.remove("text-inverse-success")}),3e3),n.clearSelection()}))}};KTUtil.onDOMContentLoaded((function(){e.init()}))})();
+//# sourceMappingURL=referral-program.js.map

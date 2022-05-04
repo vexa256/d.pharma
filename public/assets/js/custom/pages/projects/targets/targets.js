@@ -1,0 +1,2 @@
+(()=>{"use strict";var t={init:function(){!function(){const t=document.getElementById("kt_profile_overview_table");t.querySelectorAll("tbody tr").forEach((t=>{const e=t.querySelectorAll("td"),n=moment(e[1].innerHTML,"MMM D, YYYY").format();e[1].setAttribute("data-order",n)})),$(t).DataTable({info:!1,order:[],paging:!1})}()}};KTUtil.onDOMContentLoaded((function(){t.init()}))})();
+//# sourceMappingURL=targets.js.map

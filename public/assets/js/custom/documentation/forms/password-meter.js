@@ -1,0 +1,2 @@
+(()=>{"use strict";var t={init:function(){!function(){const t=document.getElementById("kt_password_meter_example_show_score"),e=document.querySelector("#kt_password_meter_example"),n=KTPasswordMeter.getInstance(e);t.addEventListener("click",(t=>{const e=n.getScore();Swal.fire({text:"Current Password Score: "+e,icon:"success",buttonsStyling:!1,confirmButtonText:"Ok, got it!",customClass:{confirmButton:"btn btn-primary"}})}))}()}};KTUtil.onDOMContentLoaded((function(){t.init()}))})();
+//# sourceMappingURL=password-meter.js.map

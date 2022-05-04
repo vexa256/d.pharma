@@ -1,0 +1,2 @@
+(()=>{"use strict";var e={init:function(){DecoupledEditor.create(document.querySelector("#kt_docs_ckeditor_document")).then((e=>{document.querySelector("#kt_docs_ckeditor_document_toolbar").appendChild(e.ui.view.toolbar.element)})).catch((e=>{console.error(e)}))}};KTUtil.onDOMContentLoaded((function(){e.init()}))})();
+//# sourceMappingURL=document.js.map
