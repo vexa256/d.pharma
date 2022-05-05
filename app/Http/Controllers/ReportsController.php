@@ -83,9 +83,7 @@ class ReportsController extends Controller
     {
 
         $Report = DB::table('DrugSalesReport')
-            ->where('Year', $Year)
-            ->where('Month', '>=', $FromMonth)
-            ->where('Month', '<=', $ToMonth)
+
             ->get();
         $data = [
 
@@ -132,7 +130,11 @@ class ReportsController extends Controller
 
     public function GenerateStockSalesReport($FromMonth, $ToMonth, $Year)
     {
-        $Report = DB::table('DrugSalesReport')->get();
+        $Report = DB::table('DrugSalesReport')
+            ->where('Year', $Year)
+            ->where('Month', '>=', $FromMonth)
+            ->where('Month', '<=', $ToMonth)
+            ->get();
         $data = [
 
             "Page" => "reports.StockSales.StockSalesReport",

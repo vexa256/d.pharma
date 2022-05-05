@@ -1,4 +1,4 @@
-<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+<div data-kt-menu-trigger="click" class="menu-item menu-accordion viewer_only">
     <span class="menu-link">
         <span class="menu-icon">
             <i class="fas text-light fw-bolder fa-2x me-1 fa-people-carry"

@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "beyondcode/expose": "^2.2",
         "charlieuki/receiptprinter": "^1.2",
         "consoletvs/charts": "6.*",
         "doctrine/dbal": "^3.3",

@@ -54,7 +54,6 @@ class CrudController extends Controller
 
     public function SaveData($request)
     {
-
         if ($request->TableName == "patients") {
 
             $Package = DB::table('patient_packages')
@@ -89,7 +88,34 @@ class CrudController extends Controller
 
     public function MassInsert(Request $request)
     {
-        if ($request->TableName == "payment_methods") {
+        if ($request->TableName == "users") {
+
+            $validated = $request->validate([
+                '*' => 'required',
+                "email" => 'unique:users',
+            ]);
+
+            DB::table($request->TableName)->insert(
+                $request->except([
+                    '_token',
+                    'TableName',
+                    'id',
+                ])
+            );
+
+            DB::table($request->TableName)->where('EmpID', $request->EmpID)
+                ->update([
+
+                    'password' =>
+                    \Hash::make($request->password),
+
+                ]);
+
+            //  $this->SaveData($request);
+
+            return redirect()->back()->with('status', 'The new user account has been created successfully');
+
+        } elseif ($request->TableName == "payment_methods") {
 
             $validated = $request->validate([
                 '*' => 'required',
@@ -109,8 +135,7 @@ class CrudController extends Controller
 
             }
 
-        }
-        if ($request->TableName == "drug_categories") {
+        } elseif ($request->TableName == "drug_categories") {
 
             $validated = $request->validate([
                 '*' => 'required',

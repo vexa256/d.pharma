@@ -41,9 +41,9 @@ function UpdateModalFooter()
     </div>';
 }
 
-function MenuItem($link, $label)
+function MenuItem($link, $label, $class = "null")
 {
-    echo ' <div class="menu-item">
+    echo ' <div class="menu-item ' . $class . '.">
     <a class="menu-link" href="' . $link . '">
         <span class="menu-bullet">
         <i class="me-2 fas fa-circle-notch text-danger "></i>

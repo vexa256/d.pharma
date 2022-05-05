@@ -21,6 +21,30 @@
             <link rel="canonical" href="" />
             <link rel="shortcut icon" href="{{ asset('logos/logo.png') }}" />
 
+
+            @if (Auth::user()->role == 'viewer')
+                <style>
+                    .viewer_only {
+                        display: none !important;
+                    }
+
+                </style>
+            @endif
+
+
+            @if (Auth::user()->role != 'admin')
+                <style>
+                    .deleteConfirm {
+                        display: none !important;
+                    }
+
+                </style>
+            @endif
+
+
+
+
+
             <style>
                 /* ubuntu-regular - latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
                 @font-face {

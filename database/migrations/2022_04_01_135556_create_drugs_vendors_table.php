@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('Address');
             $table->date('ContractExpiry');
             $table->string('ContractValidity')->default('valid');
+            $table->string('ActiveStatus')->default('true');
             $table->integer('MonthsToContractExpiry')->nullable();
             $table->string('Email')->unique();
             $table->string('Phone')->unique();

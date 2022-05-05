@@ -7,6 +7,8 @@ Route::controller(StockPileController::class)->group(function () {
 
     Route::get('MgtDrugInventory', 'MgtDrugInventory')->name('MgtDrugInventory');
 
+    Route::any('MgtConsInventory', 'MgtConsInventory')->name('MgtConsInventory');
+
     Route::any('DrugToStockSelected', 'DrugToStockSelected')->name('DrugToStockSelected');
 
     Route::any('SelectDrugStockPile', 'SelectDrugStockPile')->name('SelectDrugStockPile');

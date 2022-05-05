@@ -64,7 +64,7 @@
                             data-kt-menu-attach="parent"
                             data-kt-menu-placement="bottom-end"
                             data-kt-menu-flip="bottom">
-                            <i class="fas text-light  fa-user-circle fa-2x"
+                            <i class="fas text-light  fa-user-cog fa-3x"
                                 aria-hidden="true"></i>
                         </div>
 
@@ -113,8 +113,10 @@
                             <!--end::Menu separator-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
-                                <a href="#UpdateAcc" data-bs-toggle="modal"
-                                    class="menu-link px-5">Update Password</a>
+                                <a href="#UpdateAccountDetails"
+                                    data-bs-toggle="modal"
+                                    class="menu-link px-5">Update Account
+                                    Details</a>
                             </div>
                             <!--end::Menu item-->
 

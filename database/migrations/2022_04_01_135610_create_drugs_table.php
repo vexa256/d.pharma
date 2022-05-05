@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('GenericName')->nullable();
             $table->string('MeasurementUnits')->nullable();
             $table->string('WarningQtyStatus')->default('false');
+            $table->string('ActiveStatus')->default('true');
             $table->string('StockType')->default('drug');
             $table->bigInteger('MinimumQty')->nullable();
             $table->bigInteger('UnitSellingPrice');

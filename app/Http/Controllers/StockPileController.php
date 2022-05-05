@@ -196,6 +196,7 @@ class StockPileController extends Controller
         $Drugs = DB::table('stock_piles AS B')
             ->where('B.ActiveStatus', 'true')
             ->join('drugs AS DS', 'DS.DID', '=', 'B.DID')
+            ->where('DS.StockType', 'drug')
             ->join('drug_categories AS D', 'D.DCID', '=', 'DS.DCID')
             ->join('drug_units AS U', 'U.UnitID', '=', 'DS.MeasurementUnits')
             ->join('drugs_vendors AS V', 'V.VID', '=', 'B.VID')
@@ -207,6 +208,32 @@ class StockPileController extends Controller
 
             "Page" => "inventory.DrugInventoryReport",
             "Title" => "General Drug Inventory Report Generated on " . date('F j, Y'),
+            "Desc" => "Inventory Reports",
+            "Drugs" => $Drugs,
+
+        ];
+
+        return view('scrn', $data);
+    }
+
+    public function MgtConsInventory(Type $var = null)
+    {
+
+        $Drugs = DB::table('stock_piles AS B')
+            ->where('B.ActiveStatus', 'true')
+            ->join('drugs AS DS', 'DS.DID', '=', 'B.DID')
+            ->where('DS.StockType', '!=', 'drug')
+            ->join('drug_categories AS D', 'D.DCID', '=', 'DS.DCID')
+            ->join('drug_units AS U', 'U.UnitID', '=', 'DS.MeasurementUnits')
+            ->join('drugs_vendors AS V', 'V.VID', '=', 'B.VID')
+            ->select('B.*', 'DS.DrugName', 'DS.QtyAvailable', 'DS.DrugDescription', 'U.Unit AS Dunit', 'V.Name AS VendorName', 'D.CategoryName AS CatName')
+        //->groupBy('B.DID')
+            ->get()->unique('DrugName');
+
+        $data = [
+
+            "Page" => "inventory.ConsInventoryReport",
+            "Title" => "General Consumable's Inventory Report Generated on " . date('F j, Y'),
             "Desc" => "Inventory Reports",
             "Drugs" => $Drugs,
 

@@ -62,12 +62,12 @@
                                     <td>
 
                                         <a data-bs-toggle="modal"
-                                            class="btn shadow-lg btn-dark btn-sm admin"
+                                            class="btn viewer_only shadow-lg btn-dark btn-sm admin"
                                             href="#Update{{ $data->id }}">
 
                                             <i class="fas fa-edit"
                                                 aria-hidden="true"></i> Edit
-                                            Contract Expiriy
+                                            Contract Expiry
                                         </a>
 
                                     </td>

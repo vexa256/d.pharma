@@ -43,7 +43,7 @@
 
 
                          <td>
-                             <a class="btn btn-dark shadow-lg btn-sm"
+                             <a class="btn btn-dark viewer_only shadow-lg btn-sm"
                                  href="{{ route('RecordPay', ['id' => $data->id]) }}">
 
                                  <i class="fas fa-check" aria-hidden="true"></i>
