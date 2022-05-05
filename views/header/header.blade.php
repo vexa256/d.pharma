@@ -21,25 +21,27 @@
             <link rel="canonical" href="" />
             <link rel="shortcut icon" href="{{ asset('logos/logo.png') }}" />
 
+            @auth
+                @if (Auth::user()->role == 'viewer')
+                    <style>
+                        .viewer_only {
+                            display: none !important;
+                        }
 
-            @if (Auth::user()->role == 'viewer')
-                <style>
-                    .viewer_only {
-                        display: none !important;
-                    }
-
-                </style>
-            @endif
+                    </style>
+                @endif
 
 
-            @if (Auth::user()->role != 'admin')
-                <style>
-                    .deleteConfirm {
-                        display: none !important;
-                    }
+                @if (Auth::user()->role != 'admin')
+                    <style>
+                        .deleteConfirm {
+                            display: none !important;
+                        }
 
-                </style>
-            @endif
+                    </style>
+                @endif
+
+            @endauth
 
 
 
