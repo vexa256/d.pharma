@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('TransactionID');
             $table->string('DrugName');
+            $table->string('PatientName');
             $table->string('CreditCard');
             $table->text('Comments')->nullable();
             $table->string('SID');

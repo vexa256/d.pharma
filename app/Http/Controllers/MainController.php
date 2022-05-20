@@ -7,6 +7,20 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+
+
+    public function __construct()
+    {
+        if (\Schema::hasColumn('dispense_logs', 'PatientName')) {
+
+        }else{
+            \Schema::table('dispense_logs', function ($table) {
+                $table->string('PatientName')->nullable();
+            });
+        }
+    }
+
+
     public function VirtualOffice()
     {
 
