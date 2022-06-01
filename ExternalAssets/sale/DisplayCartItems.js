@@ -1,7 +1,17 @@
 global.DisplayCartTable = (CartItems, Total) => {
 
     var TotalSumHere = $('.TotalSumHere');
+    var TotalSumHereInput = $('.TotalSumHereInput');
     TotalSumHere.text('UGX ' + Total.toLocaleString());
+
+    if (TotalSumHereInput.length > 0) {
+
+        TotalSumHereInput.val(Total);
+
+
+
+    }
+
     global.DisplayCartItemsHere = $('.DisplayCartItemsHere');
     DisplayCartItemsHere.html('');
 

@@ -115,6 +115,7 @@ class InventoryController extends Controller
             "updated_at",
             "uuid",
             "VID",
+            "ActiveStatus",
             "MonthsToContractExpiry",
             "ContractValidity",
 

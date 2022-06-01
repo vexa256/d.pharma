@@ -48,11 +48,12 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MgtDrugs",
-            "Title" => "Create a list of all drugs in the database",
+            "Page" => "drugs.Drugs",
+            "Title" => "Drug Inventory List, Add  and Manage Drugs",
             "Desc" => "Drug list settings",
             "Drugs" => $Drugs,
             "rem" => $rem,
+            "MgtDrugsScript" => 'true',
             "Categories" => $Categories,
             "Units" => $Units,
 
@@ -515,4 +516,39 @@ class DrugStoreController extends Controller
         return view('users');
     }
 
+
+    public function DrugSettings($id)
+    {
+
+        $rem = ["id", "StockID", "created_at", "MeasurementUnits", "updated_at", "uuid", "DID", "ProfitMargin", "LossMargin", "StockType", "Barcode", "CategoryName", "Currency", "DrugExpiryStatus", "MonthsToExpiry", "Vendor", "WarningQtyStatus", "QtyAvailable", "DCID"];
+
+        $FormEngine = new FormEngine;
+
+        $Drugs = DB::table('drugs AS B')
+        ->where('B.id', $id)
+            ->join('drug_categories AS D', 'D.DCID', '=', 'B.DCID')
+            ->join('drug_units AS U', 'U.UnitID', '=', 'B.MeasurementUnits')
+            ->select('B.*', 'U.Unit', 'D.CategoryName AS CatName')
+            ->get();
+
+        $Categories = DB::table('drug_categories')->get();
+        $Units = DB::table('drug_units')->get();
+
+        $data = [
+
+            "Page" => "drugs.MgtDrugs",
+            "Title" => "Manage the selected drug settings",
+            "Desc" => "Single Drug Settings",
+            "Drugs" => $Drugs,
+            "rem" => $rem,
+            "MgtDrugsScript" => 'true',
+            "Categories" => $Categories,
+            "Units" => $Units,
+
+            "Form" => $FormEngine->Form('drugs'),
+
+        ];
+
+        return view('scrn', $data);
+    }
 }

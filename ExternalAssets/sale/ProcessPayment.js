@@ -66,13 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     DisplayCartItemsHere.html(' '),
                     TotalSumHere.html(' ')
 
-                ).then(
-                    stepper.goTo(1),
-                    setTimeout(function () {
-                        printJS('invoice-POS', 'html')
-                        spinner_display_switch.hide();
-                    }, 2000)
-                );
+                )
             }
         })
 

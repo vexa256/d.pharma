@@ -6,6 +6,7 @@ use App\Http\Controllers\FormEngine;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+ini_set('memory_limit','2048M');
 
 class PatientController extends Controller
 {
@@ -74,11 +75,13 @@ class PatientController extends Controller
     {
         $Patients = DB::table('patients')->get();
         $Packages = DB::table('patient_packages')->get();
-
-        $PatientsDetails = DB::table('patient_packages AS PP')
+        $PatientsDetails = Cache::remember('PatientsDetails', 60, function () {
+            return DB::table('patient_packages AS PP')
             ->join('patients AS T', 'T.PackageID', 'PP.PackageID')
             ->select('PP.PackageName', 'PP.BillingStatus', 'T.*')
             ->get();
+        });
+
 
         $rem = [
             'created_at',
@@ -87,6 +90,7 @@ class PatientController extends Controller
             'id',
             'PID',
             'PackageID',
+            'Balance',
             'status',
             'Gender',
             'PatientAccount',
@@ -175,6 +179,51 @@ class PatientController extends Controller
             "Name" => $Patients->Name,
             "rem" => $rem,
             "Form" => $FormEngine->Form('patient_next_of_kin'),
+
+        ];
+
+        return view('scrn', $data);
+
+    }
+
+
+    public function PatientSettings($id)
+    {
+        $Patients = DB::table('patients')->get();
+        $Packages = DB::table('patient_packages')->get();
+        $PatientsDetails = DB::table('patient_packages AS PP')
+            ->join('patients AS T', 'T.PackageID', 'PP.PackageID')
+            ->where('T.id',  $id)
+            ->select('PP.PackageName', 'PP.BillingStatus', 'T.*')
+            ->get();
+
+
+
+        $rem = [
+            'created_at',
+            'updated_at',
+            'uuid',
+            'id',
+            'PID',
+            'PackageID',
+            'Balance',
+            'status',
+            'Gender',
+            'PatientAccount',
+        ];
+
+        $FormEngine = new FormEngine;
+
+        $data = [
+
+            "Page" => "patients.PatientSettings",
+            "Title" => "Manage all the patients",
+            "Desc" => "Patients Settings",
+            "Patients" => $Patients,
+            "Packages" => $Packages,
+            "PatientsDetails" => $PatientsDetails,
+            "rem" => $rem,
+            "Form" => $FormEngine->Form('patients'),
 
         ];
 

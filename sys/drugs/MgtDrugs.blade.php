@@ -1,9 +1,9 @@
  <!--begin::Card body-->
  <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-     {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = 'Let\'s manage our pharmacy inventory.', $Msg = null) !!}
+     {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = 'Settings for the selected stock item', $Msg = null) !!}
  </div>
  <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-     {{ HeaderBtn($Toggle = 'New', $Class = 'btn-danger', $Label = 'New Drug', $Icon = 'fa-plus') }}
+
      <table
          class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
          <thead>
@@ -176,3 +176,6 @@
          </form>
      @endforeach
  @endisset
+
+
+

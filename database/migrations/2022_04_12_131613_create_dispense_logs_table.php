@@ -35,6 +35,12 @@ return new class extends Migration
             $table->string('Year')->nullable();
             $table->string('Currency')->default('UGX');
             $table->bigInteger('Qty');
+            $table->bigInteger('DebitBalance')
+            ->default(0)->nullable();
+            $table->string('DebitBalanceStatus')
+            ->default('false')->nullable();
+            $table->string('DebitBalanceProcessed')
+            ->default('false')->nullable();
             $table->bigInteger('SubTotal');
             $table->bigInteger('SellingPrice');
             $table->bigInteger('ProjectedProfit');

@@ -44,6 +44,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     $(document).on("click", "#ExistingStartProcessingPayment", function () {
 
+        var PatientBillable = $('#PatientBillable').val();
+        var Outstanding = $('#Outstanding').val();
+
+
+
+        if (PatientBillable == 0 || Outstanding == 0 || PatientBillable == null || PatientBillable == NaN || Outstanding == null || Outstanding == NaN) {
+
+            Swal.fire('OOPS, A minor error ocurred', 'The payment method or Amount Paid  cannot be empty. Select a payment method and try again', 'error');
+
+            return false;
+
+        } else {
+
+
         if ($('.PaymentMethodSelect').val() != 'NotSelected') {
 
 
@@ -81,6 +95,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
             Swal.fire('OOPS, A Minor error occurred', ' The payment method cannot be empty. Please select a payment method to proceed', 'error');
         }
+
+        }
+
+
+
+
+
 
 
 

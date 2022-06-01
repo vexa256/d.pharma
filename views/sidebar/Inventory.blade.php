@@ -52,7 +52,7 @@
         MenuItem($link = route('GeneralSalesDateRanger'), $label = 'General Sales Report');
         MenuItem($link = route('StockSalesDateRanger'), $label = 'Stock Sales Analysis');
 
-        MenuItem($link = route('DateRanger'), $label = 'Creditors Report');
+        // MenuItem($link = route('DateRanger'), $label = 'Creditors Report');
 
         //  MenuItem($link = route('DrugValidity'), $label = 'Drug Validity Report');
         MenuItem($link = route('SelectAnnualRestockYear'), $label = 'Annual Restock Report');

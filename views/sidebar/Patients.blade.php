@@ -14,6 +14,8 @@
         MenuItem($link = route('MgtPatientPackages'), $label = 'Patient Packages');
         MenuItem($link = route('MgtPaymentMethod'), $label = 'Payment Methods');
         MenuItem($link = route('MgtPatients'), $label = 'Patient Records');
+
+        MenuItem($link = route('PatientCreditManagement'), $label = 'Patient Credit Status');
         MenuItem($link = route('NokSelectPatients'), $label = 'Next of Keens');
 
         ?>

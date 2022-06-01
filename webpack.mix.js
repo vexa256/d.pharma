@@ -18,6 +18,7 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
     ])
     .js('ExternalAssets/app.js', 'public/js/dispense.js')
     .js('ExternalAssets/Nda.js', 'public/js/Nda.js')
+    .js('ExternalAssets/MgtDrugs.js', 'public/js/MgtDrugs.js')
     .postCss('ExternalAssets/app.css', 'public/css/main.css');
 
 mix.disableSuccessNotifications();

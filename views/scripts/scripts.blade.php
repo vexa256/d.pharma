@@ -19,9 +19,8 @@ src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}">
 <script defer
 src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}">
 </script>
-<script defer src="{{ asset('assets/editor/summernote-lite.min.js') }}">
-</script>
-<script defer src="{{ asset('js/custom.js') }}"></script>
+<script src="{{ asset('assets/editor/trumbowyg.min.js') }}"></script>
+
 @include('not.not')
 
 
@@ -43,6 +42,18 @@ src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}">
 @isset($existing)
     <script src="{{ asset('js/axios.js') }}"></script>
     <script src="{{ asset('js/dispense.js') }}"></script>
+@endisset
+
+
+@isset($MgtDrugsScript)
+
+<script src="{{ asset('js/MgtDrugs.js') }}"></script>
+<script defer src="{{ asset('js/custom.js') }}"></script>
+@else
+
+<script defer src="{{ asset('js/custom.js') }}"></script>
+
+
 @endisset
 
 

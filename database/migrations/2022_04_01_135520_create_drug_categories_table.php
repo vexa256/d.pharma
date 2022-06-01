@@ -24,6 +24,11 @@ return new class extends Migration
         });
 
         DrugExportControlsEurope();
+        \DB::unprepared("
+        INSERT INTO `drug_categories` (`id`, `uuid`, `DCID`, `CategoryName`, `CategoryDescription`, `created_at`, `updated_at`) VALUES
+
+        (14, '', '$2y$10\$rZEiYF8QcV6/bxd85XjAXOMTteIl0E.z64N8867KooWyDDnl9kabW', 'Human Medicine', '<p>Human Medicine<br></p>', '2022-05-26 07:34:19', NULL);
+        ");
     }
 
     /**

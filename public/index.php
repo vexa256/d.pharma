@@ -1,4 +1,6 @@
 <?php
+ini_set('memory_limit','2048M');
+
 //phpinfo();
 //exit();
 /*$targetFolder = '/home/realzlip/africhild.cloud/sys/storage/app/public';
@@ -6,9 +8,9 @@ $linkFolder   = '/home/realzlip/africhild.cloud/sys/public/storage';
 symlink($targetFolder, $linkFolder);*/
 
 //echo 'Symlink process successfully completed';
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;

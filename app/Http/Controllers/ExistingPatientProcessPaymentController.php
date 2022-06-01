@@ -40,8 +40,17 @@ class ExistingPatientProcessPaymentController extends Controller
 
         if ($PaymentMethod == 'Credit' || $PaymentMethod == 'credit') {
 
-            $CreditStatus = "true";
+            $CreditStatus = "false";
             $DocumentType = "Credit Note";
+
+        }elseif ($request->Outstanding > 0) {
+
+            $CreditStatus = "PartialCredit";
+
+        }elseif ($request->Outstanding < 0){
+
+            $CreditStatus = "PartialBalance";
+
         }
 
         $PaymentSession = DB::table('payment_sessions')->where('SID',
@@ -61,6 +70,40 @@ class ExistingPatientProcessPaymentController extends Controller
         $unique_two = sprintf("%01d", mt_rand(1, 9));
 
         $TransactionID = $unique_one . '4' . $unique_two;
+
+
+        if ($request->Outstanding > 0) {
+
+            $CreditStatus = "PartialCredit";
+
+            DB::table('patient_accounts')->insert([
+
+                "SID" =>$request->PaymentSessionID,
+                "uuid" =>md5($request->PaymentSessionID),
+                "PatientEmail" =>$request->PatientEmail,
+                "PatientName" =>$request->PatientName,
+                "PatientPhone" =>$request->PatientPhone,
+                "Outstanding" =>$request->Outstanding,
+                "Balance" =>0,
+                "OutstandingStatus" =>'PartialCredit',
+
+            ]);
+        }elseif ($request->Outstanding < 0) {
+
+            DB::table('patient_accounts')->insert([
+
+                "SID" =>$request->PaymentSessionID,
+                "uuid" =>md5($request->PaymentSessionID),
+                "PatientEmail" =>$request->PatientEmail,
+                "Outstanding" =>0,
+                // "PatientEmail" =>$request->PatientEmail,
+                "PatientName" =>$request->PatientName,
+                "PatientPhone" =>$request->PatientPhone,
+                "Balance" => $request->Outstanding,
+                "OutstandingStatus" =>'PartialBalance',
+
+            ]);
+        }
 
         foreach ($PaymentSession as $data) {
 
@@ -86,6 +129,10 @@ class ExistingPatientProcessPaymentController extends Controller
 
             $ProjectedProfit = $b - $a;
 
+            $PatientData = DB::table('patients')
+            ->where('PID',$request->PaymentSessionID )
+            ->first();
+
             DB::table('dispense_logs')->insert([
 
                 "TransactionID" => $TransactionID,
@@ -96,8 +143,10 @@ class ExistingPatientProcessPaymentController extends Controller
                 "SID" => $request->PaymentSessionID,
                 "StockID" => $data->StockID,
                 "GenericName" => $data->GenericName,
-                "PatientPhone" => $data->PatientPhone,
-                "PatientEmail" => $data->PatientEmail,
+                "PatientPhone" => $PatientData->Phone,
+                "PatientEmail" => $PatientData->Email,
+                "PatientName" => $PatientData->Name,
+                // "PatientEmail" => $data->PatientEmail,
                 "PaymentMode" => $PaymentMethod,
                 "Units" => $data->Units,
                 "Qty" => $data->Qty,

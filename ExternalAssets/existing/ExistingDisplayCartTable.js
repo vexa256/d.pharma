@@ -20,8 +20,17 @@ window.addEventListener('DOMContentLoaded', () => {
         /*Ensure Cart is not empty */
 
 
+        var TotalSumHereInput = $('.TotalSumHereInput');
 
         TotalSumHere.text('UGX ' + Total.toLocaleString());
+
+        if (TotalSumHereInput.length > 0) {
+
+            TotalSumHereInput.val(Total);
+
+
+
+        }
 
         global.DisplayCartItemsHere = $('.ExistingDisplayCartItemsHere');
         DisplayCartItemsHere.html('');

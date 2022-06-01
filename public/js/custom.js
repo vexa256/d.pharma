@@ -5,13 +5,7 @@ $(document).ready(function () {
 
     if ($('textarea.editorme').length) {
 
-
-
-        $('textarea.editorme').summernote({
-
-            "height": 200
-
-        });
+        $('.editorme').trumbowyg();
     }
 
 

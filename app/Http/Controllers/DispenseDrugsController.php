@@ -14,7 +14,46 @@ class DispenseDrugsController extends Controller
 {
 
     public function __construct()
+
     {
+
+        $A_counter = DB::table('patients')->where('Email', 'NA')->count();
+
+        if ($A_counter > 0) {
+
+            $Emails = DB::table('patients')->where('Email', 'NA')->get();
+
+            foreach ($Emails as $data) {
+
+                DB::table('patients')->where('id', $data->id)->update([
+
+                    "Email" => 'Email@'.uniqid().'.com'
+
+
+                ]);
+            }
+
+        }
+
+
+        $A_counter = DB::table('patients')->where('Phone', 'NA')->count();
+
+        if ($A_counter > 0) {
+
+            $Emails = DB::table('patients')->where('Phone', 'NA')->get();
+
+            foreach ($Emails as $data) {
+
+                DB::table('patients')->where('id', $data->id)->update([
+
+                    "Phone" => '0786190170',
+                    "Address" => 'Kampala'
+
+                ]);
+            }
+
+        }
+
         $SalesReportLogic = new SalesReportLogic;
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
         $ProfitAnalysisLogic->RunAnalysis();
@@ -161,7 +200,18 @@ class DispenseDrugsController extends Controller
 
             $CreditStatus = "true";
             $DocumentType = "Credit Note";
+
+        }elseif ($request->Outstanding > 0) {
+
+            $CreditStatus = "PartialCredit";
+
+        }elseif ($request->Outstanding < 0){
+
+            $CreditStatus = "PartialBalance";
+
         }
+
+
 
         $ValidateCounter = DB::table('dispense_logs')->where('SID', $request->PaymentSessionID)->count();
 
@@ -197,6 +247,44 @@ class DispenseDrugsController extends Controller
         $unique_two = sprintf("%01d", mt_rand(1, 9));
 
         $TransactionID = $unique_one . '4' . $unique_two;
+
+        if ($request->Outstanding > 0) {
+
+            $CreditStatus = "PartialCredit";
+
+            DB::table('patient_accounts')->insert([
+
+                "SID" =>$request->PaymentSessionID,
+                "uuid" =>md5($request->PaymentSessionID),
+                "PatientEmail" =>$request->PatientEmail,
+                "PatientName" =>$request->PatientName,
+                "PatientPhone" =>$request->PatientPhone,
+                "Outstanding" =>$request->Outstanding,
+                "Balance" =>0,
+                "OutstandingStatus" =>'PartialCredit',
+                "created_at" =>date('Y-m-d'),
+
+            ]);
+        }elseif ($request->Outstanding < 0) {
+
+            DB::table('patient_accounts')->insert([
+
+                "SID" =>$request->PaymentSessionID,
+                "uuid" =>md5($request->PaymentSessionID),
+                "PatientEmail" =>$request->PatientEmail,
+                "PatientName" =>$request->PatientName,
+                "PatientPhone" =>$request->PatientPhone,
+                "Outstanding" =>0,
+                "Balance" => $request->Outstanding,
+                "OutstandingStatus" =>'PartialBalance',
+                "created_at" =>date('Y-m-d'),
+
+            ]);
+        }
+
+
+
+
 
         foreach ($PaymentSession as $data) {
 
@@ -443,6 +531,13 @@ class DispenseDrugsController extends Controller
 
         $Patients = DB::table('patients')->get();
 
+        $BillingStatus = DB::table('patients AS P')
+            ->join('patient_packages AS C', 'C.PackageID', 'P.PackageID' )
+            ->where('P.PID', $request->session()
+            ->get('CurrentPatientID'))
+            ->select('C.BillingStatus')
+        ->first();
+
         $RecordKey = \Hash::make($random = Str::random(40));
 
         $data = [
@@ -454,6 +549,7 @@ class DispenseDrugsController extends Controller
             "ReloadTimer" => "true",
             "payment_methods" => $payment_methods,
             "PatientData" => $PatientData,
+            "BillingStatus" => $BillingStatus->BillingStatus,
             "Patients" => $Patients,
             "RecordKey" => $RecordKey,
             "PaymentSessionID" => $request->session()
@@ -462,5 +558,7 @@ class DispenseDrugsController extends Controller
 
         return view('scrn', $data);
     }
+
+
 
 }

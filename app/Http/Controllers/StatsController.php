@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 #use Illuminate\Http\Request;
 use DB;
@@ -11,16 +12,15 @@ class StatsController extends Controller
     {
 
         $TotalSales = DB::table('dispense_logs')
-            ->where('Month', date('m'))
-            ->where('Year', date('Y'))
+        ->whereDate('created_at', '=', Carbon::today()->toDateString())
         //->where('CreditStatus', 'false')
             ->get();
 
-        $CreditSales = DB::table('dispense_logs')
-            ->where('Month', date('m'))
-            ->where('Year', date('Y'))
-            ->where('CreditStatus', 'true')
+        $CreditSales = DB::table('patient_accounts')
+        ->whereDate('created_at', '=', Carbon::today()->toDateString())
+        ->where('OutstandingStatus', 'PartialCredit')
             ->get();
+
 
         $DrugsInStock = DB::table('drugs')
             ->where('ActiveStatus', 'true')

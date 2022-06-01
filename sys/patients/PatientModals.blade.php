@@ -1,4 +1,4 @@
-@include('patients.NewPatient')
+
 
 @isset($PatientsDetails)
     @include('viewer.viewer', [

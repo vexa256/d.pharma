@@ -1,14 +1,19 @@
 <!--begin::Step 1-->
+
 <div class="flex-column " data-kt-stepper-element="content">
     <!--begin::Input group-->
     <div class="row mb-10 SelectPaymentMethod ">
-        <div class="mb-3 col-md-12  py-5   my-5">
+
+        <div class="col-12">
+            @include('dispense.WizardData.WizardTotal')
+        </div>
+
+        <div class="mb-3 col-md-4 ">
             <label id="label" for=""
-                class="px-5   my-5 required form-label">Select
-                Payment Method to Use | Credit not supported for unregistered
-                patients</label>
+                class=" required form-label">Select
+                Payment Method to Use </label>
             <select required name="id"
-                class="form-select PaymentMethodSelect py-5   my-5 "
+                class="form-select PaymentMethodSelect "
                 data-control="select2" data-placeholder="Select an option">
                 <option></option>
 
@@ -23,5 +28,31 @@
             </select>
 
         </div>
+
+
+            <div class="mb-3 col-md-4  ">
+                <label id="label" for=""
+                    class="required form-label">Enter
+
+                        Amount paid by customer
+
+                </label>
+
+        <input type="text" class="form-control IntOnlyNow" placeholder="Customer Bill" id="PatientBillable">
+            </div>
+
+         <input type="text" class="d-none TotalSumHereInput" value="">
+
+            <div class="mb-3 col-md-4  ">
+                <label id="label" for=""
+                    class="required form-label">
+
+                       Customer Balance/Credit
+
+                </label>
+
+        <input type="text" class="form-control IntOnlyNow" placeholder="Customer Outstanding" id="Outstanding" value="0" readonly>
+            </div>
+
     </div>
 </div>

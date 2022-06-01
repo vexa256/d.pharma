@@ -8,14 +8,14 @@
             <span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
                 <i class="fas me-1 fa-money-check-alt text-light fw-bolder fa-2x"
                     aria-hidden="true"></i> <span class="text-light fw-bolder">
-                    ({{ date('M-Y') }})</span>
+                    ({{ date('Y-M-d') }})</span>
             </span>
             <!--end::Svg Icon-->
             <div class="text-inverse-info fw-bolder fs-5 mb-1 mt-3">UGX
                 {{ number_format($TotalSales->sum('SubTotal'), 2) }}
 
             </div>
-            <div class="fw-bold text-inverse-info fs-2">Total Sales
+            <div class="fw-bold text-inverse-info fs-2">Total Sales Today
 
 
             </div>
@@ -35,14 +35,14 @@
             <span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
                 <i class="fas me-1 fa-money-bill-wave-alt text-light fw-bolder fa-2x"
                     aria-hidden="true"></i> <span class="text-light fw-bolder">
-                    ({{ date('M-Y') }})</span>
+                    ({{ date('Y-M-d') }})</span>
             </span>
             <!--end::Svg Icon-->
             <div class="text-inverse-info fw-bolder fs-5 mb-1 mt-3">UGX
-                {{ number_format($CreditSales->sum('SubTotal'), 2) }}
+                {{ number_format($CreditSales->sum('Outstanding'), 2) }}
 
             </div>
-            <div class="fw-bold text-inverse-info fs-2">Credit Sales
+            <div class="fw-bold text-inverse-info fs-2">Credit Sales Today
 
 
             </div>

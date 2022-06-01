@@ -111,7 +111,13 @@ window.addEventListener('DOMContentLoaded', function () {
     TotalSumHere2.val(Total);
     /*Ensure Cart is not empty */
 
+    var TotalSumHereInput = $('.TotalSumHereInput');
     TotalSumHere.text('UGX ' + Total.toLocaleString());
+
+    if (TotalSumHereInput.length > 0) {
+      TotalSumHereInput.val(Total);
+    }
+
     __webpack_require__.g.DisplayCartItemsHere = $('.ExistingDisplayCartItemsHere');
     DisplayCartItemsHere.html('');
     var Tr = '<tr>';
@@ -285,28 +291,36 @@ window.addEventListener('DOMContentLoaded', function () {
   };
 
   $(document).on("click", "#ExistingStartProcessingPayment", function () {
-    if ($('.PaymentMethodSelect').val() != 'NotSelected') {
-      Swal.fire({
-        title: 'Are you sure??',
-        text: "You want to process this payment?. This action is not reversible ",
-        icon: 'info',
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Process Payment',
-        denyButtonText: "Cancel Action"
-      }).then(function (result) {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          spinner_display_switch.show();
-          ExistingProcessThePaymentNow().then(console.log("Processing Step One Complete")).then( //stepper.goTo(1),
-          setTimeout(function () {
-            printJS('invoice-POS', 'html');
-            spinner_display_switch.hide();
-          }, 2000));
-        }
-      });
+    var PatientBillable = $('#PatientBillable').val();
+    var Outstanding = $('#Outstanding').val();
+
+    if (PatientBillable == 0 || Outstanding == 0 || PatientBillable == null || PatientBillable == NaN || Outstanding == null || Outstanding == NaN) {
+      Swal.fire('OOPS, A minor error ocurred', 'The payment method or Amount Paid  cannot be empty. Select a payment method and try again', 'error');
+      return false;
     } else {
-      Swal.fire('OOPS, A Minor error occurred', ' The payment method cannot be empty. Please select a payment method to proceed', 'error');
+      if ($('.PaymentMethodSelect').val() != 'NotSelected') {
+        Swal.fire({
+          title: 'Are you sure??',
+          text: "You want to process this payment?. This action is not reversible ",
+          icon: 'info',
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: 'Yes, Process Payment',
+          denyButtonText: "Cancel Action"
+        }).then(function (result) {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            spinner_display_switch.show();
+            ExistingProcessThePaymentNow().then(console.log("Processing Step One Complete")).then( //stepper.goTo(1),
+            setTimeout(function () {
+              printJS('invoice-POS', 'html');
+              spinner_display_switch.hide();
+            }, 2000));
+          }
+        });
+      } else {
+        Swal.fire('OOPS, A Minor error occurred', ' The payment method cannot be empty. Please select a payment method to proceed', 'error');
+      }
     }
   });
 });
@@ -320,6 +334,17 @@ window.addEventListener('DOMContentLoaded', function () {
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window.addEventListener('DOMContentLoaded', function () {
+  $("#PatientBillable").on("keyup change", function (e) {
+    var PatientBillable = Number($('#PatientBillable').val());
+    var TotalSumHereInput = Number($('.TotalSumHereInput').val());
+    var Outstanding = TotalSumHereInput - PatientBillable;
+    $('#Outstanding').val(Outstanding);
+
+    if (PatientBillable == 0 || PatientBillable == null || PatientBillable == NaN) {
+      $('#Outstanding').val(0);
+    }
+  });
+
   __webpack_require__.g.ExistingProcessThePaymentNow = function () {
     return new Promise(function (resolve, reject) {
       spinner_display_switch.show();
@@ -327,6 +352,8 @@ window.addEventListener('DOMContentLoaded', function () {
       var PatientPhone = $('#PatientPhone').val();
       var PatientEmail = $('#PatientEmail').val();
       var DispensedBy = $('#DispensedBy').val();
+      var PatientBillable = $('#PatientBillable').val();
+      var Outstanding = $('#Outstanding').val();
       $('.PatientNameT').html(PatientName);
       $('.PatientPhoneT').html(PatientPhone);
       $('.PatientEmailT').html(PatientEmail);
@@ -337,14 +364,20 @@ window.addEventListener('DOMContentLoaded', function () {
         keyboard: false
       });
 
-      if (PaymentMethodSelect.length == 0) {
-        Swal.fire('OOPS, A minor error ocurred', 'The payment method cannot be empty. Select a payment method and try again', 'error');
-      } else {
+      if (PaymentMethodSelect.length == 0 || PatientBillable.length == 0 || Outstanding.length == 0) {
+        Swal.fire('OOPS, A minor error ocurred', 'The payment method or Amount Paid  cannot be empty. Select a payment method and try again', 'error');
+        return false;
+      } else if (PaymentMethodSelect.length != 0 && PatientBillable.length != 0 && Outstanding.length != 0) {
         var FORM_DATA = {
           PaymentMethod: PaymentMethodSelect,
           PaymentSessionID: PaymentSessionID,
           DEDUCTIBLE_BALANCE: localStorage.getItem('DEDUCTIBLE_BALANCE'),
-          RecordKey: $("#RecordKey").val()
+          RecordKey: $("#RecordKey").val(),
+          Balance: PatientBillable,
+          Outstanding: Outstanding,
+          PatientEmail: PatientEmail,
+          PatientName: PatientName,
+          PatientPhone: PatientPhone
         };
         console.log("The deductible balance is ".concat(localStorage.getItem('DEDUCTIBLE_BALANCE')));
         axios.post(GLOBAL_API_PATH + 'ExistingProcessPayment', FORM_DATA).then(function (response) {
@@ -366,6 +399,9 @@ window.addEventListener('DOMContentLoaded', function () {
           CatchAxiosError(error);
           spinner_display_switch.hide();
         });
+      } else {
+        Swal.fire('OOPS, A minor error ocurred', 'The payment method or Amount Paid  cannot be empty. Select a payment method and try again', 'error');
+        return false;
       }
     });
   };
@@ -502,7 +538,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
 __webpack_require__.g.DisplayCartTable = function (CartItems, Total) {
   var TotalSumHere = $('.TotalSumHere');
+  var TotalSumHereInput = $('.TotalSumHereInput');
   TotalSumHere.text('UGX ' + Total.toLocaleString());
+
+  if (TotalSumHereInput.length > 0) {
+    TotalSumHereInput.val(Total);
+  }
+
   __webpack_require__.g.DisplayCartItemsHere = $('.DisplayCartItemsHere');
   DisplayCartItemsHere.html('');
   var Tr = '<tr>';
@@ -624,10 +666,7 @@ window.addEventListener('DOMContentLoaded', function () {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         spinner_display_switch.show();
-        ProcessThePaymentNow().then(console.log("Processing Step One Complete")).then(GeneratePaymentSession(), DisplayCartItemsHere.html(' '), TotalSumHere.html(' ')).then(stepper.goTo(1), setTimeout(function () {
-          printJS('invoice-POS', 'html');
-          spinner_display_switch.hide();
-        }, 2000));
+        ProcessThePaymentNow().then(console.log("Processing Step One Complete")).then(GeneratePaymentSession(), DisplayCartItemsHere.html(' '), TotalSumHere.html(' '));
       }
     });
   });
@@ -641,7 +680,20 @@ window.addEventListener('DOMContentLoaded', function () {
   \*****************************************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 window.addEventListener('DOMContentLoaded', function () {
+  $("#PatientBillable").on("keyup change", function (e) {
+    var PatientBillable = Number($('#PatientBillable').val());
+    var TotalSumHereInput = Number($('.TotalSumHereInput').val());
+    var Outstanding = TotalSumHereInput - PatientBillable;
+    $('#Outstanding').val(Outstanding);
+
+    if (PatientBillable == 0 || PatientBillable == null || PatientBillable == NaN) {
+      $('#Outstanding').val(0);
+    }
+  });
+
   __webpack_require__.g.ProcessThePaymentNow = function () {
     return new Promise(function (resolve, reject) {
       spinner_display_switch.show();
@@ -649,6 +701,8 @@ window.addEventListener('DOMContentLoaded', function () {
       var PatientPhone = $('#PatientPhone').val();
       var PatientEmail = $('#PatientEmail').val();
       var DispensedBy = $('#DispensedBy').val();
+      var PatientBillable = $('#PatientBillable').val();
+      var Outstanding = $('#Outstanding').val();
       $('.PatientNameT').html(PatientName);
       $('.PatientPhoneT').html(PatientPhone);
       $('.PatientEmailT').html(PatientEmail);
@@ -659,15 +713,22 @@ window.addEventListener('DOMContentLoaded', function () {
         keyboard: false
       });
 
-      if (PaymentMethodSelect.length == 0) {
-        Swal.fire('OOPS, A minor error ocurred', 'The payment method cannot be empty. Select a payment method and try again', 'error');
+      if (PaymentMethodSelect.length == 0 || PatientBillable.length == 0 || Outstanding.length == 0) {
+        Swal.fire('OOPS, A minor error ocurred', 'The payment method or Amount Paid  cannot be empty. Select a payment method and try again', 'error');
+        return false;
       } else if (PatientName.length == 0 || PatientPhone.length == 0 || PatientEmail.length == 0) {
         Swal.fire('OOPS, A minor error ocurred', 'This payment has been processed already. Please  register a new patient to dispense Stock items to', 'error');
-      } else {
-        var FORM_DATA = {
+        return false;
+      } else if (PaymentMethodSelect.length != 0 && PatientBillable.length != 0 && Outstanding.length != 0) {
+        var _FORM_DATA;
+
+        var FORM_DATA = (_FORM_DATA = {
           PaymentMethod: PaymentMethodSelect,
-          PaymentSessionID: PaymentSessionID
-        };
+          PaymentSessionID: PaymentSessionID,
+          Balance: PatientBillable,
+          Outstanding: Outstanding,
+          PatientEmail: PatientEmail
+        }, _defineProperty(_FORM_DATA, "PatientEmail", PatientEmail), _defineProperty(_FORM_DATA, "PatientName", PatientName), _defineProperty(_FORM_DATA, "PatientPhone", PatientPhone), _FORM_DATA);
         axios.post(GLOBAL_API_PATH + 'ProcessDispense', FORM_DATA).then(function (response) {
           if (response.data.status == "out_of_stock") {
             Swal.fire('OOPS, Item(s)  out of stock', response.data.Message, 'error');
@@ -676,11 +737,23 @@ window.addEventListener('DOMContentLoaded', function () {
             DocumentTypeShowHere.html(response.data.DocumentType);
             TotalAmountShowHere.html("UGX ".concat(response.data.TotalSum.toLocaleString()));
             DisplayReceiptTable(receipt);
+            $('#PatientBillable').val(0);
+            $('#Outstanding').val(0);
+            stepper.goTo(1), setTimeout(function () {
+              printJS('invoice-POS', 'html');
+              spinner_display_switch.hide();
+            }, 2000);
           } else {
             var receipt = response.data.receipt;
             DocumentTypeShowHere.html(response.data.DocumentType);
             TotalAmountShowHere.html("UGX ".concat(response.data.TotalSum.toLocaleString()));
+            $('#PatientBillable').val(0);
+            $('#Outstanding').val(0);
             DisplayReceiptTable(receipt);
+            stepper.goTo(1), setTimeout(function () {
+              printJS('invoice-POS', 'html');
+              spinner_display_switch.hide();
+            }, 2000);
           }
 
           console.log(response.data.receipt);

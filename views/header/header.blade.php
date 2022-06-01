@@ -21,6 +21,11 @@
             <link rel="canonical" href="" />
             <link rel="shortcut icon" href="{{ asset('logos/logo.png') }}" />
 
+
+
+
+
+
             @auth
                 @if (Auth::user()->role == 'viewer')
                     <style>
@@ -48,6 +53,10 @@
 
 
             <style>
+
+                select {
+                    color:black !important
+                }
                 /* ubuntu-regular - latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
                 @font-face {
                     font-family: 'Ubuntu';
@@ -89,8 +98,8 @@
                 type="text/css" />
             <link rel="stylesheet" type="text/css"
                 href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" />
-            <link rel="stylesheet"
-                href="{{ asset('assets/editor/summernote-lite.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('assets/editor/ui/trumbowyg.min.css') }}">
+
             <link rel="stylesheet" href="{{ asset('css/main.css') }}">
             <style>
                 .aside-menu .menu-item .menu-link.active {
