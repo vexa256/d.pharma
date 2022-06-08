@@ -24,7 +24,7 @@ class FormEngine extends Controller
             ];
         }
 
-         return $Form;
+        return $Form;
     }
 
     private function CreateInputText($data, $value, $col)
@@ -202,7 +202,7 @@ class FormEngine extends Controller
             $GeneralForm .= $da['Field'];
         }
 
-        echo '<div class="modal bg-white fade" tabindex="-1" id="Update' . $ModalID . '">
+        echo '<div class="modal bg-white fade"  id="Update' . $ModalID . '">
         <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
             <div class="modal-content shadow-none">
                 <div class="modal-header">

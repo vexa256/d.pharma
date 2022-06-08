@@ -9,16 +9,19 @@
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 
 <script defer
-src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}">
+src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $(".modal").removeAttr("tabindex");
+    });
 </script>
-
-
-
 
 
 <script defer
-src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}">
-</script>
+src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
 <script src="{{ asset('assets/editor/trumbowyg.min.js') }}"></script>
 
 @include('not.not')
@@ -46,14 +49,10 @@ src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}">
 
 
 @isset($MgtDrugsScript)
-
-<script src="{{ asset('js/MgtDrugs.js') }}"></script>
-<script defer src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/MgtDrugs.js') }}"></script>
+    <script defer src="{{ asset('js/custom.js') }}"></script>
 @else
-
-<script defer src="{{ asset('js/custom.js') }}"></script>
-
-
+    <script defer src="{{ asset('js/custom.js') }}"></script>
 @endisset
 
 

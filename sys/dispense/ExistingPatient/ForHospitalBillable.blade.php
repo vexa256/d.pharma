@@ -8,13 +8,11 @@
 
 
                 <div class="mb-3 col-md-12  py-5   my-5">
-                    <label id="label" for=""
-                        class="px-5   my-5 required form-label">Select
+                    <label id="label" for="" class="px-5   my-5 required form-label">Select
                         Payment Method</label>
                     <select required name="id"
                         class="form-select  py-5   my-5  PaymentMethodSelect"
-                        data-control="select2"
-                        data-placeholder="Select an option">
+                        data-control="select2" data-placeholder="Select an option">
                         <option value="NotSelected">Select a Payment Method
                         </option>
                         @isset($payment_methods)
@@ -27,12 +25,12 @@
 
                     </select>
 
-                    <input type="text" class="d-none"
-                        id="PaymentSessionID" value="{{ $PaymentSessionID }}">
+                    <input type="text" class="d-none" id="PaymentSessionID"
+                        value="{{ $PaymentSessionID }}">
 
                 </div>
                 <div class="float-end my-3">
-                    <a id="ExistingStartProcessingPayment"
+                    <a id="ForPackagePatientExistingStartProcessingPayment"
                         class="btn btn-danger shadow-lg" href="#submit">
                         Print Receipt
                     </a>
@@ -74,10 +72,7 @@
 
 </div>
 
-<input type="text" id="RecordKey" class="d-none"
-    value="{{ $RecordKey }}">
+<input type="text" id="RecordKey" class="d-none" value="{{ $RecordKey }}">
 <div class="PatientSelectShow">
-    @include(
-        'dispense.ExistingPatient.SelectPatient'
-    )
+    @include('dispense.ExistingPatient.SelectPatient')
 </div>

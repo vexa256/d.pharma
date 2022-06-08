@@ -723,6 +723,12 @@ select {
 .mt-2 {
   margin-top: 0.5rem;
 }
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -753,14 +759,8 @@ select {
 .mb-4 {
   margin-bottom: 1rem;
 }
-.mt-1 {
-  margin-top: 0.25rem;
-}
 .mt-6 {
   margin-top: 1.5rem;
-}
-.mb-1 {
-  margin-bottom: 0.25rem;
 }
 .block {
   display: block;

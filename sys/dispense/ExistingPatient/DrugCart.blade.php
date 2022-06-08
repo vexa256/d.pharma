@@ -14,7 +14,7 @@
      value="{{ $BillingStatus }}">
 
  <div class="card-body pt-3 bg-light table-responsive">
-     {{ HeaderBtn($Toggle = 'ModalSelectDrug',$Class = 'btn-danger',$Label = 'Add  Item to Cart',$Icon = 'fa-plus',$BtnClass = 's') }}
+     {{ HeaderBtn($Toggle = 'ModalSelectDrug', $Class = 'btn-danger', $Label = 'Add  Item to Cart', $Icon = 'fa-plus', $BtnClass = 's') }}
 
      <a href="{{ route('ExistingSelectPaymentMethod') }}"
          class="btn mx-1 float-end mb-2 btn-dark GoToPay">
@@ -29,11 +29,8 @@
 
      </span>
  </div>
- @include(
-     'dispense.ExistingPatient.TotalCart'
- )
- <table
-     class="table table-rounded table-bordered table-striped border gy-3 gs-3">
+ @include('dispense.ExistingPatient.TotalCart')
+ <table class="table table-rounded table-bordered table-striped border gy-3 gs-3">
 
      <thead>
          <tr class="fw-bold  text-gray-800 border-bottom border-gray-200">
@@ -58,10 +55,6 @@
  </div>
  </div>
 
- @include(
-     'dispense.ExistingPatient.SelectDrugModal'
- )
+ @include('dispense.ExistingPatient.SelectDrugModal')
 
- @include(
-     'dispense.ExistingPatient.SelectStockPileModal'
- )
+ @include('dispense.ExistingPatient.SelectStockPileModal')

@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Route::post('PackagePatientExistingProcessPayment', [ExistingPatientProcessPaymentController::class, 'PackagePatientExistingProcessPayment']);
+
 Route::post('ExistingProcessPayment', [ExistingPatientProcessPaymentController::class, 'ExistingProcessPayment']);
 
 Route::get('GetNdaApi', [DrugStoreController::class, 'GetNdaApi']);

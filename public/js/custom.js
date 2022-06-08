@@ -1,7 +1,7 @@
 function BootEditor() {
 
 }
-$(document).ready(function () {
+$(document).ready(function() {
 
     if ($('textarea.editorme').length) {
 
@@ -13,7 +13,7 @@ $(document).ready(function () {
 });
 
 
-$(function () {
+$(function() {
     if ($("#kt_stepper_example_basic").length > 0) {
         // Stepper lement
         var element = document.querySelector("#kt_stepper_example_basic");
@@ -22,17 +22,17 @@ $(function () {
         var stepper = new KTStepper(element);
 
         // Handle next step
-        stepper.on("kt.stepper.next", function (stepper) {
+        stepper.on("kt.stepper.next", function(stepper) {
             stepper.goNext(); // go next step
         });
 
         // Handle previous step
-        stepper.on("kt.stepper.previous", function (stepper) {
+        stepper.on("kt.stepper.previous", function(stepper) {
             stepper.goPrevious(); // go previous step
         });
     }
 
-    $(document).on("click", ".deleteConfirm", function () {
+    $(document).on("click", ".deleteConfirm", function() {
         var route = $(this).data("route");
         var msg = $(this).data("msg");
 
@@ -67,16 +67,16 @@ $(function () {
 
     $(".tox-statusbar__branding").hide();
 
-    setInterval(function () {
+    setInterval(function() {
         $(".paginate_button").addClass("bg-dark text-light shadow-lg");
     }, 1000);
 });
 
 /***Plugins  INtOnly INput*/
 
-(function (a) {
+(function(a) {
     a.fn.extend({
-        inputNumberFormat: function (c) {
+        inputNumberFormat: function(c) {
             this.defaultOptions = {
                 decimal: 2,
                 decimalAuto: 2,
@@ -85,7 +85,7 @@ $(function () {
                 allowNegative: false,
             };
             var e = a.extend({}, this.defaultOptions, c);
-            var d = function (i, f) {
+            var d = function(i, f) {
                 var h = [];
 
 
@@ -119,7 +119,7 @@ $(function () {
                 }
                 return h;
             };
-            var b = function (k, f) {
+            var b = function(k, f) {
                 var j = k;
                 if (!j) {
                     return j;
@@ -143,9 +143,9 @@ $(function () {
                 }
                 return j;
             };
-            return this.each(function () {
+            return this.each(function() {
                 var f = a(this);
-                f.on("keypress", function (j) {
+                f.on("keypress", function(j) {
                     if (j.ctrlKey) {
                         return;
                     }
@@ -166,11 +166,11 @@ $(function () {
                         return;
                     }
                 });
-                f.on("blur", function (h) {
+                f.on("blur", function(h) {
                     var g = a.extend({}, e, a(this).data());
                     a(this).val(b(a(this).val(), g));
                 });
-                f.on("change", function (h) {
+                f.on("change", function(h) {
                     var g = a.extend({}, e, a(this).data());
                     a(this).val(b(a(this).val(), g));
                 });
@@ -180,8 +180,8 @@ $(function () {
 })(jQuery);
 /***Plugins */
 
-$(function () {
-    $("a[href='#']").on("click", function (e) {
+$(function() {
+    $("a[href='#']").on("click", function(e) {
         e.preventDefault();
     });
 
@@ -212,8 +212,8 @@ $(function () {
     }
 });
 
-document.addEventListener("adobe_dc_view_sdk.ready", function () {
-    $(document).on("click", ".PdfViewer", function () {
+document.addEventListener("adobe_dc_view_sdk.ready", function() {
+    $(document).on("click", ".PdfViewer", function() {
         var path = $(this).data("source");
         var doc = $(this).data("doc");
 
@@ -235,11 +235,11 @@ document.addEventListener("adobe_dc_view_sdk.ready", function () {
 });
 
 
-$(function () {
+$(function() {
 
 
 
-    $(document).on('click', '.TriggerNDA', function () {
+    $(document).on('click', '.TriggerNDA', function() {
 
         var DrugName = $("input[name='DrugName']");
         var GenericName = $("input[name='GenericName']");
