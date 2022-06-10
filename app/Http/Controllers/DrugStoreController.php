@@ -40,24 +40,25 @@ class DrugStoreController extends Controller
         $Drugs = DB::table('drugs AS B')
             ->join('drug_categories AS D', 'D.DCID', '=', 'B.DCID')
             ->join('drug_units AS U', 'U.UnitID', '=', 'B.MeasurementUnits')
+            ->where('B.StockType', 'drug')
             ->select('B.*', 'U.Unit', 'D.CategoryName AS CatName')
             ->get();
 
         $Categories = DB::table('drug_categories')->get();
-        $Units = DB::table('drug_units')->get();
+        $Units      = DB::table('drug_units')->get();
 
         $data = [
 
-            "Page" => "drugs.Drugs",
-            "Title" => "Drug Inventory List, Add  and Manage Drugs",
-            "Desc" => "Drug list settings",
-            "Drugs" => $Drugs,
-            "rem" => $rem,
+            "Page"           => "drugs.Drugs",
+            "Title"          => "Drug Inventory List, Add  and Manage Drugs",
+            "Desc"           => "Drug list settings",
+            "Drugs"          => $Drugs,
+            "rem"            => $rem,
             "MgtDrugsScript" => 'true',
-            "Categories" => $Categories,
-            "Units" => $Units,
+            "Categories"     => $Categories,
+            "Units"          => $Units,
 
-            "Form" => $FormEngine->Form('drugs'),
+            "Form"           => $FormEngine->Form('drugs'),
 
         ];
 
@@ -76,23 +77,23 @@ class DrugStoreController extends Controller
             ->select('D.*', 'DR.*', 'DC.CategoryName AS CatName', 'U.Unit AS Units', 'V.Name AS VendorName')
             ->first();
 
-        $BuyingPrice = $Drugs->UnitBuyingPrice;
-        $QtyDisposed = $Drugs->StockQty;
+        $BuyingPrice  = $Drugs->UnitBuyingPrice;
+        $QtyDisposed  = $Drugs->StockQty;
         $DisposalLoss = $BuyingPrice * $QtyDisposed;
 
         $DisposeDrug = DB::table('drug_disposal_logs')->insert([
-            "uuid" => $Drugs->uuid,
-            "SellingPrice" => $Drugs->UnitSellingPrice,
-            "DID" => $Drugs->DID,
-            "BuyingPrice" => $Drugs->UnitBuyingPrice,
-            "DisposalLoss" => $DisposalLoss,
+            "uuid"                 => $Drugs->uuid,
+            "SellingPrice"         => $Drugs->UnitSellingPrice,
+            "DID"                  => $Drugs->DID,
+            "BuyingPrice"          => $Drugs->UnitBuyingPrice,
+            "DisposalLoss"         => $DisposalLoss,
             // "ProfitMargin" => $Drugs->ProfitMargin,
-            "DisposedQty" => $Drugs->StockQty,
-            "BatchNumber" => $Drugs->BatchNumber,
+            "DisposedQty"          => $Drugs->StockQty,
+            "BatchNumber"          => $Drugs->BatchNumber,
             "DisposalRegisteredBy" => \Auth::user()->name,
-            "DisposedMonth" => date('M'),
-            "DisposedYear" => date('Y'),
-            "created_at" => date('Y-m-d'),
+            "DisposedMonth"        => date('M'),
+            "DisposedYear"         => date('Y'),
+            "created_at"           => date('Y-m-d'),
 
         ]);
 
@@ -145,7 +146,7 @@ class DrugStoreController extends Controller
         ];
 
         $FormEngine = new FormEngine;
-        $Drugs = DB::table('drugs AS D')
+        $Drugs      = DB::table('drugs AS D')
             ->where('D.WarningQtyStatus', 'true')
         //->where('D.StockType', 'Consumable')
             ->join('drug_categories AS DC', 'DC.DCID', '=', 'D.DCID')
@@ -156,13 +157,13 @@ class DrugStoreController extends Controller
             ->get();
         $data = [
 
-            "Page" => "drugs.LowInStock",
+            "Page"  => "drugs.LowInStock",
             "Title" => "Track drugs that need restocking",
-            "Desc" => "Only drugs below their MIN QTY are shown",
+            "Desc"  => "Only drugs below their MIN QTY are shown",
             "Drugs" => $Drugs,
-            "rem" => $rem,
+            "rem"   => $rem,
 
-            "Form" => $FormEngine->Form('drugs'),
+            "Form"  => $FormEngine->Form('drugs'),
 
         ];
 
@@ -171,37 +172,37 @@ class DrugStoreController extends Controller
 
     public function RestockDrugs(Request $request)
     {
-        $id = $request->id;
+        $id    = $request->id;
         $Drugs = DB::table('drugs')->where('id', $id)->first();
 
         $Refill_logs = DB::table('refill_logs')->insert([
 
-            "uuid" => $Drugs->uuid,
-            "DID" => $Drugs->DID,
-            "DrugName" => $Drugs->DrugName,
-            "DrugCategory" => $Drugs->DrugCategory,
-            "SellingPrice" => $Drugs->SellingPrice,
-            "BuyingPrice" => $Drugs->BuyingPrice,
-            "ProfitMargin" => $Drugs->ProfitMargin,
-            "MinimumQty" => $Drugs->MinimumQty,
-            "LossMargin" => $Drugs->LossMargin,
+            "uuid"             => $Drugs->uuid,
+            "DID"              => $Drugs->DID,
+            "DrugName"         => $Drugs->DrugName,
+            "DrugCategory"     => $Drugs->DrugCategory,
+            "SellingPrice"     => $Drugs->SellingPrice,
+            "BuyingPrice"      => $Drugs->BuyingPrice,
+            "ProfitMargin"     => $Drugs->ProfitMargin,
+            "MinimumQty"       => $Drugs->MinimumQty,
+            "LossMargin"       => $Drugs->LossMargin,
             //"RecoveredAmount" => $request->RecoveredAmount,
-            "ExpiryDate" => $Drugs->ExpiryDate,
-            "BatchNumber" => $Drugs->BatchNumber,
-            "Currency" => $Drugs->Currency,
-            "Vendor" => $Drugs->Vendor,
-            "ExpiryDate" => $Drugs->ExpiryDate,
-            "RefilledBy" => \Auth::user()->name,
-            "QtyBeforeRefill" => $Drugs->QtyAvailable,
-            "QtyAfterRefill" => $Drugs->QtyAvailable + $request->RefilledQty,
-            "RefilledQty" => $request->RefilledQty,
-            "RefillMonth" => date("M"),
-            "RefillYear" => date("Y"),
+            "ExpiryDate"       => $Drugs->ExpiryDate,
+            "BatchNumber"      => $Drugs->BatchNumber,
+            "Currency"         => $Drugs->Currency,
+            "Vendor"           => $Drugs->Vendor,
+            "ExpiryDate"       => $Drugs->ExpiryDate,
+            "RefilledBy"       => \Auth::user()->name,
+            "QtyBeforeRefill"  => $Drugs->QtyAvailable,
+            "QtyAfterRefill"   => $Drugs->QtyAvailable + $request->RefilledQty,
+            "RefilledQty"      => $request->RefilledQty,
+            "RefillMonth"      => date("M"),
+            "RefillYear"       => date("Y"),
             "DrugExpiryStatus" => $Drugs->DrugExpiryStatus,
-            "MonthsToExpiry" => $Drugs->MonthsToExpiry,
-            "Barcode" => $Drugs->Barcode,
-            "DrugDescription" => $Drugs->DrugDescription,
-            "created_at" => date("Y-m-d"),
+            "MonthsToExpiry"   => $Drugs->MonthsToExpiry,
+            "Barcode"          => $Drugs->Barcode,
+            "DrugDescription"  => $Drugs->DrugDescription,
+            "created_at"       => date("Y-m-d"),
         ]);
 
         DB::table('drugs')->where('id', $id)->update([
@@ -225,9 +226,9 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.DrugValidity",
+            "Page"  => "drugs.DrugValidity",
             "Title" => "Track validity of drugs in stock",
-            "Desc" => "Drug validity is calculated in months ",
+            "Desc"  => "Drug validity is calculated in months ",
             "Drugs" => $Drugs,
 
         ];
@@ -282,13 +283,13 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.RestockDrugs",
+            "Page"  => "drugs.RestockDrugs",
             "Title" => "Lets do some inventory restocking",
-            "Desc" => "Drug inventory restock actions",
+            "Desc"  => "Drug inventory restock actions",
             "Drugs" => $Drugs,
-            "rem" => $rem,
+            "rem"   => $rem,
 
-            "Form" => $FormEngine->Form('drugs'),
+            "Form"  => $FormEngine->Form('drugs'),
 
         ];
 
@@ -302,9 +303,9 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.AnnualReportSelect",
+            "Page"  => "drugs.AnnualReportSelect",
             "Title" => "Select the year to attach report to",
-            "Desc" => "Generate annual drug restock report",
+            "Desc"  => "Generate annual drug restock report",
             "Drugs" => $Drugs,
 
         ];
@@ -326,9 +327,9 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.AnnualRestockReport",
+            "Page"  => "drugs.AnnualRestockReport",
             "Title" => "Annual restock report for the year " . $request->Year,
-            "Desc" => "Filtered Restock Report",
+            "Desc"  => "Filtered Restock Report",
             "Drugs" => $Drugs,
 
         ];
@@ -344,9 +345,9 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MonthlyReportSelect",
+            "Page"  => "drugs.MonthlyReportSelect",
             "Title" => "Select the month and year to attach report to",
-            "Desc" => "Generate monthly drug restock report",
+            "Desc"  => "Generate monthly drug restock report",
             "Drugs" => $Drugs,
 
         ];
@@ -379,9 +380,9 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MonthlyRestockReport",
+            "Page"  => "drugs.MonthlyRestockReport",
             "Title" => "Monthly restock report for the Month " . $request->Month . ' in the year    ' . $request->Year,
-            "Desc" => "Filtered Restock Report",
+            "Desc"  => "Filtered Restock Report",
             "Drugs" => $Drugs,
 
         ];
@@ -427,12 +428,12 @@ class DrugStoreController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MgtSoonExpiring",
-            "Title" => "Expired  stock items in the inventory",
-            "Desc" => "Expired  stock items",
+            "Page"    => "drugs.MgtSoonExpiring",
+            "Title"   => "Expired  stock items in the inventory",
+            "Desc"    => "Expired  stock items",
             "Expired" => "true",
-            "Drugs" => $Drugs,
-            "rem" => $rem,
+            "Drugs"   => $Drugs,
+            "rem"     => $rem,
 
         ];
 
@@ -447,7 +448,7 @@ class DrugStoreController extends Controller
         return response()->json([
 
             "status" => "success",
-            "Drugs" => $NDA,
+            "Drugs"  => $NDA,
         ]);
     }
     public function MgtNDA(Type $var = null)
@@ -467,20 +468,20 @@ class DrugStoreController extends Controller
             ->get();
 
         $Categories = DB::table('drug_categories')->get();
-        $Units = DB::table('drug_units')->get();
+        $Units      = DB::table('drug_units')->get();
 
         $data = [
 
-            "Page" => "drugs.MgtNDA",
-            "Title" => "Select drugs to stock from the NDA database",
-            "Desc" => "National Drug Authority Human Medicine Register",
-            "Drugs" => $Drugs,
-            "rem" => $rem,
+            "Page"       => "drugs.MgtNDA",
+            "Title"      => "Select drugs to stock from the NDA database",
+            "Desc"       => "National Drug Authority Human Medicine Register",
+            "Drugs"      => $Drugs,
+            "rem"        => $rem,
             "Categories" => $Categories,
-            "Units" => $Units,
-            "NDA" => $NDA,
-            "NdaMgt" => 'true',
-            "Form" => $FormEngine->Form('drugs'),
+            "Units"      => $Units,
+            "NDA"        => $NDA,
+            "NdaMgt"     => 'true',
+            "Form"       => $FormEngine->Form('drugs'),
 
         ];
 
@@ -490,9 +491,9 @@ class DrugStoreController extends Controller
     public function AddToDrugList(Request $request)
     {
         $validated = $request->validate([
-            '*' => 'required',
+            '*'        => 'required',
             'DrugName' => 'required|unique:drugs',
-            'DID' => 'required|unique:drugs',
+            'DID'      => 'required|unique:drugs',
 
         ]);
 
@@ -516,7 +517,6 @@ class DrugStoreController extends Controller
         return view('users');
     }
 
-
     public function DrugSettings($id)
     {
 
@@ -525,27 +525,27 @@ class DrugStoreController extends Controller
         $FormEngine = new FormEngine;
 
         $Drugs = DB::table('drugs AS B')
-        ->where('B.id', $id)
+            ->where('B.id', $id)
             ->join('drug_categories AS D', 'D.DCID', '=', 'B.DCID')
             ->join('drug_units AS U', 'U.UnitID', '=', 'B.MeasurementUnits')
             ->select('B.*', 'U.Unit', 'D.CategoryName AS CatName')
             ->get();
 
         $Categories = DB::table('drug_categories')->get();
-        $Units = DB::table('drug_units')->get();
+        $Units      = DB::table('drug_units')->get();
 
         $data = [
 
-            "Page" => "drugs.MgtDrugs",
-            "Title" => "Manage the selected drug settings",
-            "Desc" => "Single Drug Settings",
-            "Drugs" => $Drugs,
-            "rem" => $rem,
+            "Page"           => "drugs.MgtDrugs",
+            "Title"          => "Manage the selected drug settings",
+            "Desc"           => "Single Drug Settings",
+            "Drugs"          => $Drugs,
+            "rem"            => $rem,
             "MgtDrugsScript" => 'true',
-            "Categories" => $Categories,
-            "Units" => $Units,
+            "Categories"     => $Categories,
+            "Units"          => $Units,
 
-            "Form" => $FormEngine->Form('drugs'),
+            "Form"           => $FormEngine->Form('drugs'),
 
         ];
 

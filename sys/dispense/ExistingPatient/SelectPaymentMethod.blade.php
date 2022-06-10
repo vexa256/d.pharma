@@ -1,8 +1,6 @@
 @if ($BillingStatus == 'Hospital Billable')
 
-    @include(
-        'dispense.ExistingPatient.ForHospitalBillable'
-    )
+    @include('dispense.ExistingPatient.ForHospitalBillable')
 @else
     <div class="SelectPaymentMethodShow">
         <!--begin::Card body-->
@@ -15,13 +13,10 @@
             <div class="row">
 
                 <div class="mb-3 col-md-4 ">
-                    <label id="label" for=""
-                        class=" required form-label">Select
+                    <label id="label" for="" class=" required form-label">Select
                         Payment Method</label>
-                    <select required name="id"
-                        class="form-select    PaymentMethodSelect"
-                        data-control="select2"
-                        data-placeholder="Select an option">
+                    <select required name="id" class="form-select    PaymentMethodSelect"
+                        data-control="select2" data-placeholder="Select an option">
                         <option value="NotSelected">Select a Payment Method
                         </option>
                         @isset($payment_methods)
@@ -60,8 +55,8 @@
                     </label>
 
                     <input type="text" class="form-control IntOnlyNow"
-                        placeholder="Customer Outstanding" id="Outstanding"
-                        value="0" readonly>
+                        placeholder="Customer Outstanding" id="Outstanding" value="0"
+                        readonly>
                 </div>
                 <div class="float-end my-3">
                     <a id="ExistingStartProcessingPayment"
@@ -105,11 +100,8 @@
 
     </div>
 
-    <input type="text" id="RecordKey" class="d-none"
-        value="{{ $RecordKey }}">
+    <input type="text" id="RecordKey" class="d-none" value="{{ $RecordKey }}">
     <div class="PatientSelectShow">
-        @include(
-            'dispense.ExistingPatient.SelectPatient'
-        )
+        @include('dispense.ExistingPatient.SelectPatient')
     </div>
 @endif

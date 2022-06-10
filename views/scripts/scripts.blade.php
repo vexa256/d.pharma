@@ -8,6 +8,16 @@
 
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 
+
+<script>
+    $(document).ready(function() {
+        $('.close').addClass('btn btn-dark')
+        $('.close').html('X');
+    });
+</script>
+
+@include('scripts.UpdateStockJs')
+
 <script defer
 src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 

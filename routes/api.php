@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Route::get('ReturnDrugUpdateForm/{id}', [ExistingPatientProcessPaymentController::class, 'ReturnDrugUpdateForm']);
+
 Route::post('PackagePatientExistingProcessPayment', [ExistingPatientProcessPaymentController::class, 'PackagePatientExistingProcessPayment']);
 
 Route::post('ExistingProcessPayment', [ExistingPatientProcessPaymentController::class, 'ExistingProcessPayment']);

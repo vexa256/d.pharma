@@ -10,24 +10,21 @@
 
                 @csrf
                 <div class="mb-3 col  py-5   my-5">
-                    <label id="label" for=""
-                        class="px-5   my-5 required form-label">From
+                    <label id="label" for="" class="px-5   my-5 required form-label">From
                         Month</label>
                     <select required name="FromMonth"
                         class="form-select  py-5   my-5 form-select-solid"
-                        data-control="select2"
-                        data-placeholder="Select an option">
+                        data-control="select2" data-placeholder="Select an option">
                         <option></option>
                         @isset($Reports)
 
                             @foreach ($Reports->unique('Month') as $data)
                                 <option value="{{ $data->Month }}">
                                     <?php
-
+                                    
                                     $monthNum = $data->Month;
                                     $dateObj = DateTime::createFromFormat('!m', $monthNum);
                                     echo $dateObj->format('F');
-
                                     ?>
                                 </option>
                             @endforeach
@@ -38,24 +35,21 @@
                 </div>
 
                 <div class="mb-3 col  py-5   my-5">
-                    <label id="label" for=""
-                        class="px-5   my-5 required form-label">To
+                    <label id="label" for="" class="px-5   my-5 required form-label">To
                         Month</label>
                     <select required name="ToMonth"
                         class="form-select  py-5   my-5 form-select-solid"
-                        data-control="select2"
-                        data-placeholder="Select an option">
+                        data-control="select2" data-placeholder="Select an option">
                         <option></option>
                         @isset($Reports)
 
                             @foreach ($Reports->unique('Month') as $data2)
                                 <option value="{{ $data2->Month }}">
                                     <?php
-
+                                    
                                     $monthNum = $data2->Month;
                                     $dateObj = DateTime::createFromFormat('!m', $monthNum);
                                     echo $dateObj->format('F');
-
                                     ?>
                                 </option>
                             @endforeach
@@ -70,8 +64,7 @@
                         Year</label>
                     <select required name="Year"
                         class="form-select  py-5   my-5 form-select-solid"
-                        data-control="select2"
-                        data-placeholder="Select an option">
+                        data-control="select2" data-placeholder="Select an option">
                         <option></option>
                         @isset($Reports)
 

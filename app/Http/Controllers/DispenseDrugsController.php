@@ -14,7 +14,6 @@ class DispenseDrugsController extends Controller
 {
 
     public function __construct()
-
     {
 
         $A_counter = DB::table('patients')->where('Email', 'NA')->count();
@@ -27,14 +26,12 @@ class DispenseDrugsController extends Controller
 
                 DB::table('patients')->where('id', $data->id)->update([
 
-                    "Email" => 'Email@'.uniqid().'.com'
-
+                    "Email" => 'Email@' . uniqid() . '.com',
 
                 ]);
             }
 
         }
-
 
         $A_counter = DB::table('patients')->where('Phone', 'NA')->count();
 
@@ -46,15 +43,15 @@ class DispenseDrugsController extends Controller
 
                 DB::table('patients')->where('id', $data->id)->update([
 
-                    "Phone" => '0786190170',
-                    "Address" => 'Kampala'
+                    "Phone"   => '0786190170',
+                    "Address" => 'Kampala',
 
                 ]);
             }
 
         }
 
-        $SalesReportLogic = new SalesReportLogic;
+        $SalesReportLogic    = new SalesReportLogic;
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
         $ProfitAnalysisLogic->RunAnalysis();
 
@@ -77,20 +74,20 @@ class DispenseDrugsController extends Controller
         $PaymentSessionID = Hash::make(Str::random(40) . date('Y-m-d H:I:S'));
 
         $payment_methods = DB::table('payment_methods')
-            ->where('PaymentMethod', "!=", "Credit")
-            ->where('PaymentMethod', "!=", "credit")
+            ->where('PaymentMethod', 'not like', '%Insurance%')
+            ->where('PaymentMethod', 'not like', '%Credit%')
             ->get();
 
         // dd($payment_methods);
 
         $data = [
 
-            "Page" => "dispense.Dispense",
-            "Title" => "Sell stock ",
-            "Desc" => "Dispense stock items to a patient",
-            "wizard" => "true",
-            "Drugs" => $Drugs,
-            "payment_methods" => $payment_methods,
+            "Page"             => "dispense.Dispense",
+            "Title"            => "Sell stock ",
+            "Desc"             => "Dispense stock items to a patient",
+            "wizard"           => "true",
+            "Drugs"            => $Drugs,
+            "payment_methods"  => $payment_methods,
             "PaymentSessionID" => $PaymentSessionID,
 
         ];
@@ -116,9 +113,9 @@ class DispenseDrugsController extends Controller
         }
 
         return response()->json([
-            'status' => 'success',
+            'status'     => 'success',
             'StockPiles' => $StockPiles,
-            'Count' => $Count,
+            'Count'      => $Count,
         ]);
     }
 
@@ -137,29 +134,29 @@ class DispenseDrugsController extends Controller
 
         if ($request->QtySelected > $Drugs->StockQty) {
             return response()->json([
-                'status' => 'QtyError',
+                'status'  => 'QtyError',
                 'Message' => 'The  stock item quantity entered is greater than the amount available in the selected  stockpile ',
             ]);
         }
 
         DB::table('payment_sessions')->insert([
-            "SID" => $request->PaymentSessionID,
-            "StockID" => $request->StockID,
-            "PatientName" => $request->PatientName,
+            "SID"          => $request->PaymentSessionID,
+            "StockID"      => $request->StockID,
+            "PatientName"  => $request->PatientName,
             "PatientPhone" => $request->PatientPhone,
             "PatientEmail" => $request->PatientEmail,
-            "DrugName" => $Drugs->DrugName,
-            "GenericName" => $Drugs->GenericName,
-            "Units" => $Drugs->Units,
-            "UnitCost" => $Drugs->UnitSellingPrice,
-            "Qty" => $request->QtySelected,
-            "SubTotal" => $request->QtySelected * $Drugs->UnitSellingPrice,
-            "DispensedBy" => $request->DispensedBy,
-            "created_at" => date('Y-m-d'),
+            "DrugName"     => $Drugs->DrugName,
+            "GenericName"  => $Drugs->GenericName,
+            "Units"        => $Drugs->Units,
+            "UnitCost"     => $Drugs->UnitSellingPrice,
+            "Qty"          => $request->QtySelected,
+            "SubTotal"     => $request->QtySelected * $Drugs->UnitSellingPrice,
+            "DispensedBy"  => $request->DispensedBy,
+            "created_at"   => date('Y-m-d'),
         ]);
 
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'Message' => 'Stock Item successfully added to dispense selection',
         ]);
 
@@ -172,9 +169,9 @@ class DispenseDrugsController extends Controller
             ->get();
 
         return response()->json([
-            'status' => 'success',
+            'status'    => 'success',
             'CartItems' => $CartItems,
-            'Total' => $CartItems->sum('SubTotal'),
+            'Total'     => $CartItems->sum('SubTotal'),
         ]);
     }
 
@@ -183,7 +180,7 @@ class DispenseDrugsController extends Controller
         DB::table('payment_sessions')->where('id', $id)->delete();
 
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'Message' => "stock item removed from dispense selection successfully",
         ]);
     }
@@ -201,17 +198,15 @@ class DispenseDrugsController extends Controller
             $CreditStatus = "true";
             $DocumentType = "Credit Note";
 
-        }elseif ($request->Outstanding > 0) {
+        } elseif ($request->Outstanding > 0) {
 
             $CreditStatus = "PartialCredit";
 
-        }elseif ($request->Outstanding < 0){
+        } elseif ($request->Outstanding < 0) {
 
             $CreditStatus = "PartialBalance";
 
         }
-
-
 
         $ValidateCounter = DB::table('dispense_logs')->where('SID', $request->PaymentSessionID)->count();
 
@@ -221,11 +216,11 @@ class DispenseDrugsController extends Controller
                 ->where('SID', $request->PaymentSessionID)->get();
 
             return response()->json([
-                'status' => 'Item_Already_purchased',
-                'Message' => "Transaction processed successfully, Please print out the receipt",
+                'status'       => 'Item_Already_purchased',
+                'Message'      => "Transaction processed successfully, Please print out the receipt",
                 "DocumentType" => $DocumentType,
-                "receipt" => $receipt,
-                "TotalSum" => $receipt->sum('SubTotal'),
+                "receipt"      => $receipt,
+                "TotalSum"     => $receipt->sum('SubTotal'),
             ]);
 
         }
@@ -254,37 +249,33 @@ class DispenseDrugsController extends Controller
 
             DB::table('patient_accounts')->insert([
 
-                "SID" =>$request->PaymentSessionID,
-                "uuid" =>md5($request->PaymentSessionID),
-                "PatientEmail" =>$request->PatientEmail,
-                "PatientName" =>$request->PatientName,
-                "PatientPhone" =>$request->PatientPhone,
-                "Outstanding" =>$request->Outstanding,
-                "Balance" =>0,
-                "OutstandingStatus" =>'PartialCredit',
-                "created_at" =>date('Y-m-d'),
+                "SID"               => $request->PaymentSessionID,
+                "uuid"              => md5($request->PaymentSessionID),
+                "PatientEmail"      => $request->PatientEmail,
+                "PatientName"       => $request->PatientName,
+                "PatientPhone"      => $request->PatientPhone,
+                "Outstanding"       => $request->Outstanding,
+                "Balance"           => 0,
+                "OutstandingStatus" => 'PartialCredit',
+                "created_at"        => date('Y-m-d'),
 
             ]);
-        }elseif ($request->Outstanding < 0) {
+        } elseif ($request->Outstanding < 0) {
 
             DB::table('patient_accounts')->insert([
 
-                "SID" =>$request->PaymentSessionID,
-                "uuid" =>md5($request->PaymentSessionID),
-                "PatientEmail" =>$request->PatientEmail,
-                "PatientName" =>$request->PatientName,
-                "PatientPhone" =>$request->PatientPhone,
-                "Outstanding" =>0,
-                "Balance" => $request->Outstanding,
-                "OutstandingStatus" =>'PartialBalance',
-                "created_at" =>date('Y-m-d'),
+                "SID"               => $request->PaymentSessionID,
+                "uuid"              => md5($request->PaymentSessionID),
+                "PatientEmail"      => $request->PatientEmail,
+                "PatientName"       => $request->PatientName,
+                "PatientPhone"      => $request->PatientPhone,
+                "Outstanding"       => 0,
+                "Balance"           => $request->Outstanding,
+                "OutstandingStatus" => 'PartialBalance',
+                "created_at"        => date('Y-m-d'),
 
             ]);
         }
-
-
-
-
 
         foreach ($PaymentSession as $data) {
 
@@ -295,14 +286,14 @@ class DispenseDrugsController extends Controller
             if ($data->Qty > $Batch->StockQty) {
 
                 return response()->json([
-                    'status' => 'out_of_stock',
+                    'status'  => 'out_of_stock',
                     'Message' => $data->DrugName . ' is out stock, restock the item or select another',
                 ]);
 
             }
             $BatchNumber = $Batch->BatchNumber;
 
-            $UnitBuyingPrice = $Drugs->UnitBuyingPrice;
+            $UnitBuyingPrice  = $Drugs->UnitBuyingPrice;
             $UnitSellingPrice = $data->UnitCost;
 
             $a = $UnitBuyingPrice * $data->Qty;
@@ -312,26 +303,26 @@ class DispenseDrugsController extends Controller
 
             DB::table('dispense_logs')->insert([
 
-                "TransactionID" => $TransactionID,
-                "DrugName" => $data->DrugName,
-                "DID" => $ExtractDID,
-                "SID" => $request->PaymentSessionID,
-                "StockID" => $data->StockID,
-                "GenericName" => $data->GenericName,
-                "PatientPhone" => $data->PatientPhone,
-                "PatientEmail" => $data->PatientEmail,
-                "PatientName" => $data->PatientName,
-                "PaymentMode" => $PaymentMethod,
-                "Units" => $data->Units,
-                "Month" => date('m'),
-                "Year" => date('Y'),
-                "Qty" => $data->Qty,
-                "SubTotal" => $data->SubTotal,
-                "DispensedBy" => $data->DispensedBy,
-                "SellingPrice" => $data->UnitCost,
+                "TransactionID"   => $TransactionID,
+                "DrugName"        => $data->DrugName,
+                "DID"             => $ExtractDID,
+                "SID"             => $request->PaymentSessionID,
+                "StockID"         => $data->StockID,
+                "GenericName"     => $data->GenericName,
+                "PatientPhone"    => $data->PatientPhone,
+                "PatientEmail"    => $data->PatientEmail,
+                "PatientName"     => $data->PatientName,
+                "PaymentMode"     => $PaymentMethod,
+                "Units"           => $data->Units,
+                "Month"           => date('m'),
+                "Year"            => date('Y'),
+                "Qty"             => $data->Qty,
+                "SubTotal"        => $data->SubTotal,
+                "DispensedBy"     => $data->DispensedBy,
+                "SellingPrice"    => $data->UnitCost,
                 "ProjectedProfit" => $ProjectedProfit,
-                "BatchNumber" => $BatchNumber,
-                "CreditStatus" => $CreditStatus,
+                "BatchNumber"     => $BatchNumber,
+                "CreditStatus"    => $CreditStatus,
 
             ]);
         }
@@ -342,11 +333,11 @@ class DispenseDrugsController extends Controller
         $this->UpdateStock($receipt);
 
         return response()->json([
-            'status' => 'success',
-            'Message' => "Transaction processed successfully, Please print out the receipt",
+            'status'       => 'success',
+            'Message'      => "Transaction processed successfully, Please print out the receipt",
             "DocumentType" => $DocumentType,
-            "receipt" => $receipt,
-            "TotalSum" => $receipt->sum('SubTotal'),
+            "receipt"      => $receipt,
+            "TotalSum"     => $receipt->sum('SubTotal'),
         ]);
 
     }
@@ -356,7 +347,7 @@ class DispenseDrugsController extends Controller
         $PaymentSessionID = Hash::make(Str::random(40) . date('Y-m-d H:I:S'));
 
         return response()->json([
-            'status' => 'success',
+            'status'           => 'success',
             "PaymentSessionID" => $PaymentSessionID,
         ]);
     }
@@ -394,9 +385,9 @@ class DispenseDrugsController extends Controller
 
         $data = [
 
-            "Page" => "dispense.ExistingPatient.SelectPatient",
-            "Title" => "Select Patient To Dispense stock items To",
-            "Desc" => "Patient stock dispensary wizard",
+            "Page"     => "dispense.ExistingPatient.SelectPatient",
+            "Title"    => "Select Patient To Dispense stock items To",
+            "Desc"     => "Patient stock dispensary wizard",
             "Patients" => $Patients,
         ];
 
@@ -441,19 +432,57 @@ class DispenseDrugsController extends Controller
                 $request->session()->get('CurrentPatientID'))->get();
 
         }
+        $PatientsDetails = DB::table('patient_packages AS PP')
+            ->join('patients AS T', 'T.PackageID', 'PP.PackageID')
+            ->where('T.id', $id)
+            ->select('PP.PackageName', 'PP.BillingStatus', 'T.*')
+            ->get();
+
+        $Packages        = DB::table('patient_packages')->get();
+        $DispensaryNotes = DB::table('dispensary_notes')
+            ->where('PID', $data->PID)->get();
+
+        $StockUpdate = DB::table('drugs AS B')
+            ->join('drug_categories AS D', 'D.DCID', '=', 'B.DCID')
+            ->join('drug_units AS U', 'U.UnitID', '=', 'B.MeasurementUnits')
+            ->select('B.*', 'U.Unit', 'D.CategoryName AS CatName')
+            ->get();
+
+        $Stock = DB::table('drugs')->get();
+
+        $rem = [
+            'created_at',
+            'updated_at',
+            'uuid',
+            'id',
+            'PID',
+            'PackageID',
+            'Balance',
+            'status',
+            'Gender',
+            'PatientAccount',
+        ];
 
         $data = [
 
-            "Page" => "dispense.ExistingPatient.DrugCart",
-            "Title" => "Dispense stock items to an existing patient",
-            "Desc" => "Stock dispensary wizard ",
-            "Cart" => $Cart,
-            "Drugs" => $Drugs,
-            "existing" => "true",
-            "Name" => $data->Name,
-            "BillingStatus" => $data->BillingStatus,
-            "PackageID" => $data->PackageID,
-            "PackageValue" => $data->PackageValue,
+            "Page"             => "dispense.ExistingPatient.DrugCart",
+            "Title"            => "Dispense stock items to an existing patient",
+            "Desc"             => "Stock dispensary wizard ",
+            "Cart"             => $Cart,
+            "rem"              => $rem,
+            "PID"              => $data->PID,
+            "Stock"            => $Stock,
+            "Drugs"            => $Drugs,
+            "Packages"         => $Packages,
+            "DispensaryNotes"  => $DispensaryNotes,
+            "existing"         => "true",
+            "PatientID"        => $id,
+            "PatientsDetails"  => $PatientsDetails,
+            "existing"         => "true",
+            "Name"             => $data->Name,
+            "BillingStatus"    => $data->BillingStatus,
+            "PackageID"        => $data->PackageID,
+            "PackageValue"     => $data->PackageValue,
             "PaymentSessionID" => $request->session()->get('CurrentPatientID'),
         ];
 
@@ -477,7 +506,7 @@ class DispenseDrugsController extends Controller
 
         if ($request->QtySelected > $Drugs->StockQty) {
             return response()->json([
-                'status' => 'QtyError',
+                'status'  => 'QtyError',
                 'Message' => 'The  stock item quantity entered is greater than the amount available in the selected  stockpile ',
             ]);
         }
@@ -486,23 +515,23 @@ class DispenseDrugsController extends Controller
             ->where('PID', $request->PaymentSessionID)->first();
 
         DB::table('payment_sessions')->insert([
-            "SID" => $request->PaymentSessionID,
-            "StockID" => $request->StockID,
-            "PatientName" => $Patient->Name,
+            "SID"          => $request->PaymentSessionID,
+            "StockID"      => $request->StockID,
+            "PatientName"  => $Patient->Name,
             "PatientPhone" => $Patient->Phone,
             "PatientEmail" => $Patient->Email,
-            "DrugName" => $Drugs->DrugName,
-            "GenericName" => $Drugs->GenericName,
-            "Units" => $Drugs->Units,
-            "UnitCost" => $Drugs->UnitSellingPrice,
-            "Qty" => $request->QtySelected,
-            "SubTotal" => $request->QtySelected * $Drugs->UnitSellingPrice,
-            "DispensedBy" => $request->DispensedBy,
-            "created_at" => date('Y-m-d'),
+            "DrugName"     => $Drugs->DrugName,
+            "GenericName"  => $Drugs->GenericName,
+            "Units"        => $Drugs->Units,
+            "UnitCost"     => $Drugs->UnitSellingPrice,
+            "Qty"          => $request->QtySelected,
+            "SubTotal"     => $request->QtySelected * $Drugs->UnitSellingPrice,
+            "DispensedBy"  => $request->DispensedBy,
+            "created_at"   => date('Y-m-d'),
         ]);
 
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'Message' => 'Item successfully added to dispense selection',
         ]);
 
@@ -521,7 +550,10 @@ class DispenseDrugsController extends Controller
                 ->with('error_a', 'OOPS , The session expired, Please re-select the patient to continue');
         }
 
-        $payment_methods = DB::table('payment_methods')->get();
+        $payment_methods = DB::table('payment_methods')
+            ->where('PaymentMethod', 'not like', '%Insurance%')
+            ->where('PaymentMethod', 'not like', '%Credit%')
+            ->get();
 
         $Cart = DB::table('payment_sessions')->where('SID', $request->session()
                 ->get('CurrentPatientID'));
@@ -532,33 +564,31 @@ class DispenseDrugsController extends Controller
         $Patients = DB::table('patients')->get();
 
         $BillingStatus = DB::table('patients AS P')
-            ->join('patient_packages AS C', 'C.PackageID', 'P.PackageID' )
+            ->join('patient_packages AS C', 'C.PackageID', 'P.PackageID')
             ->where('P.PID', $request->session()
-            ->get('CurrentPatientID'))
+                    ->get('CurrentPatientID'))
             ->select('C.BillingStatus')
-        ->first();
+            ->first();
 
         $RecordKey = \Hash::make($random = Str::random(40));
 
         $data = [
 
-            "Page" => "dispense.ExistingPatient.SelectPaymentMethod",
-            "Title" => "Dispense stock | Print Receipt | Select Patient",
-            "Desc" => "Stock dispensary wizard",
-            "existing" => "true",
-            "ReloadTimer" => "true",
-            "payment_methods" => $payment_methods,
-            "PatientData" => $PatientData,
-            "BillingStatus" => $BillingStatus->BillingStatus,
-            "Patients" => $Patients,
-            "RecordKey" => $RecordKey,
+            "Page"             => "dispense.ExistingPatient.SelectPaymentMethod",
+            "Title"            => "Dispense stock | Print Receipt | Select Patient",
+            "Desc"             => "Stock dispensary wizard",
+            "existing"         => "true",
+            "ReloadTimer"      => "true",
+            "payment_methods"  => $payment_methods,
+            "PatientData"      => $PatientData,
+            "BillingStatus"    => $BillingStatus->BillingStatus,
+            "Patients"         => $Patients,
+            "RecordKey"        => $RecordKey,
             "PaymentSessionID" => $request->session()
                 ->get('CurrentPatientID'),
         ];
 
         return view('scrn', $data);
     }
-
-
 
 }

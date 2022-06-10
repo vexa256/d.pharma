@@ -6,7 +6,8 @@ use App\Http\Controllers\FormEngine;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-ini_set('memory_limit','2048M');
+
+ini_set('memory_limit', '2048M');
 
 class PatientController extends Controller
 {
@@ -28,12 +29,12 @@ class PatientController extends Controller
 
         $data = [
 
-            "Page" => "patients.PatPackages",
-            "Title" => "Manage all the supported patient packages",
-            "Desc" => "Patient Package Settings",
+            "Page"     => "patients.PatPackages",
+            "Title"    => "Manage all the supported patient packages",
+            "Desc"     => "Patient Package Settings",
             "Packages" => $Packages,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('patient_packages'),
+            "rem"      => $rem,
+            "Form"     => $FormEngine->Form('patient_packages'),
 
         ];
 
@@ -43,7 +44,10 @@ class PatientController extends Controller
 
     public function MgtPaymentMethod(Type $var = null)
     {
-        $PaymentMethods = DB::table('payment_methods')->get();
+        $PaymentMethods = DB::table('payment_methods')
+            ->where('PaymentMethod', 'not like', '%Insurance%')
+            ->where('PaymentMethod', 'not like', '%Credit%')
+            ->get();
 
         $rem = [
             'created_at',
@@ -58,12 +62,12 @@ class PatientController extends Controller
 
         $data = [
 
-            "Page" => "patients.MgtPaymentMethod",
-            "Title" => "Manage all the supported patient payment methods",
-            "Desc" => "Patient Payment Settings",
+            "Page"           => "patients.MgtPaymentMethod",
+            "Title"          => "Manage all the supported patient payment methods",
+            "Desc"           => "Patient Payment Settings",
             "PaymentMethods" => $PaymentMethods,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('payment_methods'),
+            "rem"            => $rem,
+            "Form"           => $FormEngine->Form('payment_methods'),
 
         ];
 
@@ -73,15 +77,14 @@ class PatientController extends Controller
 
     public function MgtPatients(Type $var = null)
     {
-        $Patients = DB::table('patients')->get();
-        $Packages = DB::table('patient_packages')->get();
+        $Patients        = DB::table('patients')->get();
+        $Packages        = DB::table('patient_packages')->get();
         $PatientsDetails = Cache::remember('PatientsDetails', 60, function () {
             return DB::table('patient_packages AS PP')
-            ->join('patients AS T', 'T.PackageID', 'PP.PackageID')
-            ->select('PP.PackageName', 'PP.BillingStatus', 'T.*')
-            ->get();
+                ->join('patients AS T', 'T.PackageID', 'PP.PackageID')
+                ->select('PP.PackageName', 'PP.BillingStatus', 'T.*')
+                ->get();
         });
-
 
         $rem = [
             'created_at',
@@ -100,14 +103,14 @@ class PatientController extends Controller
 
         $data = [
 
-            "Page" => "patients.PatRecords",
-            "Title" => "Manage all the patients",
-            "Desc" => "Patients Settings",
-            "Patients" => $Patients,
-            "Packages" => $Packages,
+            "Page"            => "patients.PatRecords",
+            "Title"           => "Manage all the patients",
+            "Desc"            => "Patients Settings",
+            "Patients"        => $Patients,
+            "Packages"        => $Packages,
             "PatientsDetails" => $PatientsDetails,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('patients'),
+            "rem"             => $rem,
+            "Form"            => $FormEngine->Form('patients'),
 
         ];
 
@@ -121,9 +124,9 @@ class PatientController extends Controller
 
         $data = [
 
-            "Page" => "patients.SelectNokPatients",
-            "Title" => "Select Patient To Assign Next of Keens to",
-            "Desc" => "Patient Next of Keen Setups",
+            "Page"     => "patients.SelectNokPatients",
+            "Title"    => "Select Patient To Assign Next of Keens to",
+            "Desc"     => "Patient Next of Keen Setups",
             "Patients" => $Patients,
         ];
 
@@ -170,15 +173,15 @@ class PatientController extends Controller
 
         $data = [
 
-            "Page" => "patients.MgtNextOfKins",
-            "Title" => "Manage all the patients next of keens",
-            "Desc" => "Patient Next Of Keens Settings",
+            "Page"       => "patients.MgtNextOfKins",
+            "Title"      => "Manage all the patients next of keens",
+            "Desc"       => "Patient Next Of Keens Settings",
             "NextOfKins" => $NextOfKins,
             //"Patients" => $Patients,
-            "PID" => $PID,
-            "Name" => $Patients->Name,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('patient_next_of_kin'),
+            "PID"        => $PID,
+            "Name"       => $Patients->Name,
+            "rem"        => $rem,
+            "Form"       => $FormEngine->Form('patient_next_of_kin'),
 
         ];
 
@@ -186,18 +189,15 @@ class PatientController extends Controller
 
     }
 
-
     public function PatientSettings($id)
     {
-        $Patients = DB::table('patients')->get();
-        $Packages = DB::table('patient_packages')->get();
+        $Patients        = DB::table('patients')->get();
+        $Packages        = DB::table('patient_packages')->get();
         $PatientsDetails = DB::table('patient_packages AS PP')
             ->join('patients AS T', 'T.PackageID', 'PP.PackageID')
-            ->where('T.id',  $id)
+            ->where('T.id', $id)
             ->select('PP.PackageName', 'PP.BillingStatus', 'T.*')
             ->get();
-
-
 
         $rem = [
             'created_at',
@@ -216,14 +216,14 @@ class PatientController extends Controller
 
         $data = [
 
-            "Page" => "patients.PatientSettings",
-            "Title" => "Manage all the patients",
-            "Desc" => "Patients Settings",
-            "Patients" => $Patients,
-            "Packages" => $Packages,
+            "Page"            => "patients.PatientSettings",
+            "Title"           => "Manage all the patients",
+            "Desc"            => "Patients Settings",
+            "Patients"        => $Patients,
+            "Packages"        => $Packages,
             "PatientsDetails" => $PatientsDetails,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('patients'),
+            "rem"             => $rem,
+            "Form"            => $FormEngine->Form('patients'),
 
         ];
 

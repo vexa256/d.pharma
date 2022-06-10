@@ -8,15 +8,21 @@ use Illuminate\Support\Facades\Cache;
 
 class ReportsController extends Controller
 {
+
+    public function __construct()
+    {
+
+    }
+
     public function GeneralSalesDateRanger(Type $var = null)
     {
 
         $Report = DB::table('GeneralSalesReport')->get();
-        $data = [
+        $data   = [
 
-            "Page" => "reports.GeneralSales.DateRanger",
-            "Title" => "Select Timeline to Attach the General Sales  Report to",
-            "Desc" => "Generate General Sales Report",
+            "Page"    => "reports.GeneralSales.DateRanger",
+            "Title"   => "Select Timeline to Attach the General Sales  Report to",
+            "Desc"    => "Generate General Sales Report",
             "Reports" => $Report,
 
         ];
@@ -28,7 +34,7 @@ class ReportsController extends Controller
     {
 
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
         ]);
 
@@ -46,8 +52,8 @@ class ReportsController extends Controller
         return redirect()->route('GenerateGeneralSalesReport', [
 
             'FromMonth' => $request->FromMonth,
-            'ToMonth' => $request->ToMonth,
-            'Year' => $request->Year,
+            'ToMonth'   => $request->ToMonth,
+            'Year'      => $request->Year,
 
         ]);
 
@@ -65,13 +71,13 @@ class ReportsController extends Controller
 
         $data = [
 
-            "Page" => "reports.GeneralSales.Report",
-            "Title" => "General Sales Report for the Selected Timeline",
-            "Desc" => "Generate General Sales Report (Filtered by timeline)",
-            "Reports" => $Report,
+            "Page"      => "reports.GeneralSales.Report",
+            "Title"     => "General Sales Report for the Selected Timeline",
+            "Desc"      => "Generate General Sales Report (Filtered by timeline)",
+            "Reports"   => $Report,
             "FromMonth" => $FromMonth,
-            "ToMonth" => $ToMonth,
-            "Year" => $Year,
+            "ToMonth"   => $ToMonth,
+            "Year"      => $Year,
 
         ];
 
@@ -87,9 +93,9 @@ class ReportsController extends Controller
             ->get();
         $data = [
 
-            "Page" => "reports.StockSales.DateRanger",
-            "Title" => "Select Timeline to Attach the Stock Sales  Report to",
-            "Desc" => "Generate Stock Sales Report",
+            "Page"    => "reports.StockSales.DateRanger",
+            "Title"   => "Select Timeline to Attach the Stock Sales  Report to",
+            "Desc"    => "Generate Stock Sales Report",
             "Reports" => $Report,
 
         ];
@@ -101,7 +107,7 @@ class ReportsController extends Controller
     {
 
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
         ]);
 
@@ -119,8 +125,8 @@ class ReportsController extends Controller
         return redirect()->route('GenerateStockSalesReport', [
 
             'FromMonth' => $request->FromMonth,
-            'ToMonth' => $request->ToMonth,
-            'Year' => $request->Year,
+            'ToMonth'   => $request->ToMonth,
+            'Year'      => $request->Year,
 
         ]);
 
@@ -137,13 +143,13 @@ class ReportsController extends Controller
             ->get();
         $data = [
 
-            "Page" => "reports.StockSales.StockSalesReport",
-            "Title" => "Stock Sales Report for the Selected Timeline",
-            "Desc" => "Generate Stock Sales Report (Filtered by timeline)",
-            "Reports" => $Report,
+            "Page"      => "reports.StockSales.StockSalesReport",
+            "Title"     => "Stock Sales Report for the Selected Timeline",
+            "Desc"      => "Generate Stock Sales Report (Filtered by timeline)",
+            "Reports"   => $Report,
             "FromMonth" => $FromMonth,
-            "ToMonth" => $ToMonth,
-            "Year" => $Year,
+            "ToMonth"   => $ToMonth,
+            "Year"      => $Year,
 
         ];
 
@@ -153,11 +159,11 @@ class ReportsController extends Controller
     public function PatientPurchaseAnalysisSelect(Type $var = null)
     {
         $Report = DB::table('PatientPurchaseReport')->get();
-        $data = [
+        $data   = [
 
-            "Page" => "reports.PatientPurchase.Select",
-            "Title" => "Select the Patient whose purchase power analysis is required",
-            "Desc" => "Patient Purchase Analysis",
+            "Page"    => "reports.PatientPurchase.Select",
+            "Title"   => "Select the Patient whose purchase power analysis is required",
+            "Desc"    => "Patient Purchase Analysis",
             "Reports" => $Report,
 
         ];
@@ -168,7 +174,7 @@ class ReportsController extends Controller
     public function PatientPurchaseAccept(Request $request)
     {
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
         ]);
 
@@ -199,10 +205,10 @@ class ReportsController extends Controller
 
         $data = [
 
-            "Page" => "reports.PatientPurchase.PurchaseReport",
-            "Title" => "Patient Purchasing Power Analysis for the Selected Patient",
-            "Desc" => "Patient Purchase Analysis",
-            "Reports" => $Report,
+            "Page"        => "reports.PatientPurchase.PurchaseReport",
+            "Title"       => "Patient Purchasing Power Analysis for the Selected Patient",
+            "Desc"        => "Patient Purchase Analysis",
+            "Reports"     => $Report,
             "PatientName" => $Patient->PatientName,
 
         ];
@@ -213,11 +219,11 @@ class ReportsController extends Controller
     public function StockRefundDateRanger(Type $var = null)
     {
         $Report = DB::table('drug_refund_logs')->get();
-        $data = [
+        $data   = [
 
-            "Page" => "reports.RefundReport.DateRanger",
-            "Title" => "Select Timeline to Attach the Stock Refund/Exchange Report to",
-            "Desc" => "Generate Refund/Exchange Report",
+            "Page"    => "reports.RefundReport.DateRanger",
+            "Title"   => "Select Timeline to Attach the Stock Refund/Exchange Report to",
+            "Desc"    => "Generate Refund/Exchange Report",
             "Reports" => $Report,
 
         ];
@@ -228,7 +234,7 @@ class ReportsController extends Controller
     public function RefundReportAccept(Request $request)
     {
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
         ]);
 
@@ -246,8 +252,8 @@ class ReportsController extends Controller
         return redirect()->route('StockRefundReport', [
 
             'FromMonth' => $request->FromMonth,
-            'ToMonth' => $request->ToMonth,
-            'Year' => $request->Year,
+            'ToMonth'   => $request->ToMonth,
+            'Year'      => $request->Year,
 
         ]);
     }
@@ -268,13 +274,13 @@ class ReportsController extends Controller
 
         $data = [
 
-            "Page" => "reports.RefundReport.RefundReport",
-            "Title" => "Stock Refund/Exchange Report for the Selected Timeline",
-            "Desc" => "Stock Refund/Exchange Report (Filtered by timeline)",
-            "Reports" => $Report,
+            "Page"      => "reports.RefundReport.RefundReport",
+            "Title"     => "Stock Refund/Exchange Report for the Selected Timeline",
+            "Desc"      => "Stock Refund/Exchange Report (Filtered by timeline)",
+            "Reports"   => $Report,
             "FromMonth" => $FromMonth,
-            "ToMonth" => $ToMonth,
-            "Year" => $Year,
+            "ToMonth"   => $ToMonth,
+            "Year"      => $Year,
 
         ];
 
@@ -285,11 +291,11 @@ class ReportsController extends Controller
     {
 
         $Report = DB::table('drug_disposal_logs')->get();
-        $data = [
+        $data   = [
 
-            "Page" => "reports.DisposalReport.DateRanger",
-            "Title" => "Select Timeline to Attach the Stock Disposal  Report to",
-            "Desc" => "Generate Stock Disposal Report",
+            "Page"    => "reports.DisposalReport.DateRanger",
+            "Title"   => "Select Timeline to Attach the Stock Disposal  Report to",
+            "Desc"    => "Generate Stock Disposal Report",
             "Reports" => $Report,
 
         ];
@@ -301,7 +307,7 @@ class ReportsController extends Controller
     public function DisposalReportAccept(Request $request)
     {
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
         ]);
 
@@ -319,8 +325,8 @@ class ReportsController extends Controller
         return redirect()->route('GenerateDisposalReport', [
 
             'FromMonth' => $request->FromMonth,
-            'ToMonth' => $request->ToMonth,
-            'Year' => $request->Year,
+            'ToMonth'   => $request->ToMonth,
+            'Year'      => $request->Year,
 
         ]);
     }
@@ -341,13 +347,13 @@ class ReportsController extends Controller
 
         $data = [
 
-            "Page" => "reports.DisposalReport.DisposalReport",
-            "Title" => "Stock Disposal Report for the Selected Timeline",
-            "Desc" => "Stock Disposal Report  (Filtered by timeline)",
-            "Reports" => $Report,
+            "Page"      => "reports.DisposalReport.DisposalReport",
+            "Title"     => "Stock Disposal Report for the Selected Timeline",
+            "Desc"      => "Stock Disposal Report  (Filtered by timeline)",
+            "Reports"   => $Report,
             "FromMonth" => $FromMonth,
-            "ToMonth" => $ToMonth,
-            "Year" => $Year,
+            "ToMonth"   => $ToMonth,
+            "Year"      => $Year,
 
         ];
 

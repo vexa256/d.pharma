@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(ReportsController::class)->group(function () {
 
+});
+
+Route::controller(ReportsController::class)->group(function () {
+
     Route::any('DisposalReportAccept', 'DisposalReportAccept')->name('DisposalReportAccept');
 
     Route::any('DisposalDateRanger', 'DisposalDateRanger')->name('DisposalDateRanger');

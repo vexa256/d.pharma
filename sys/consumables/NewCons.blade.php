@@ -6,8 +6,8 @@
                 <h5 class="modal-title"> Let's add a new consumable to
                     our pharmacy stock
                 </h5>
-                <button type="button" class="close"
-                    data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal"
+                    aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -17,9 +17,8 @@
                     @csrf
                     <div class="row">
                         <div class="mt-3  mb-3 col-md-4  ">
-                            <label id="label" for=""
-                                class=" required form-label">Drug
-                                Categories</label>
+                            <label id="label" for="" class=" required form-label">Stock
+                                Category</label>
                             <select required name="DCID" class="form-select  "
                                 data-control="select2"
                                 data-placeholder="Select an option">
@@ -72,9 +71,8 @@
                             <div class="mb-3">
                                 <label class="required form-label">Generic
                                     name</label>
-                                <input required="" type="text"
-                                    name="GenericName" class="form-control "
-                                    placeholder="">
+                                <input required="" type="text" name="GenericName"
+                                    class="form-control " placeholder="">
                             </div>
                         </div>
                         <div class="col-md-4 mb-3 mt-3 ">
@@ -89,20 +87,16 @@
                             <div class="mb-3">
                                 <label class="required form-label">Unit selling
                                     price</label>
-                                <input required="" type="text"
-                                    name="UnitSellingPrice"
-                                    class="form-control IntOnlyNow"
-                                    placeholder="">
+                                <input required="" type="text" name="UnitSellingPrice"
+                                    class="form-control IntOnlyNow" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-4 mb-3 mt-3 ">
                             <div class="mb-3">
                                 <label class="required form-label">Unit buying
                                     price</label>
-                                <input required="" type="text"
-                                    name="UnitBuyingPrice"
-                                    class="form-control IntOnlyNow"
-                                    placeholder="">
+                                <input required="" type="text" name="UnitBuyingPrice"
+                                    class="form-control IntOnlyNow" placeholder="">
                             </div>
                         </div>
 

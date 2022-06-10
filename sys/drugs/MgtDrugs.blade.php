@@ -4,8 +4,7 @@
  </div>
  <div class="card-body pt-3 bg-light shadow-lg table-responsive">
 
-     <table
-         class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
+     <table class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
          <thead>
              <tr class="fw-bold  text-gray-800 border-bottom border-gray-200">
                  <th>Drug Name </th>
@@ -38,8 +37,7 @@
 
 
                          <td>
-                             <a data-bs-toggle="modal"
-                                 class="btn btn-dark shadow-lg btn-sm"
+                             <a data-bs-toggle="modal" class="btn btn-dark shadow-lg btn-sm"
                                  href="#Desc{{ $data->id }}">
 
                                  <i class="fas fa-binoculars" aria-hidden="true"></i>
@@ -102,8 +100,8 @@
  @isset($Drugs)
      @foreach ($Drugs as $data)
          {{ UpdateModalHeader($Title = 'Update the selected  record', $ModalID = $data->id) }}
-         <form novalidate action="{{ route('MassUpdate') }}"
-             class="" method="POST" enctype="multipart/form-data">
+         <form novalidate action="{{ route('MassUpdate') }}" class=""
+             method="POST" enctype="multipart/form-data">
              @csrf
 
              <div class="row">
@@ -129,8 +127,7 @@
 
 
                  <div class="mt-3  mb-3 col-md-6  ">
-                     <label id="label" for=""
-                         class=" required form-label">Measurement
+                     <label id="label" for="" class=" required form-label">Measurement
                          Units</label>
                      <select required name="MeasurementUnits" class="form-select  "
                          data-control="select2" data-placeholder="Select an option">
@@ -167,7 +164,7 @@
 
                  <input type="hidden" name="TableName" value="drugs">
 
-                 {{ RunUpdateModalFinal($ModalID = $data->id,$Extra = '',$csrf = null,$Title = null,$RecordID = $data->id,$col = '6',$te = '12',$TableName = 'drugs') }}
+                 {{ RunUpdateModalFinal($ModalID = $data->id, $Extra = '', $csrf = null, $Title = null, $RecordID = $data->id, $col = '6', $te = '12', $TableName = 'drugs') }}
              </div>
 
 
@@ -176,6 +173,3 @@
          </form>
      @endforeach
  @endisset
-
-
-

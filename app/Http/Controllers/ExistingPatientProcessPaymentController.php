@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\DispenseDrugsController;
+use App\Http\Controllers\FormEngine;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class ExistingPatientProcessPaymentController extends Controller
 {
@@ -41,7 +43,7 @@ class ExistingPatientProcessPaymentController extends Controller
         if ($PaymentMethod == 'Credit' || $PaymentMethod == 'credit') {
 
             $CreditStatus = "false";
-            $DocumentType = "Credit Note";
+            $DocumentType = " Receipt";
 
         } elseif ($request->Outstanding > 0) {
 
@@ -98,7 +100,7 @@ class ExistingPatientProcessPaymentController extends Controller
                 // "PatientEmail" =>$request->PatientEmail,
                 "PatientName"       => $request->PatientName,
                 "PatientPhone"      => $request->PatientPhone,
-                "Balance"           => $request->Outstanding,
+                "Balance"           => abs($request->Outstanding),
                 "OutstandingStatus" => 'PartialBalance',
 
             ]);
@@ -136,6 +138,9 @@ class ExistingPatientProcessPaymentController extends Controller
 
                 "TransactionID"   => $TransactionID,
                 "RecordKey"       => $request->RecordKey,
+                "DrugName"        => $data->DrugName,
+                "Month"           => date('m'),
+                "Year"            => date('Y'),
                 "DrugName"        => $data->DrugName,
                 "DID"             => $ExtractDID,
                 "PID"             => $request->PaymentSessionID,
@@ -213,7 +218,7 @@ class ExistingPatientProcessPaymentController extends Controller
         if ($PaymentMethod == 'Credit' || $PaymentMethod == 'credit') {
 
             $CreditStatus = "true";
-            $DocumentType = "Credit Note";
+            $DocumentType = " Receipt";
         }
 
         $PaymentSession = DB::table('payment_sessions')->where('SID',
@@ -264,6 +269,8 @@ class ExistingPatientProcessPaymentController extends Controller
                 "RecordKey"       => $request->RecordKey,
                 "DrugName"        => $data->DrugName,
                 "DID"             => $ExtractDID,
+                "Month"           => date('m'),
+                "Year"            => date('Y'),
                 "PID"             => $request->PaymentSessionID,
                 "SID"             => $request->PaymentSessionID,
                 "StockID"         => $data->StockID,
@@ -310,6 +317,42 @@ class ExistingPatientProcessPaymentController extends Controller
             "receipt"      => $receipt,
             "TotalSum"     => $receipt->sum('SubTotal'),
         ]);
+
+    }
+
+    public function ReturnDrugUpdateForm($id)
+    {
+        $rem = ["id", "StockID", "created_at", "MeasurementUnits", "updated_at", "uuid", "DID", "ProfitMargin", "LossMargin", "StockType", "Barcode", "CategoryName", "Currency", "DrugExpiryStatus", "MonthsToExpiry", "Vendor", "WarningQtyStatus", "QtyAvailable", "DCID"];
+
+        $FormEngine = new FormEngine;
+
+        $Drugs = DB::table('drugs AS B')
+            ->where('B.id', $id)
+            ->join('drug_categories AS D', 'D.DCID', '=', 'B.DCID')
+            ->join('drug_units AS U', 'U.UnitID', '=', 'B.MeasurementUnits')
+            ->select('B.*', 'U.Unit', 'D.CategoryName AS CatName')
+            ->get();
+
+        $Categories = DB::table('drug_categories')->get();
+        $Units      = DB::table('drug_units')->get();
+
+        $data = [
+
+            // "Page"           => "drugs.MgtDrugs",
+            // "Title"          => "Manage the selected drug settings",
+            // "Desc"           => "Single Drug Settings",
+            "Drugs"          => $Drugs,
+            "rem"            => $rem,
+            "MgtDrugsScript" => 'true',
+            "Categories"     => $Categories,
+            "Units"          => $Units,
+
+            "Form"           => $FormEngine->Form('drugs'),
+
+        ];
+
+        return View::make("dispense.ExistingPatient.StockUpdateSettings", $data)
+            ->render();
 
     }
 }
