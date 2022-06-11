@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\FormEngine;
 use App\Http\Controllers\ProcessFixesController;
 use DB;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -33,7 +34,7 @@ class MainController extends Controller
 
         }
 
-        if (Schema::hasTable('dispensary_notes')) {
+        if (\Schema::hasTable('dispensary_notes')) {
 
         } else {
 
