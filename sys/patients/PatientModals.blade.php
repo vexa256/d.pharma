@@ -81,23 +81,26 @@
 
                 </div>
 
+                @isset($StaffMember)
+                @else
+                    <div class="mt-3  mb-3 col-md-6 ">
+                        <label id="label" for="" class=" required form-label">Gender</label>
+                        <select required name="Gender" class="form-select  "
+                            data-control="select2" data-placeholder="Select an option">
+                            <option value="{{ $data->Gender }}">
 
-                <div class="mt-3  mb-3 col-md-6 ">
-                    <label id="label" for="" class=" required form-label">Gender</label>
-                    <select required name="Gender" class="form-select  "
-                        data-control="select2" data-placeholder="Select an option">
-                        <option value="{{ $data->Gender }}">
+                                {{ $data->Gender }}
 
-                            {{ $data->Gender }}
-
-                        </option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                            </option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
 
 
-                    </select>
+                        </select>
 
-                </div>
+                    </div>
+                @endisset
+
 
 
 
@@ -115,55 +118,56 @@
     @endforeach
 @endisset
 
+@isset($PID)
+    <div class="modal fade" id="DispenseNotes">
+        <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header bg-gray">
+                    <h5 class="modal-title">Record pharmacy notes for the selected patient
 
-<div class="modal fade" id="DispenseNotes">
-    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header bg-gray">
-                <h5 class="modal-title">Record pharmacy notes for the selected patient
+                    </h5>
 
-                </h5>
+                    <!--begin::Close-->
+                    <a href="#MgtTaxes" data-bs-toggle="modal" type="button"
+                        class="btn btn-info" data-bs-dismiss="modal"
+                        class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                        data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-2x fa-times" aria-hidden="true"></i>
+                    </a>
+                    <!--end::Close-->
+                </div>
 
-                <!--begin::Close-->
-                <a href="#MgtTaxes" data-bs-toggle="modal" type="button"
-                    class="btn btn-info" data-bs-dismiss="modal"
-                    class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                    data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-2x fa-times" aria-hidden="true"></i>
-                </a>
-                <!--end::Close-->
-            </div>
+                <div class="modal-body ">
 
-            <div class="modal-body ">
+                    <form action="{{ route('MassInsert') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="created_at" value="{{ date('Y-m-d') }}">
 
-                <form action="{{ route('MassInsert') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="created_at" value="{{ date('Y-m-d') }}">
+                        <input type="hidden" name="TableName" value="dispensary_notes">
 
-                    <input type="hidden" name="TableName" value="dispensary_notes">
+                        <input type="hidden" name="uuid"
+                            value="{{ md5($PID . uniqid() . date('Y-m-d')) }}">
 
-                    <input type="hidden" name="uuid"
-                        value="{{ md5($PID . uniqid() . date('Y-m-d')) }}">
+                        <input type="hidden" name="PID" value="{{ $PID }}">
 
-                    <input type="hidden" name="PID" value="{{ $PID }}">
-
-                    <textarea class="editorme" name="DispensaryNotes">
+                        <textarea class="editorme" name="DispensaryNotes">
             
          </textarea>
 
+                </div>
+
+                <div class="modal-footer">
+                    <a data-bs-toggle="modal" href="#" type="button" class="btn btn-info"
+                        data-bs-dismiss="modal">Close</a>
+
+
+                    <button type="submit" class="btn btn-danger">Save Changes
+                    </button>
+                    </form>
+
+                </div>
+
             </div>
-
-            <div class="modal-footer">
-                <a data-bs-toggle="modal" href="#" type="button" class="btn btn-info"
-                    data-bs-dismiss="modal">Close</a>
-
-
-                <button type="submit" class="btn btn-danger">Save Changes
-                </button>
-                </form>
-
-            </div>
-
         </div>
     </div>
-</div>
+@endisset

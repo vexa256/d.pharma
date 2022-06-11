@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ProcessFixesController;
 use DB;
 
 class FormEngine extends Controller
 {
+    public function __construct()
+    {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
+    }
+
     public function Form($TableName)
     {
         $Form = [];

@@ -30,17 +30,17 @@ class ConsumablesController extends Controller
             ->get();
 
         $Categories = DB::table('drug_categories')->get();
-        $Units = DB::table('drug_units')->get();
+        $Units      = DB::table('drug_units')->get();
 
         $data = [
 
-            "Page" => "consumables.MgtCons",
-            "Title" => "Manage all consumables in the database",
-            "Desc" => "Consumable list settings",
-            "Drugs" => $Drugs,
+            "Page"       => "consumables.MgtCons",
+            "Title"      => "Manage all consumables in the database",
+            "Desc"       => "Consumable list settings",
+            "Drugs"      => $Drugs,
 
             "Categories" => $Categories,
-            "Units" => $Units,
+            "Units"      => $Units,
 
         ];
 
@@ -55,9 +55,9 @@ class ConsumablesController extends Controller
 
         $data = [
 
-            "Page" => "consumables.SelectCons",
+            "Page"  => "consumables.SelectCons",
             "Title" => "Select a consumable to add a stockpile to",
-            "Desc" => "Consumable selection",
+            "Desc"  => "Consumable selection",
             "Drugs" => $Drugs,
 
         ];
@@ -107,9 +107,9 @@ class ConsumablesController extends Controller
             ->select('B.*', 'B.id AS BautoID', 'DS.*', 'DS.DrugName', 'U.Unit AS Dunit', 'V.Name AS VendorName', 'D.CategoryName AS CatName')
             ->get();
 
-        $a = $Stock;
+        $a         = $Stock;
         $StockTags = $a->pluck('StockTag');
-        $Qty = $a->pluck('StockQty');
+        $Qty       = $a->pluck('StockQty');
 
         $chart = new SystemCharts;
         $chart->labels($StockTags);
@@ -120,20 +120,20 @@ class ConsumablesController extends Controller
 
         $data = [
 
-            "Page" => "consumables.MgtConsStock",
-            "Title" => "Manage consumable's Stockpiles",
-            "Desc" => " Only valid stockpiles are shown",
-            "Stock" => $Stock,
-            "Vendors" => $Vendors,
-            "Currencies" => $Currencies,
+            "Page"           => "consumables.MgtConsStock",
+            "Title"          => "Manage consumable's Stockpiles",
+            "Desc"           => " Only valid stockpiles are shown",
+            "Stock"          => $Stock,
+            "Vendors"        => $Vendors,
+            "Currencies"     => $Currencies,
             "DrugCategories" => $Categories,
-            "StockTag" => $StockTag,
-            "Units" => $Units,
-            "Drugs" => $Drugs,
-            "Total" => $Stock->sum('StockQty'),
-            "rem" => $rem,
-            "chart" => $chart,
-            "Form" => $FormEngine->Form('stock_piles'),
+            "StockTag"       => $StockTag,
+            "Units"          => $Units,
+            "Drugs"          => $Drugs,
+            "Total"          => $Stock->sum('StockQty'),
+            "rem"            => $rem,
+            "chart"          => $chart,
+            "Form"           => $FormEngine->Form('stock_piles'),
 
         ];
 
@@ -160,13 +160,13 @@ class ConsumablesController extends Controller
 
         $data = [
 
-            "Page" => "consumables.LowInStock",
+            "Page"  => "consumables.LowInStock",
             "Title" => "Track consumables items that need restocking",
-            "Desc" => "Only consumables below their MIN QTY are shown",
+            "Desc"  => "Only consumables below their MIN QTY are shown",
             "Drugs" => $Drugs,
-            "rem" => $rem,
+            "rem"   => $rem,
 
-            "Form" => $FormEngine->Form('drugs'),
+            "Form"  => $FormEngine->Form('drugs'),
 
         ];
 
@@ -195,11 +195,11 @@ class ConsumablesController extends Controller
 
         $data = [
 
-            "Page" => "consumables.SoonExpiring",
+            "Page"  => "consumables.SoonExpiring",
             "Title" => "Soon  expiring stock items   ",
-            "Desc" => "Stock items with 3 or less months to  expiry ",
+            "Desc"  => "Stock items with 3 or less months to  expiry ",
             "Drugs" => $Drugs,
-            "rem" => $rem,
+            "rem"   => $rem,
 
         ];
 
@@ -243,12 +243,12 @@ class ConsumablesController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MgtSoonExpiring",
-            "Title" => "Expired consumables in the inventory",
-            "Desc" => "Invalid consumable stock",
+            "Page"       => "drugs.MgtSoonExpiring",
+            "Title"      => "Expired consumables in the inventory",
+            "Desc"       => "Invalid consumable stock",
             "Consumable" => "true",
-            "Drugs" => $Drugs,
-            "rem" => $rem,
+            "Drugs"      => $Drugs,
+            "rem"        => $rem,
 
         ];
 

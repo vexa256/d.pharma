@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ProcessFixesController;
 use DB;
 
 class StockTrucker extends Controller
@@ -9,6 +10,8 @@ class StockTrucker extends Controller
 
     public function __construct()
     {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
 
         $this->SetDrugMonthsToExpiry();
 
@@ -115,7 +118,7 @@ class StockTrucker extends Controller
             $Update = DB::table('stock_piles')->where('uuid', $uuid)->update([
 
                 'MonthsToExpiry' => $diff_in_months,
-                'ExpiryStatus' => $DrugExpiryStatus,
+                'ExpiryStatus'   => $DrugExpiryStatus,
             ]);
 
         } else {
@@ -123,7 +126,7 @@ class StockTrucker extends Controller
             $Update = DB::table('stock_piles')->where('uuid', $uuid)->update([
 
                 'MonthsToExpiry' => 0,
-                'ExpiryStatus' => 'Invalid',
+                'ExpiryStatus'   => 'Invalid',
             ]);
         }
     }
@@ -161,26 +164,26 @@ class StockTrucker extends Controller
                     ->select('S.*', 'D.*', 'C.*', 'U.Unit')
                     ->first();
 
-                $Profit = $LogData->UnitSellingPrice - $LogData->UnitBuyingPrice;
+                $Profit          = $LogData->UnitSellingPrice - $LogData->UnitBuyingPrice;
                 $ProjectedProfit = $Profit * $LogData->StockQty;
 
                 DB::table('drug_restock_logs')->insert([
-                    'uuid' => $data->uuid,
-                    'DID' => $data->DID,
-                    'QtyRestocked' => $data->StockQty,
-                    'ProjectedProfit' => $ProjectedProfit,
-                    'StockID' => $data->StockID,
-                    'RestockedBy' => \Auth::user()->name,
-                    'RestockMonth' => date('M'),
-                    'RestockYear' => date('Y'),
-                    'DrugName' => $LogData->DrugName,
-                    'GenericName' => $LogData->GenericName,
-                    'Units' => $LogData->Unit,
-                    'DrugCategory' => $LogData->CategoryName,
-                    'Currency' => $LogData->Currency,
+                    'uuid'             => $data->uuid,
+                    'DID'              => $data->DID,
+                    'QtyRestocked'     => $data->StockQty,
+                    'ProjectedProfit'  => $ProjectedProfit,
+                    'StockID'          => $data->StockID,
+                    'RestockedBy'      => \Auth::user()->name,
+                    'RestockMonth'     => date('M'),
+                    'RestockYear'      => date('Y'),
+                    'DrugName'         => $LogData->DrugName,
+                    'GenericName'      => $LogData->GenericName,
+                    'Units'            => $LogData->Unit,
+                    'DrugCategory'     => $LogData->CategoryName,
+                    'Currency'         => $LogData->Currency,
                     'UnitSellingPrice' => $LogData->UnitSellingPrice,
-                    'UnitBuyingPrice' => $LogData->UnitBuyingPrice,
-                    'created_at' => date('Y-m-d'),
+                    'UnitBuyingPrice'  => $LogData->UnitBuyingPrice,
+                    'created_at'       => date('Y-m-d'),
                 ]);
             }
 

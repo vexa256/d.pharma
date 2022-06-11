@@ -3,8 +3,7 @@
      {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = 'Manage supported packages', $Msg = null) !!} </div>
  <div class="card-body pt-3 bg-light shadow-lg table-responsive">
      {{ HeaderBtn($Toggle = 'New', $Class = 'btn-danger', $Label = 'New Package', $Icon = 'fa-plus') }}
-     <table
-         class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
+     <table class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
          <thead>
              <tr class="fw-bold  text-gray-800 border-bottom border-gray-200">
                  <th>Package Name</th>
@@ -23,8 +22,7 @@
 
                      <td> <a data-bs-toggle="modal"
                              class="btn shadow-lg btn-primary btn-sm admin TriggerNDA"
-                             href="#Desc{{ $data->id }}"> <i
-                                 class="fas fa-binoculars"
+                             href="#Desc{{ $data->id }}"> <i class="fas fa-binoculars"
                                  aria-hidden="true"></i>
 
 
@@ -34,8 +32,8 @@
 
                      <td> <a data-bs-toggle="modal"
                              class="btn shadow-lg  me-1 btn-dark btn-sm admin TriggerNDA"
-                             href="#Update{{ $data->id }}"> <i
-                                 class="fas fa-edit" aria-hidden="true"></i>
+                             href="#Update{{ $data->id }}"> <i class="fas fa-edit"
+                                 aria-hidden="true"></i>
 
 
 
@@ -103,7 +101,7 @@
 
                  <input type="hidden" name="TableName" value="patient_packages">
 
-                 {{ RunUpdateModalFinal($ModalID = $data->id,$Extra = '',$csrf = null,$Title = null,$RecordID = $data->id,$col = '6',$te = '12',$TableName = 'patient_packages') }}
+                 {{ RunUpdateModalFinal($ModalID = $data->id, $Extra = '', $csrf = null, $Title = null, $RecordID = $data->id, $col = '6', $te = '12', $TableName = 'patient_packages') }}
              </div>
 
 
@@ -112,3 +110,6 @@
          </form>
      @endforeach
  @endisset
+
+
+ @include('patients.NewPatient')

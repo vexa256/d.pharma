@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ProcessFixesController;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -11,7 +12,8 @@ class ReportsController extends Controller
 
     public function __construct()
     {
-
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
     }
 
     public function GeneralSalesDateRanger(Type $var = null)

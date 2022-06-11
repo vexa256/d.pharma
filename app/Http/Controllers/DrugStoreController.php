@@ -19,6 +19,11 @@ class DrugStoreController extends Controller
 
     public function __construct()
     {
+
+        //dd(date('Y-m-d H:i:s'));
+        $ProfitAnalysisLogic = new ProfitAnalysisLogic;
+        $ProfitAnalysisLogic->RunAnalysis();
+
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
         $ProfitAnalysisLogic->RunAnalysis();
 

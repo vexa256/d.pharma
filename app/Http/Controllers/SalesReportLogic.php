@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 //use Illuminate\Http\Request;
+use App\Http\Controllers\ProcessFixesController;
 use Illuminate\Support\Facades\DB;
 
 class SalesReportLogic extends Controller
@@ -10,6 +11,9 @@ class SalesReportLogic extends Controller
 
     public function __construct()
     {
+
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
         /*$report = DB::table('dispense_logs AS D')
     ->join('creditors_logs AS C', 'C.CreditCard', 'D.CreditCard')
     ->groupBy('C.Year', 'C.Month')->selectRaw('sum(C.Balance) as Credit, sum(D.ProjectedProfit) as ExpectedProfit, sum(C.PaidAmount) as RecoveredAmount, C.Year, D.Month')->get();
@@ -50,7 +54,7 @@ class SalesReportLogic extends Controller
 
                 DB::table('dispense_logs')->where('id', $data->id)->update([
 
-                    "Year" => date("Y"),
+                    "Year"  => date("Y"),
                     "Month" => date("m"),
 
                 ]);

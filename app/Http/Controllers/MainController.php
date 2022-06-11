@@ -1,24 +1,38 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Http\Controllers\FormEngine;
+use App\Http\Controllers\ProcessFixesController;
 use DB;
 use Illuminate\Http\Request;
-use App\Http\Controllers\FormEngine;
 
 class MainController extends Controller
 {
 
-
     public function __construct()
     {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
+
         if (\Schema::hasColumn('dispense_logs', 'PatientName')) {
 
-        }else{
+        } else {
             \Schema::table('dispense_logs', function ($table) {
                 $table->string('PatientName')->nullable();
             });
         }
-    }
 
+        if (\Schema::hasColumn('patients', 'IsStaffMember')) {
+
+        } else {
+
+            \Schema::table('patients', function ($table) {
+                $table->string('IsStaffMember')->default('false');
+                $table->string('StaffRole')->default('false');
+            });
+
+        }
+    }
 
     public function VirtualOffice()
     {
@@ -30,15 +44,15 @@ class MainController extends Controller
     public function UpdateAccount(Request $request)
     {
         $validated = $request->validate([
-            '*' => 'required',
-            'files' => 'nullable',
+            '*'        => 'required',
+            'files'    => 'nullable',
             'password' => 'confirmed',
         ]);
 
         \DB::table('users')->where('id', '=', $request->id)->update([
 
-            "name" => $request->name,
-            "email" => $request->email,
+            "name"     => $request->name,
+            "email"    => $request->email,
             "password" => \Hash::make($request->password),
 
         ]);
@@ -68,12 +82,12 @@ class MainController extends Controller
 
         $data = [
 
-            "Page" => "users.MgtUsers",
+            "Page"  => "users.MgtUsers",
             "Title" => "Manage All Authorized User Accounts",
-            "Desc" => "User Settings",
+            "Desc"  => "User Settings",
             "Users" => $Users,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('users'),
+            "rem"   => $rem,
+            "Form"  => $FormEngine->Form('users'),
             // "Units" => $Units,
 
         ];

@@ -14,6 +14,9 @@ class CrudController extends Controller
     {
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
         $ProfitAnalysisLogic->RunAnalysis();
+
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
     }
 
     public function DeleteData($id, $TableName)
@@ -91,7 +94,7 @@ class CrudController extends Controller
         if ($request->TableName == "users") {
 
             $validated = $request->validate([
-                '*' => 'required',
+                '*'     => 'required',
                 "email" => 'unique:users',
             ]);
 
@@ -118,7 +121,7 @@ class CrudController extends Controller
         } elseif ($request->TableName == "payment_methods") {
 
             $validated = $request->validate([
-                '*' => 'required',
+                '*'             => 'required',
                 'PaymentMethod' => 'required|unique:payment_methods',
 
             ]);
@@ -138,10 +141,10 @@ class CrudController extends Controller
         } elseif ($request->TableName == "drug_categories") {
 
             $validated = $request->validate([
-                '*' => 'required',
+                '*'            => 'required',
                 'CategoryName' => 'required|unique:drug_categories',
-                'uuid' => 'required|unique:drug_categories',
-                'DCID' => 'required|unique:drug_categories',
+                'uuid'         => 'required|unique:drug_categories',
+                'DCID'         => 'required|unique:drug_categories',
             ]);
 
             $this->SaveData($request);
@@ -151,8 +154,8 @@ class CrudController extends Controller
         } elseif ($request->TableName == "patients") {
 
             $validated = $request->validate([
-                '*' => 'required',
-                'Name' => 'required|unique:patients',
+                '*'     => 'required',
+                'Name'  => 'required|unique:patients',
                 'Email' => 'required|unique:patients',
                 'Phone' => 'required|unique:patients',
                 //'Address' => 'required|unique:patients',
@@ -168,13 +171,13 @@ class CrudController extends Controller
         } elseif ($request->TableName == "drugs_vendors") {
 
             $validated = $request->validate([
-                '*' => 'required',
-                'Name' => 'required|unique:drugs_vendors',
-                'VID' => 'required|unique:drugs_vendors',
-                'uuid' => 'required|unique:drugs_vendors',
-                'Email' => 'required|unique:drugs_vendors',
+                '*'             => 'required',
+                'Name'          => 'required|unique:drugs_vendors',
+                'VID'           => 'required|unique:drugs_vendors',
+                'uuid'          => 'required|unique:drugs_vendors',
+                'Email'         => 'required|unique:drugs_vendors',
                 'ContactPerson' => 'required|unique:drugs_vendors',
-                'Phone' => 'required|unique:drugs_vendors',
+                'Phone'         => 'required|unique:drugs_vendors',
 
             ]);
 
@@ -185,9 +188,9 @@ class CrudController extends Controller
         } elseif ($request->TableName == "stock_piles") {
 
             $validated = $request->validate([
-                '*' => 'required',
+                '*'        => 'required',
                 'StockTag' => 'required|unique:stock_piles',
-                'StockID' => 'required|unique:stock_piles',
+                'StockID'  => 'required|unique:stock_piles',
 
             ]);
 
@@ -202,11 +205,11 @@ class CrudController extends Controller
         } elseif ($request->TableName == "drug_batches") {
 
             $validated = $request->validate([
-                '*' => 'required',
-                'BatchTag' => 'required|unique:drug_batches',
+                '*'           => 'required',
+                'BatchTag'    => 'required|unique:drug_batches',
                 'BatchNumber' => 'required|unique:drug_batches',
-                'BatchID' => 'required|unique:drug_batches',
-                'uuid' => 'required|unique:drug_batches',
+                'BatchID'     => 'required|unique:drug_batches',
+                'uuid'        => 'required|unique:drug_batches',
 
             ]);
 
@@ -217,7 +220,7 @@ class CrudController extends Controller
         } elseif ($request->TableName == "drugs") {
 
             $validated = $request->validate([
-                '*' => 'required',
+                '*'        => 'required',
                 'DrugName' => 'required|unique:drugs',
 
             ]);
@@ -229,12 +232,12 @@ class CrudController extends Controller
         } elseif ($request->TableName == "drugs_vendors") {
 
             $validated = $request->validate([
-                '*' => 'required',
+                '*'     => 'required',
                 'Email' => 'required|unique:drugs_vendors',
-                'VID' => 'required|unique:drugs_vendors',
-                'uuid' => 'required|unique:drugs_vendors',
+                'VID'   => 'required|unique:drugs_vendors',
+                'uuid'  => 'required|unique:drugs_vendors',
                 'Phone' => 'required|unique:drugs_vendors',
-                'Name' => 'required|unique:drugs_vendors',
+                'Name'  => 'required|unique:drugs_vendors',
             ]);
 
             $this->SaveData($request);

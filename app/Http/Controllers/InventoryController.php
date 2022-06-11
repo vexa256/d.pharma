@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charts\SystemCharts;
+use App\Http\Controllers\ProcessFixesController;
 use App\Http\Controllers\ProfitAnalysisLogic;
 use DB;
 use Illuminate\Http\Request;
@@ -12,6 +13,8 @@ class InventoryController extends Controller
 
     public function __destruct()
     {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
         $ProfitAnalysisLogic->RunAnalysis();
     }
@@ -59,7 +62,7 @@ class InventoryController extends Controller
             $Update = DB::table('drugs_vendors')->where('uuid', $uuid)->update([
 
                 'MonthsToContractExpiry' => $diff_in_months,
-                'ContractValidity' => $ContractValidity,
+                'ContractValidity'       => $ContractValidity,
             ]);
 
         } else {
@@ -67,7 +70,7 @@ class InventoryController extends Controller
             $Update = DB::table('drugs_vendors')->where('uuid', $uuid)->update([
 
                 'MonthsToContractExpiry' => 0,
-                'ContractValidity' => 'Invalid',
+                'ContractValidity'       => 'Invalid',
             ]);
         }
     }
@@ -91,12 +94,12 @@ class InventoryController extends Controller
 
         $data = [
 
-            "Page" => "inventory.MgtDrugCat",
-            "Title" => "Manage Stock Categories",
-            "Desc" => "Configure system wide stock category settings ",
+            "Page"       => "inventory.MgtDrugCat",
+            "Title"      => "Manage Stock Categories",
+            "Desc"       => "Configure system wide stock category settings ",
             "Categories" => $DrugCategories,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('drug_categories'),
+            "rem"        => $rem,
+            "Form"       => $FormEngine->Form('drug_categories'),
 
         ];
 
@@ -127,12 +130,12 @@ class InventoryController extends Controller
 
         $data = [
 
-            "Page" => "inventory.MgtDrugVendors",
-            "Title" => "Manage Stock Vendors",
-            "Desc" => "Let's Manage Our Stock Suppliers ",
+            "Page"    => "inventory.MgtDrugVendors",
+            "Title"   => "Manage Stock Vendors",
+            "Desc"    => "Let's Manage Our Stock Suppliers ",
             "Vendors" => $Vendors,
-            "rem" => $rem,
-            "Form" => $FormEngine->Form('drugs_vendors'),
+            "rem"     => $rem,
+            "Form"    => $FormEngine->Form('drugs_vendors'),
 
         ];
 
@@ -184,13 +187,13 @@ class InventoryController extends Controller
 
         $data = [
 
-            "Page" => "inventory.VendorContracts",
-            "Title" => "Vendor Contract Validity Statistics",
-            "Desc" => "Track your vendor contract validity",
-            "chart" => $chart,
+            "Page"    => "inventory.VendorContracts",
+            "Title"   => "Vendor Contract Validity Statistics",
+            "Desc"    => "Track your vendor contract validity",
+            "chart"   => $chart,
             "Vendors" => $Vendors,
-            'rem' => $rem,
-            "Form" => $FormEngine->Form('drugs_vendors'),
+            'rem'     => $rem,
+            "Form"    => $FormEngine->Form('drugs_vendors'),
         ];
 
         return view('scrn', $data);
@@ -199,7 +202,7 @@ class InventoryController extends Controller
     public function MgtDrugUnits(Type $var = null)
     {
         $FormEngine = new FormEngine;
-        $rem = [
+        $rem        = [
             'id',
             'created_at',
             'uuid',
@@ -208,14 +211,14 @@ class InventoryController extends Controller
         ];
 
         $Units = DB::table('drug_units')->get();
-        $data = [
+        $data  = [
 
-            "Page" => "inventory.MgtDrugUnits",
+            "Page"  => "inventory.MgtDrugUnits",
             "Title" => "Create Measurement Units ",
-            "Desc" => "These units are used to quantify stock",
-            'rem' => $rem,
+            "Desc"  => "These units are used to quantify stock",
+            'rem'   => $rem,
             'Units' => $Units,
-            "Form" => $FormEngine->Form('drug_units'),
+            "Form"  => $FormEngine->Form('drug_units'),
         ];
 
         return view('scrn', $data);
@@ -235,13 +238,13 @@ class InventoryController extends Controller
         $VendorLogs = DB::table('vendor_logs')
             ->insert([
 
-                "VID" => $data->VID,
-                "ContractTerms" => $request->ContractTerms,
-                "LastExpiryDate" => $data->ContractExpiry,
+                "VID"               => $data->VID,
+                "ContractTerms"     => $request->ContractTerms,
+                "LastExpiryDate"    => $data->ContractExpiry,
                 "UpdatedExpiryDate" => $request->ContractExpiry,
-                "created_at" => date('Y-m-d'),
+                "created_at"        => date('Y-m-d'),
                 "ContractRenewedBy" => \Auth::user()->name,
-                "uuid" => \Hash::make(date('Y-m-d H:I:S')),
+                "uuid"              => \Hash::make(date('Y-m-d H:I:S')),
             ]);
 
         DB::table('drugs_vendors')

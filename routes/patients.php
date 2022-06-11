@@ -2,8 +2,22 @@
 
 use App\Http\Controllers\PatientAccountsController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
+Route::controller(StaffController::class)->group(function () {
+
+    Route::any('AcceptDateSelectionStaff', 'AcceptDateSelectionStaff')
+        ->name('AcceptDateSelectionStaff');
+
+    Route::any('StaffStockLog/{PID}/{FromMonth}/{ToMonth}/{Year}', 'StaffStockLog')->name('StaffStockLog');
+
+    Route::any('StaffStockUtilizationReport/{FromMonth}/{ToMonth}/{Year}', 'StaffStockUtilizationReport')->name('StaffStockUtilizationReport');
+
+    Route::any('StaffSelectDate', 'StaffSelectDate')->name('StaffSelectDate');
+
+    Route::any('MgtStaff', 'MgtStaff')->name('MgtStaff');
+});
 Route::controller(PatientController::class)->group(function () {
 
     Route::any('CachePatientID', 'CachePatientID')->name('CachePatientID');

@@ -51,7 +51,9 @@
  </div>
  <div class="card-header">
      <span class="text-danger fw-bolder">
-         Selected Patient's Billing Status :: {{ $BillingStatus }}
+         <h3> Selected Patient's Billing Status :: {{ $BillingStatus }}
+             | The Patient Package is {{ $PackageName }}
+         </h3>
 
      </span>
  </div>

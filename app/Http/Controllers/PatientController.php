@@ -11,9 +11,13 @@ ini_set('memory_limit', '2048M');
 
 class PatientController extends Controller
 {
+
     public function MgtPatientPackages(Type $var = null)
     {
-        $Packages = DB::table('patient_packages')->get();
+        $Packages = DB::table('patient_packages')
+            ->where('PackageName', 'not like', '%Staff Package%')
+            ->where('PackageName', 'not like', '%Default Clinic Package%')
+            ->get();
 
         $rem = [
             'created_at',
@@ -97,6 +101,8 @@ class PatientController extends Controller
             'status',
             'Gender',
             'PatientAccount',
+            'IsStaffMember',
+            'StaffRole',
         ];
 
         $FormEngine = new FormEngine;

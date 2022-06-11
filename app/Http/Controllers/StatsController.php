@@ -1,26 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
+
+use App\Http\Controllers\ProcessFixesController;
 
 #use Illuminate\Http\Request;
+use Carbon\Carbon;
 use DB;
 
 class StatsController extends Controller
 {
+
+    public function __construct()
+    {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
+    }
+
     public function NotiFicationsCloud(Type $var = null)
     {
 
         $TotalSales = DB::table('dispense_logs')
-        ->whereDate('created_at', '=', Carbon::today()->toDateString())
+            ->whereDate('created_at', '=', Carbon::today()->toDateString())
         //->where('CreditStatus', 'false')
             ->get();
 
         $CreditSales = DB::table('patient_accounts')
-        ->whereDate('created_at', '=', Carbon::today()->toDateString())
-        ->where('OutstandingStatus', 'PartialCredit')
+            ->whereDate('created_at', '=', Carbon::today()->toDateString())
+            ->where('OutstandingStatus', 'PartialCredit')
             ->get();
-
 
         $DrugsInStock = DB::table('drugs')
             ->where('ActiveStatus', 'true')
@@ -74,21 +82,21 @@ class StatsController extends Controller
             ->count();
         $data = [
 
-            "Page" => "stats.Notifications",
-            "Title" => "System Notifications Dashboard",
-            "Desc" => "Statistics and Notifications Panel",
-            "TotalSales" => $TotalSales,
-            "CreditSales" => $CreditSales,
-            "DrugsInStock" => $DrugsInStock,
-            "LowInStock" => $LowInStock,
-            "ConsInStock" => $ConsInStock,
-            "ConsLowInStock" => $ConsLowInStock,
-            "Patients" => $Patients,
-            "Vendors" => $Vendors,
-            "Expiring" => $Expiring,
-            "Expired" => $Expired,
+            "Page"            => "stats.Notifications",
+            "Title"           => "System Notifications Dashboard",
+            "Desc"            => "Statistics and Notifications Panel",
+            "TotalSales"      => $TotalSales,
+            "CreditSales"     => $CreditSales,
+            "DrugsInStock"    => $DrugsInStock,
+            "LowInStock"      => $LowInStock,
+            "ConsInStock"     => $ConsInStock,
+            "ConsLowInStock"  => $ConsLowInStock,
+            "Patients"        => $Patients,
+            "Vendors"         => $Vendors,
+            "Expiring"        => $Expiring,
+            "Expired"         => $Expired,
             "VendorsExpiring" => $VendorsExpiring,
-            "Users" => $Users,
+            "Users"           => $Users,
             //"Drugs" => $Drugs,
 
         ];

@@ -17,15 +17,11 @@
                     <div style=" background-color:rgba(0,0,0,0.5)"
                         class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
                         <!--begin::Logo-->
-                        <a href="{{ url('/') }}" class="py-9">
-                            <img alt="Logo" style="background-color: white"
-                                src="{{ asset('assets/logo.png') }}"
-                                class="h-70px" />
-                        </a>
+                        @include('logos.login-logo')
                         <!--end::Logo-->
                         <!--begin::Title-->
                         <h1 class="fw-bolder text-light fs-2qx pb-3 pb-md-10">
-                            D-Pharma V2.0.2</h1>
+                            D-Pharma V5.0.2</h1>
                         <!--end::Title-->
                         <!--begin::Description-->
                         <p class=" fw-bolder fs-3 text-light">

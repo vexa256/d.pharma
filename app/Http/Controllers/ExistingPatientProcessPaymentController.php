@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\CreditController;
 use App\Http\Controllers\DispenseDrugsController;
 use App\Http\Controllers\FormEngine;
+use App\Http\Controllers\ProcessFixesController;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
@@ -15,8 +16,17 @@ class ExistingPatientProcessPaymentController extends Controller
 
     public function __construct()
     {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
+
         $CreditController = new CreditController;
         $CreditController->RunCreditLogic();
+    }
+
+    public function __destruct()
+    {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
     }
 
     public function ExistingProcessPayment(Request $request)

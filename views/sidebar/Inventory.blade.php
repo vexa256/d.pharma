@@ -58,6 +58,8 @@
     </div>
 </div>
 
+@include('sidebar.Staff')
+
 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
     <span class="menu-link">
         <span class="menu-icon">
@@ -79,6 +81,8 @@
         
         MenuItem($link = route('GeneralSalesDateRanger'), $label = 'General Sales Report');
         MenuItem($link = route('StockSalesDateRanger'), $label = 'Stock Sales Analysis');
+        
+        MenuItem($link = route('StaffSelectDate'), $label = 'Staff Stock Utilization');
         
         // MenuItem($link = route('DateRanger'), $label = 'Creditors Report');
         

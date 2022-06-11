@@ -1,5 +1,5 @@
 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-    {{ HeaderBtn($Toggle = 'Newp', $Class = 'btn-danger', $Label = 'Patient Payment log', $Icon = 'fa-plus') }}
+    {{ HeaderBtn($Toggle = 'Newp', $Class = 'btn-danger', $Label = 'Balance Deduction Log', $Icon = 'fa-binoculars') }}
     <table class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
         <thead>
             <tr class="fw-bold  text-gray-800 border-bottom border-gray-200">
@@ -7,7 +7,7 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Balance Amount</th>
-                <th>Record Payment</th>
+                <th>Record Balance Deduction</th>
 
             </tr>
         </thead>
@@ -97,7 +97,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header bg-gray">
-                    <h5 class="modal-title">Credit Payment Log For The Selected Patient
+                    <h5 class="modal-title">Balance Deduction Log For The Selected Patient
                         <span class="text-danger">
 
                         </span>

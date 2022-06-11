@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ProcessFixesController;
 use DB;
 
 //use Illuminate\Http\Request;
 
 class NotifyController extends Controller
 {
+    public function __construct()
+    {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
+    }
+
     public function GetSoonExpiringDrugs()
     {
         $Expiring = DB::table('drugs')->where('DrugExpiryStatus', 'Soon Expiring')
@@ -15,7 +22,7 @@ class NotifyController extends Controller
 
         return response()->json([
 
-            "status" => "200",
+            "status"   => "200",
             "Expiring" => $Expiring,
 
         ]);
@@ -28,7 +35,7 @@ class NotifyController extends Controller
 
         return response()->json([
 
-            "status" => "200",
+            "status"           => "200",
             "LockInStockDrugs" => $LockInStockDrugs,
 
         ]);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\CreditController;
+use App\Http\Controllers\ProcessFixesController;
 use App\Http\Controllers\ProfitAnalysisLogic;
 use App\Http\Controllers\StockTrucker;
 use DB;
@@ -15,6 +16,8 @@ class DispenseDrugsController extends Controller
 
     public function __construct()
     {
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
 
         $A_counter = DB::table('patients')->where('Email', 'NA')->count();
 
@@ -63,6 +66,10 @@ class DispenseDrugsController extends Controller
     {
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
         $ProfitAnalysisLogic->RunAnalysis();
+
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
+
     }
 
     public function DispenseDrugs(Type $var = null)
@@ -412,6 +419,7 @@ class DispenseDrugsController extends Controller
                 'P.*',
                 'PP.PackageID',
                 'PP.BillingStatus',
+                'PP.PackageName',
                 'P.PatientAccount AS PackageValue'
             )->first();
 
@@ -481,6 +489,7 @@ class DispenseDrugsController extends Controller
             "existing"         => "true",
             "Name"             => $data->Name,
             "BillingStatus"    => $data->BillingStatus,
+            "PackageName"      => $data->PackageName,
             "PackageID"        => $data->PackageID,
             "PackageValue"     => $data->PackageValue,
             "PaymentSessionID" => $request->session()->get('CurrentPatientID'),
@@ -567,7 +576,7 @@ class DispenseDrugsController extends Controller
             ->join('patient_packages AS C', 'C.PackageID', 'P.PackageID')
             ->where('P.PID', $request->session()
                     ->get('CurrentPatientID'))
-            ->select('C.BillingStatus')
+            ->select('C.BillingStatus', 'C.PackageName')
             ->first();
 
         $RecordKey = \Hash::make($random = Str::random(40));
@@ -582,6 +591,7 @@ class DispenseDrugsController extends Controller
             "payment_methods"  => $payment_methods,
             "PatientData"      => $PatientData,
             "BillingStatus"    => $BillingStatus->BillingStatus,
+            "PackageName"      => $BillingStatus->PackageName,
             "Patients"         => $Patients,
             "RecordKey"        => $RecordKey,
             "PaymentSessionID" => $request->session()

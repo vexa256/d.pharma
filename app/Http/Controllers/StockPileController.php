@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Charts\SystemCharts;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FormEngine;
+use App\Http\Controllers\ProcessFixesController;
 use App\Http\Controllers\ProfitAnalysisLogic;
 use App\Http\Controllers\SalesReportLogic;
 use App\Http\Controllers\StockTrucker;
@@ -16,7 +17,8 @@ class StockPileController extends Controller
 
     public function __construct()
     {
-
+        $ProcessFixesController = new ProcessFixesController;
+        $ProcessFixesController->FixTimestampLossOnDispenseLogs();
         $SalesReportLogic = new SalesReportLogic;
         $SalesReportLogic->GenerateMonthsAndYear();
         $ProfitAnalysisLogic = new ProfitAnalysisLogic;
@@ -104,9 +106,9 @@ class StockPileController extends Controller
             ->select('B.*', 'B.id AS BautoID', 'DS.*', 'DS.DrugName', 'U.Unit AS Dunit', 'V.Name AS VendorName', 'D.CategoryName AS CatName')
             ->get();
 
-        $a = $Stock;
+        $a         = $Stock;
         $StockTags = $a->pluck('StockTag');
-        $Qty = $a->pluck('StockQty');
+        $Qty       = $a->pluck('StockQty');
 
         $chart = new SystemCharts;
         $chart->labels($StockTags);
@@ -117,20 +119,20 @@ class StockPileController extends Controller
 
         $data = [
 
-            "Page" => "stock.MgtStock",
-            "Title" => "Manage the selected drug  stockpiles",
-            "Desc" => "Only valid stockpiles are shown",
-            "Stock" => $Stock,
-            "Vendors" => $Vendors,
-            "Currencies" => $Currencies,
+            "Page"           => "stock.MgtStock",
+            "Title"          => "Manage the selected drug  stockpiles",
+            "Desc"           => "Only valid stockpiles are shown",
+            "Stock"          => $Stock,
+            "Vendors"        => $Vendors,
+            "Currencies"     => $Currencies,
             "DrugCategories" => $Categories,
-            "StockTag" => $StockTag,
-            "Units" => $Units,
-            "Drugs" => $Drugs,
-            "Total" => $Stock->sum('StockQty'),
-            "rem" => $rem,
-            "chart" => $chart,
-            "Form" => $FormEngine->Form('stock_piles'),
+            "StockTag"       => $StockTag,
+            "Units"          => $Units,
+            "Drugs"          => $Drugs,
+            "Total"          => $Stock->sum('StockQty'),
+            "rem"            => $rem,
+            "chart"          => $chart,
+            "Form"           => $FormEngine->Form('stock_piles'),
 
         ];
 
@@ -152,9 +154,9 @@ class StockPileController extends Controller
 
         $data = [
 
-            "Page" => "drugs.LowInStock",
+            "Page"  => "drugs.LowInStock",
             "Title" => "Track drugs that need restocking",
-            "Desc" => "Only drugs below their MIN QTY are shown",
+            "Desc"  => "Only drugs below their MIN QTY are shown",
             "Drugs" => $Drugs,
 
         ];
@@ -168,9 +170,9 @@ class StockPileController extends Controller
 
         $data = [
 
-            "Page" => "stock.SelectDrug",
+            "Page"  => "stock.SelectDrug",
             "Title" => "Select a drug to add a stockpile to",
-            "Desc" => "Drug selection",
+            "Desc"  => "Drug selection",
             "Drugs" => $Drugs,
 
         ];
@@ -206,9 +208,9 @@ class StockPileController extends Controller
 
         $data = [
 
-            "Page" => "inventory.DrugInventoryReport",
+            "Page"  => "inventory.DrugInventoryReport",
             "Title" => "General Drug Inventory Report Generated on " . date('F j, Y'),
-            "Desc" => "Inventory Reports",
+            "Desc"  => "Inventory Reports",
             "Drugs" => $Drugs,
 
         ];
@@ -232,9 +234,9 @@ class StockPileController extends Controller
 
         $data = [
 
-            "Page" => "inventory.ConsInventoryReport",
+            "Page"  => "inventory.ConsInventoryReport",
             "Title" => "General Consumable's Inventory Report Generated on " . date('F j, Y'),
-            "Desc" => "Inventory Reports",
+            "Desc"  => "Inventory Reports",
             "Drugs" => $Drugs,
 
         ];
