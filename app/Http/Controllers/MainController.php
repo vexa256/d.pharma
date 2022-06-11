@@ -32,6 +32,20 @@ class MainController extends Controller
             });
 
         }
+
+        if (Schema::hasTable('dispensary_notes')) {
+
+        } else {
+
+            \Schema::create('dispensary_notes', function (Blueprint $table) {
+                $table->id();
+                $table->string('uuid');
+                $table->string('PID');
+                $table->longText('DispensaryNotes');
+                $table->timestamps();
+            });
+
+        }
     }
 
     public function VirtualOffice()
