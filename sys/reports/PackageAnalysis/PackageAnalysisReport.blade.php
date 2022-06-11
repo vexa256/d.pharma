@@ -1,6 +1,6 @@
  <!--begin::Card body-->
  <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-     {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = 'Patient Package Analysis Report | Used Amount | Assigned Amount | Budget Overshoot ', $Msg = null) !!} </div>
+     {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = 'Patient Package Analysis Report | Used Amount | Assigned Amount |Package Budget Variance ', $Msg = null) !!} </div>
  <div class="card-body pt-3 bg-light shadow-lg table-responsive">
      <table class=" mytable table table-rounded table-bordered  border gy-3 gs-3">
          <thead>
@@ -40,5 +40,4 @@
          </table>
      </div>
 
-
-     @include('drugs.EnableNDA')
+     {{-- @include('drugs.EnableNDA') --}}

@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\PackageAnalysis;
 use App\Http\Controllers\ReportsController;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(ReportsController::class)->group(function () {
+Route::controller(PackageAnalysis::class)->group(function () {
 
+    Route::any('PatientPackageAnalysis', 'PatientPackageAnalysis')
+        ->name('PatientPackageAnalysis');
 });
 
 Route::controller(ReportsController::class)->group(function () {

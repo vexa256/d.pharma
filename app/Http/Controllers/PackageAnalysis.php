@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+
 // use Illuminate\Http\Request;
 
 class PackageAnalysis extends Controller
@@ -11,7 +13,7 @@ class PackageAnalysis extends Controller
         $Analysis = DB::table('dispense_logs AS D')
             ->whereNotNull('D.PID')
             ->join('patients AS P', 'P.PID', 'D.PID')
-            ->join('patient_packages AS K', 'K.PackageID', 'D.PackageID')
+            ->join('patient_packages AS K', 'K.PackageID', 'P.PackageID')
             ->where('K.BillingStatus', 'Hospital Billable')
             ->groupBy('D.PID')
             ->selectRaw('sum(D.SubTotal) as Total,
@@ -20,16 +22,10 @@ class PackageAnalysis extends Controller
 
         $data = [
 
-            "Page"       => "sys.reports.PackageAnalysisReport",
-            "Title"      => "Pharmacy Package Analysis Report",
-            "Desc"       => "Only Hospital Billable Packages are Considered",
-            "Drugs"      => $Drugs,
-            "rem"        => $rem,
-            "Categories" => $Categories,
-            "Units"      => $Units,
-            "NDA"        => $NDA,
-            "NdaMgt"     => 'true',
-            "Form"       => $FormEngine->Form('drugs'),
+            "Page"     => "reports.PackageAnalysis.PackageAnalysisReport",
+            "Title"    => "Patient Package Utilization Analysis Report",
+            "Desc"     => "Only Hospital Billable Packages are Considered",
+            "Analysis" => $Analysis,
 
         ];
 

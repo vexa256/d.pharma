@@ -71,6 +71,8 @@
 
         <?php
         
+        MenuItem($link = route('PatientPackageAnalysis'), $label = 'Patient Package Analysis');
+        
         MenuItem($link = route('MgtConsInventory'), $label = 'Consumable  Stock Report');
         
         MenuItem($link = route('MgtDrugInventory'), $label = 'Drug  Inventory Report');
