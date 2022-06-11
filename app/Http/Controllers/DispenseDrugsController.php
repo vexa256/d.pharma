@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfitAnalysisLogic;
 use App\Http\Controllers\StockTrucker;
 use DB;
 use Hash;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -16,6 +17,39 @@ class DispenseDrugsController extends Controller
 
     public function __construct()
     {
+        if (\Schema::hasColumn('dispense_logs', 'PatientName')) {
+
+        } else {
+            \Schema::table('dispense_logs', function ($table) {
+                $table->string('PatientName')->nullable();
+            });
+        }
+
+        if (\Schema::hasColumn('patients', 'IsStaffMember')) {
+
+        } else {
+
+            \Schema::table('patients', function ($table) {
+                $table->string('IsStaffMember')->default('false');
+                $table->string('StaffRole')->default('false');
+            });
+
+        }
+
+        if (\Schema::hasTable('dispensary_notes')) {
+
+        } else {
+
+            \Schema::create('dispensary_notes', function (Blueprint $table) {
+                $table->id();
+                $table->string('uuid');
+                $table->string('PID');
+                $table->longText('DispensaryNotes');
+                $table->timestamps();
+            });
+
+        }
+
         $ProcessFixesController = new ProcessFixesController;
         $ProcessFixesController->FixTimestampLossOnDispenseLogs();
 
