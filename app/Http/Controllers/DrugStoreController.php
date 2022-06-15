@@ -38,7 +38,7 @@ class DrugStoreController extends Controller
     public function MgtDrugStore(Request $request)
     {
 
-        $rem = ["id", "StockID", "created_at", "MeasurementUnits", "updated_at", "uuid", "DID", "ProfitMargin", "LossMargin", "StockType", "Barcode", "CategoryName", "Currency", "DrugExpiryStatus", "MonthsToExpiry", "Vendor", "WarningQtyStatus", "QtyAvailable", "DCID"];
+        $rem = ["id", "StockID", "created_at", "MeasurementUnits", "updated_at", "uuid", "DID", "ProfitMargin", "LossMargin", "StockType", "Barcode", "CategoryName", "Currency", "DrugExpiryStatus", "MonthsToExpiry", "Vendor", "WarningQtyStatus", "QtyAvailable", "DCID", 'ActiveStatus'];
 
         $FormEngine = new FormEngine;
 
