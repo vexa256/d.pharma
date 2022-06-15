@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-    $("#PatientBillable").on("keyup change", function (e) {
+    $("#PatientBillable").on("keyup change", function(e) {
 
 
         var PatientBillable = Number($('#PatientBillable').val());
@@ -77,7 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 axios.post(GLOBAL_API_PATH + 'ProcessDispense', FORM_DATA)
 
-                    .then(function (response) {
+                .then(function(response) {
 
                         if (response.data.status == "out_of_stock") {
 
@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             $('#Outstanding').val(0);
 
                             stepper.goTo(1),
-                                setTimeout(function () {
+                                setTimeout(function() {
                                     printJS('invoice-POS', 'html')
                                     spinner_display_switch.hide();
                                 }, 2000);
@@ -115,14 +115,14 @@ window.addEventListener('DOMContentLoaded', () => {
                             DisplayReceiptTable(receipt);
 
                             stepper.goTo(1),
-                                setTimeout(function () {
+                                setTimeout(function() {
                                     printJS('invoice-POS', 'html')
                                     spinner_display_switch.hide();
                                 }, 2000);
                         }
                         console.log(response.data.receipt);
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
 
                         CatchAxiosError(error);
 

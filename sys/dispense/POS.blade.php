@@ -58,9 +58,10 @@
     <br>
     <address>
 
+        <span class="PatientEmailT" style="display: none"> </span>
         <strong> Customer :</strong><span class="PatientNameT"></span><br>
-        <strong>Customer's Email: </strong> <span class="PatientEmailT">
-        </span><br>
+        {{-- <strong>Customer's Email: </strong> <span class="PatientEmailT">
+        </span><br> --}}
         <strong>Customer's Phone : </strong><span class="PatientPhoneT">
         </span><br>
         <strong>Issued By : </strong> </strong><span class="DispensedByT"> <br>
