@@ -21,15 +21,15 @@ class CreditorsController extends Controller
         $CreditController->RunCreditLogic();
     }
 
-    public function DateRanger(Type $var = null)
+    public function DateRanger()
     {
         $Creditors = DB::table('creditors_logs')->get();
 
         $data = [
 
-            "Page" => "creditors.DateRanger",
-            "Title" => "Select Creditor's Report Time Period",
-            "Desc" => "Select time-frame to attach report to",
+            "Page"      => "creditors.DateRanger",
+            "Title"     => "Select Creditor's Report Time Period",
+            "Desc"      => "Select time-frame to attach report to",
 
             "Creditors" => $Creditors,
 
@@ -57,8 +57,8 @@ class CreditorsController extends Controller
         return redirect()->route('CreditorsReport', [
 
             'FromMonth' => $request->FromMonth,
-            'ToMonth' => $request->ToMonth,
-            'Year' => $request->Year,
+            'ToMonth'   => $request->ToMonth,
+            'Year'      => $request->Year,
 
         ]);
     }
@@ -80,9 +80,9 @@ class CreditorsController extends Controller
 
         $data = [
 
-            "Page" => "creditors.CreditorsReport",
-            "Title" => "Creditors Report and Analytics",
-            "Desc" => "Manage credit records",
+            "Page"      => "creditors.CreditorsReport",
+            "Title"     => "Creditors Report and Analytics",
+            "Desc"      => "Manage credit records",
 
             "Creditors" => $Creditors,
 
@@ -95,7 +95,7 @@ class CreditorsController extends Controller
     {
 
         $GetPID = DB::table('creditors_logs')->where('id', $id)->first();
-        $PID = $GetPID->PID;
+        $PID    = $GetPID->PID;
 
         $Patient = DB::table('patients')->where('PID', $PID)->first();
 
@@ -111,9 +111,9 @@ class CreditorsController extends Controller
 
         $data = [
 
-            "Page" => "creditors.RecordPay",
-            "Title" => "Credit breakdown for the patient " . $Patient->Name,
-            "Desc" => "Record payment from patient",
+            "Page"      => "creditors.RecordPay",
+            "Title"     => "Credit breakdown for the patient " . $Patient->Name,
+            "Desc"      => "Record payment from patient",
 
             "Creditors" => $Creditors,
 
@@ -131,9 +131,9 @@ class CreditorsController extends Controller
         $Credit = DB::table('creditors_logs')
             ->where('id', $request->id)->first();
 
-        $PaidAmount = $request->PaidAmount + $Credit->PaidAmount;
+        $PaidAmount   = $request->PaidAmount + $Credit->PaidAmount;
         $CreditAmount = $Credit->CreditAmount;
-        $Balance = $CreditAmount - $PaidAmount;
+        $Balance      = $CreditAmount - $PaidAmount;
 
         if ($PaidAmount > $CreditAmount) {
             return redirect()->back()->with('error_a', 'OOPS, You have over paid. The Paid amount is greater than the Credit amount');
@@ -143,7 +143,7 @@ class CreditorsController extends Controller
             ->where('id', $request->id)->update([
 
             "PaidAmount" => $PaidAmount,
-            "Balance" => $Balance,
+            "Balance"    => $Balance,
         ]);
 
         return redirect()->back()->with('status', 'The credit payment by the patient has been recorded successfully');

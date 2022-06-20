@@ -199,7 +199,7 @@ class InventoryController extends Controller
         return view('scrn', $data);
     }
 
-    public function MgtDrugUnits(Type $var = null)
+    public function MgtDrugUnits()
     {
         $FormEngine = new FormEngine;
         $rem        = [

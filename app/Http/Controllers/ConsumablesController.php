@@ -47,7 +47,7 @@ class ConsumablesController extends Controller
         return view('scrn', $data);
     }
 
-    public function SelectConsStockPile(Type $var = null)
+    public function SelectConsStockPile()
     {
         $Drugs = DB::table('drugs')
             ->where('StockType', 'Consumable')
@@ -140,7 +140,7 @@ class ConsumablesController extends Controller
         return view('scrn', $data);
     }
 
-    public function ConsLowInStock(Type $var = null)
+    public function ConsLowInStock()
     {
         // $this->SetDrugMonthsToExpiry();
 
@@ -173,7 +173,7 @@ class ConsumablesController extends Controller
         return view('scrn', $data);
     }
 
-    public function ConsSoonExpiring(Type $var = null)
+    public function ConsSoonExpiring()
     {
         // $this->SetDrugMonthsToExpiry();
 

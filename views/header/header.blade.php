@@ -32,7 +32,6 @@
                         .viewer_only {
                             display: none !important;
                         }
-
                     </style>
                 @endif
 
@@ -42,7 +41,6 @@
                         .deleteConfirm {
                             display: none !important;
                         }
-
                     </style>
                 @endif
 
@@ -53,10 +51,14 @@
 
 
             <style>
+                .select2-container--bootstrap5 .select2-selection--single .select2-selection__rendered {
+                    color: black !important;
+                }
 
                 select {
-                    color:black !important
+                    color: black !important
                 }
+
                 /* ubuntu-regular - latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
                 @font-face {
                     font-family: 'Ubuntu';
@@ -90,7 +92,6 @@
                 ol {
                     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
                 }
-
             </style>
             <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}"
                 rel="stylesheet" type="text/css" />
@@ -98,7 +99,7 @@
                 type="text/css" />
             <link rel="stylesheet" type="text/css"
                 href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" />
-                <link rel="stylesheet" href="{{ asset('assets/editor/ui/trumbowyg.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/editor/ui/trumbowyg.min.css') }}">
 
             <link rel="stylesheet" href="{{ asset('css/main.css') }}">
             <style>
@@ -198,7 +199,6 @@
                     border-top: 12px solid red;
                     border-bottom: 12px solid red
                 }
-
             </style>
 
         </head>

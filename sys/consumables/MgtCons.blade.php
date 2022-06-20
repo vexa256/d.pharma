@@ -39,8 +39,7 @@
 
 
                         <td>
-                            <a data-bs-toggle="modal"
-                                class="btn btn-dark shadow-lg btn-sm"
+                            <a data-bs-toggle="modal" class="btn btn-dark shadow-lg btn-sm"
                                 href="#Desc{{ $data->id }}">
 
                                 <i class="fas fa-binoculars" aria-hidden="true"></i>

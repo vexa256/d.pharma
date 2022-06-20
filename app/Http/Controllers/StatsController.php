@@ -17,7 +17,7 @@ class StatsController extends Controller
         $ProcessFixesController->FixTimestampLossOnDispenseLogs();
     }
 
-    public function NotiFicationsCloud(Type $var = null)
+    public function NotiFicationsCloud()
     {
 
         $TotalSales = DB::table('dispense_logs')

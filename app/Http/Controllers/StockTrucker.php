@@ -41,7 +41,7 @@ class StockTrucker extends Controller
 
     }
 
-    public function CheckLowQtyStock(Type $var = null)
+    public function CheckLowQtyStock()
     {
         $count = DB::table('drugs')
             ->whereColumn('QtyAvailable', '<=', 'MinimumQty')
@@ -67,7 +67,7 @@ class StockTrucker extends Controller
         return true;
     }
 
-    public function LowQtyReversal(Type $var = null)
+    public function LowQtyReversal()
     {
         $count = DB::table('drugs')
             ->whereColumn('QtyAvailable', '>', 'MinimumQty')

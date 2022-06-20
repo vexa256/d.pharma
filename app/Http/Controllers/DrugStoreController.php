@@ -113,7 +113,7 @@ class DrugStoreController extends Controller
 
     }
 
-    public function LowInStock(Type $var = null)
+    public function LowInStock()
     {
         // $this->SetDrugMonthsToExpiry();
 
@@ -220,7 +220,7 @@ class DrugStoreController extends Controller
 
     }
 
-    public function DrugValidity(Type $var = null)
+    public function DrugValidity()
     {
         $Drugs = DB::table('drugs AS D')
 
@@ -301,7 +301,7 @@ class DrugStoreController extends Controller
         return view('scrn', $data);
     }
 
-    public function SelectAnnualRestockYear(Type $var = null)
+    public function SelectAnnualRestockYear()
     {
         $Drugs = DB::table('drug_restock_logs')->select('RestockYear AS Year')->groupBy('Year')
             ->get();
@@ -343,7 +343,7 @@ class DrugStoreController extends Controller
 
     }
 
-    public function SelectMonthlyRestockYear(Type $var = null)
+    public function SelectMonthlyRestockYear()
     {
         $Drugs = DB::table('drug_restock_logs')->select('RestockMonth AS Month', 'RestockYear AS Year')
             ->get()->unique('Year', 'Month');
@@ -456,7 +456,7 @@ class DrugStoreController extends Controller
             "Drugs"  => $NDA,
         ]);
     }
-    public function MgtNDA(Type $var = null)
+    public function MgtNDA()
     {
         $NDA = \Cache::rememberForever('drug_reserves', function () {
             return DB::table('drug_reserves')->get();

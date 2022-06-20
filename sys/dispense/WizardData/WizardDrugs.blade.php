@@ -2,9 +2,7 @@
 
 
   <div class="flex-column " data-kt-stepper-element="content">
-      @include(
-          'dispense.WizardData.WizardTotal'
-      )
+      @include('dispense.WizardData.WizardTotal')
       <!--begin::Input group-->
       <div class="row mb-10">
           <div class="card-body pt-3 bg-light table-responsive">
@@ -12,11 +10,10 @@
               <table
                   class="table table-rounded table-bordered table-striped border gy-3 gs-3">
                   <thead>
-                      <tr
-                          class="fw-bold  text-gray-800 border-bottom border-gray-200">
+                      <tr class="fw-bold  text-gray-800 border-bottom border-gray-200">
                           <th>Patient</th>
                           <th>Phone</th>
-                          <th>Email</th>
+                          {{-- <th>Email</th> --}}
                           <th>Item Name</th>
                           <th>Generic Name</th>
                           <th>Units </th>

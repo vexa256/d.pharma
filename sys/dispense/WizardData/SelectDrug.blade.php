@@ -12,8 +12,7 @@
                     Stockpile
                     to use
 
-                    <a href="#"
-                        class="ms-2 GoToSelectDrug btn btn-dark shadow-lg">
+                    <a href="#" class="ms-2 GoToSelectDrug btn btn-dark shadow-lg">
                         Back to select Stock</a>
 
                 </h5>
@@ -28,14 +27,13 @@
             </div>
 
             <div class="modal-body ">
-                <div class="SelectDrugSelect">
-                    <div class="mb-3 col-md-12  py-5   my-5  ">
+                <div class="SelectDrugSelect row">
+                    <div class="mb-3 col-md-6   ">
                         <label id="label" for=""
-                            class="px-5   my-5 required form-label">Select Stock
+                            class=" required form-label">Select Stock
                         </label>
                         <select required name="id"
-                            class="form-select SelectedDrugId  py-5   my-5 "
-                            data-control="select2"
+                            class="form-select SelectedDrugId  " data-control="select2"
                             data-placeholder="Select an option">
                             <option></option>
                             @isset($Drugs)
@@ -53,7 +51,7 @@
 
                     </div>
 
-                    <div class="col-md-12 py-5   my-5 ">
+                    <div class="col-md-6 ">
                         <!--begin::Label-->
                         <label class="form-label">Select Quantity</label>
                         <!--end::Label-->
@@ -67,8 +65,7 @@
 
 
                 <div class="mb-3 col-md-12  py-5  SelectStockPileTable  my-5">
-                    <table
-                        class=" table table-rounded table-bordered  border gy-3 gs-3">
+                    <table class=" table table-rounded table-bordered  border gy-3 gs-3">
                         <thead>
                             <tr
                                 class="fw-bold  text-gray-800 border-bottom border-gray-200">
@@ -104,8 +101,7 @@
                 <button type="button" class="btn btn-info GoToSelectDrug"
                     data-bs-dismiss="modal">Close</button>
 
-                <button type="submit"
-                    class="btn btn-dark SelectStockPile">Next</button>
+                <button type="submit" class="btn btn-dark SelectStockPile">Next</button>
 
 
             </div>

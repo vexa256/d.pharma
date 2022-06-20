@@ -139,7 +139,7 @@ class StockPileController extends Controller
         return view('scrn', $data);
     }
 
-    public function LowInStockPile(Type $var = null)
+    public function LowInStockPile()
     {
         $Drugs = DB::table('stock_piles AS B')
             ->where('B.ActiveStatus', 'true')
@@ -164,7 +164,7 @@ class StockPileController extends Controller
         return view('scrn', $data);
     }
 
-    public function SelectDrugStockPile(Type $var = null)
+    public function SelectDrugStockPile()
     {
         $Drugs = DB::table('drugs')->get();
 
@@ -192,7 +192,7 @@ class StockPileController extends Controller
 
     }
 
-    public function MgtDrugInventory(Type $var = null)
+    public function MgtDrugInventory()
     {
 
         $Drugs = DB::table('stock_piles AS B')
@@ -218,7 +218,7 @@ class StockPileController extends Controller
         return view('scrn', $data);
     }
 
-    public function MgtConsInventory(Type $var = null)
+    public function MgtConsInventory()
     {
 
         $Drugs = DB::table('stock_piles AS B')

@@ -15,7 +15,7 @@ class StaffController extends Controller
         $ProcessFixesController->FixTimestampLossOnDispenseLogs();
     }
 
-    public function MgtStaff(Type $var = null)
+    public function MgtStaff()
     {
         $Patients = DB::table('patients')
             ->where('IsStaffMember', 'true')->get();
@@ -76,7 +76,7 @@ class StaffController extends Controller
         return view('scrn', $data);
     }
 
-    public function StaffSelectDate(Type $var = null)
+    public function StaffSelectDate()
     {
         $Reports = DB::table('dispense_logs AS D')
             ->whereNotNull('D.PID')

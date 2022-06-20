@@ -38,11 +38,17 @@ Route::controller(PatientController::class)->group(function () {
 
 Route::controller(PatientAccountsController::class)->group(function () {
 
+    Route::post('AcceptDateRangerCreditRecovery', 'AcceptDateRangerCreditRecovery')->name('AcceptDateRangerCreditRecovery');
+
+    Route::any('CreditRecoveryGeneralReport/{FromMonth}/{ToMonth}/{Year}', 'CreditRecoveryGeneralReport')->name('CreditRecoveryGeneralReport');
+
     Route::get('PatientBalanceManagement', 'PatientBalanceManagement')
         ->name('PatientBalanceManagement');
 
     Route::get('PatientCreditManagement', 'PatientCreditManagement')
         ->name('PatientCreditManagement');
+
+    Route::get('SelectCreditRecoveryTimeFrame', 'SelectCreditRecoveryTimeFrame')->name('SelectCreditRecoveryTimeFrame');
 
     Route::get('DepleteClientBalance/{unique}', 'DepleteClientBalance')->name('DepleteClientBalance');
 

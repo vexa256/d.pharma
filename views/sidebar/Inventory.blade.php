@@ -43,6 +43,7 @@
 
         <?php
         
+        MenuItem($link = route('SelectCreditRecoveryTimeFrame'), $label = 'Credit Recovery Report');
         MenuItem($link = route('MgtPatientPackages'), $label = 'Patient Packages');
         MenuItem($link = route('MgtPaymentMethod'), $label = 'Payment Methods');
         MenuItem($link = route('MgtPatients'), $label = 'Patient Records');

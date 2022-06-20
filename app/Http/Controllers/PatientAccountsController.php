@@ -55,7 +55,7 @@ class PatientAccountsController extends Controller
         }
     }
 
-    public function PatientCreditManagement(Type $var = null)
+    public function PatientCreditManagement()
     {
 
         $Credit = DB::table('patient_accounts')
@@ -76,6 +76,33 @@ class PatientAccountsController extends Controller
         return view('scrn', $data);
     }
 
+    public function GenerateCreditClearanceDates()
+    {
+
+        $counter = DB::table('credit_payment_logs')
+            ->whereNull('Month')
+            ->whereNull('Year')
+            ->count();
+
+        if ($counter > 0) {
+
+            $up = DB::table('credit_payment_logs')
+                ->whereNull('Month')
+                ->whereNull('Year')
+                ->get();
+
+            foreach ($up as $data) {
+                DB::table('credit_payment_logs')->where('id', $data->id)->update([
+
+                    'Month' => date('m', strtotime($data->created_at)),
+                    'Year'  => date('Y', strtotime($data->created_at)),
+
+                ]);
+            }
+        }
+
+    }
+
     public function ClearDebtNow($unique)
     {
         $Credit = DB::table('patient_accounts')
@@ -83,8 +110,16 @@ class PatientAccountsController extends Controller
             ->where('_unique', $unique)
             ->get();
 
-        $credit_payment_logs = DB::table('credit_payment_logs')
-            ->where('_unique', $unique)
+        $credit_payment_logs = DB::table('credit_payment_logs AS L')
+            ->where('L._unique', $unique)
+            ->join('payment_methods AS P', 'P.PaymentID', 'L.PaymentMethod')
+            ->select('L.*', 'P.PaymentMethod')
+            ->get();
+
+        $payment_methods = DB::table('payment_methods')
+            ->where('PaymentMethod', 'not like', '%Insurance%')
+            ->where('PaymentMethod', 'not like', '%Credit%')
+            ->where('PaymentMethod', 'not like', '%Hospital Billable%')
             ->get();
 
         $data = [
@@ -93,6 +128,7 @@ class PatientAccountsController extends Controller
             "Title"               => "Record credit Payment For the Selected Patient",
             "Desc"                => "Record credit Payment",
             "credit_payment_logs" => $credit_payment_logs,
+            "payment_methods"     => $payment_methods,
             "Credit"              => $Credit,
 
         ];
@@ -120,13 +156,16 @@ class PatientAccountsController extends Controller
             DB::table('credit_payment_logs')
                 ->insert([
 
-                    'uuid'         => md5($request->unique),
-                    '_unique'      => $request->unique,
-                    'AmountPaid'   => $AmountPaid,
-                    'Outstanding'  => 0,
-                    'RegisteredBy' => \Auth::user()->name,
-                    'created_at'   => date('Y-m-d'),
+                    'uuid'          => md5($request->unique),
+                    'PaymentMethod' => $request->PaymentMethod,
+                    '_unique'       => $request->unique,
+                    'AmountPaid'    => $AmountPaid,
+                    'Outstanding'   => 0,
+                    'RegisteredBy'  => \Auth::user()->name,
+                    'created_at'    => date('Y-m-d'),
                 ]);
+
+            $this->GenerateCreditClearanceDates();
 
             return redirect()->back()->with('status', 'Full Credit Payment Recorded and a permanent log has been created', 'successful');
         } else {
@@ -139,13 +178,16 @@ class PatientAccountsController extends Controller
 
             DB::table('credit_payment_logs')
                 ->insert([
-                    'uuid'         => md5($request->unique),
-                    '_unique'      => $request->unique,
-                    'AmountPaid'   => $AmountPaid,
-                    'Outstanding'  => $Outstanding,
-                    'RegisteredBy' => \Auth::user()->name,
-                    'created_at'   => date('Y-m-d'),
+                    'uuid'          => md5($request->unique),
+                    'PaymentMethod' => $request->PaymentMethod,
+                    '_unique'       => $request->unique,
+                    'AmountPaid'    => $AmountPaid,
+                    'Outstanding'   => $Outstanding,
+                    'RegisteredBy'  => \Auth::user()->name,
+                    'created_at'    => date('Y-m-d'),
                 ]);
+
+            $this->GenerateCreditClearanceDates();
 
             return redirect()->back()->with('status', 'Partial Credit Payment Recorded and a permanent log has been created', 'successful');
 
@@ -153,7 +195,7 @@ class PatientAccountsController extends Controller
 
     }
 
-    public function PatientBalanceManagement(Type $var = null)
+    public function PatientBalanceManagement()
     {
 
         $Credit = DB::table('patient_accounts')
@@ -248,6 +290,78 @@ class PatientAccountsController extends Controller
             return redirect()->back()->with('status', 'Partial  Balance Depletion Recorded and a permanent log has been created', 'successful');
 
         }
+
+    }
+
+    public function SelectCreditRecoveryTimeFrame(Type $var = null)
+    {
+        $Creditors = DB::table('credit_payment_logs')->get();
+
+        $data = [
+
+            "Page"      => "creditors.DateRangerCreditRecovery",
+            "Title"     => "Select The Credit Recovery General Report's Time Period",
+            "Desc"      => "Select time-frame to attach report to",
+
+            "Creditors" => $Creditors,
+
+        ];
+
+        return view('scrn', $data);
+    }
+    public function AcceptDateRangerCreditRecovery(Request $request)
+    {
+
+        $validated = $request->validate([
+            '*'     => 'required',
+            'files' => 'nullable',
+        ]);
+
+        if ($request->FromMonth > $request->ToMonth) {
+
+            return redirect()->back()->with('error_a', 'The from month must be before the to month');
+
+        } elseif ($request->ToMonth < $request->FromMonth) {
+
+            return redirect()->back()->with('error_a', 'The to month must be after the from month');
+        }
+
+        return redirect()->route('CreditRecoveryGeneralReport', [
+
+            'FromMonth' => $request->FromMonth,
+            'ToMonth'   => $request->ToMonth,
+            'Year'      => $request->Year,
+
+        ]);
+
+    }
+
+    public function CreditRecoveryGeneralReport($FromMonth, $ToMonth, $Year)
+    {
+
+        $Reports = DB::table('credit_payment_logs AS L')
+            ->where('L.Year', $Year)
+            ->where('L.Month', '>=', $FromMonth)
+            ->where('L.Month', '<=', $ToMonth)
+            ->join('payment_methods AS P', 'P.PaymentID', 'L.PaymentMethod')
+            ->groupBy('P.PaymentMethod')
+            ->selectRaw('sum(AmountPaid) as Total , L.*,  P.PaymentMethod')
+            ->get();
+
+        // dd($Reports);
+
+        $data = [
+
+            "Page"    => "creditors.CreditRecoveryReport",
+            "Title"   => "Credit Recovery Report",
+            "Desc"    => "Report for the Month " . $FromMonth . " To the Month " . $ToMonth . " in the Year " . $Year,
+
+            "Reports" => $Reports,
+            "CRR"     => 'true',
+
+        ];
+
+        return view('scrn', $data);
 
     }
 

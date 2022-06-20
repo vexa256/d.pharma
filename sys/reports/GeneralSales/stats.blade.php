@@ -4,19 +4,32 @@
             <!--begin::Svg Icon | path: icons/duotune/general/gen032.svg-->
             <span class="svg-icon svg-icon-3x svg-icon-dark d-block my-2">
 
-                <a href="#" class="text-warning fw-bold fs-5">Total Sales for the
-                    selected months
 
-                </a>
 
-                <span class="text-light fs-6 fw-bolder ">
-                    UGX {{ number_format($Reports->sum('TotalSales'), 2) }}
-                </span>
+                @isset($CRR)
+                    <a href="#" class="text-warning fw-bold fs-5">Total Credit Recovered
+                        in the selected time frame
+
+                    </a>
+                    <span class="text-light fs-6 fw-bolder ">
+                        UGX {{ number_format($Reports->sum('Total'), 2) }}
+                    </span>
+                @else
+                    <a href="#" class="text-warning fw-bold fs-5">Total Sales for the
+                        selected months
+
+                    </a>
+                    <span class="text-light fs-6 fw-bolder ">
+                        UGX {{ number_format($Reports->sum('TotalSales'), 2) }}
+                    </span>
+                @endisset
+
+
 
 
             </span>
 
-            <!--end::Svg Icon-->
+            {{-- {{ HeaderBtn($Toggle = 'New', $Class = 'btn-danger', $Label = 'Credit Payment Report', $Icon = 'fa-binoculars') }} --}}
         </div>
 
     </div>

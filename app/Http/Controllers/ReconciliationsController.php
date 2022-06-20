@@ -46,12 +46,12 @@ class ReconciliationsController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MgtSoonExpiring",
+            "Page"  => "drugs.MgtSoonExpiring",
             "Title" => "Soon  expiring  stock  ",
-            "Desc" => "Stock with 3 or less months to  expiry ",
+            "Desc"  => "Stock with 3 or less months to  expiry ",
             "Drugs" => $Drugs,
-            "Soon" => 'true',
-            "rem" => $rem,
+            "Soon"  => 'true',
+            "rem"   => $rem,
 
         ];
 
@@ -79,12 +79,12 @@ class ReconciliationsController extends Controller
 
         $data = [
 
-            "Page" => "drugs.MgtSoonExpiring",
+            "Page"  => "drugs.MgtSoonExpiring",
             "Title" => "Soon  expiring  stock  ",
-            "Desc" => "Stock with 3 or less months to  expiry ",
+            "Desc"  => "Stock with 3 or less months to  expiry ",
             "Drugs" => $Drugs,
-            "Soon" => 'true',
-            "rem" => $rem,
+            "Soon"  => 'true',
+            "rem"   => $rem,
 
         ];
 
@@ -95,7 +95,7 @@ class ReconciliationsController extends Controller
     {
         // dd($request->all());
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
 
         ]);
@@ -134,7 +134,7 @@ class ReconciliationsController extends Controller
         } elseif ($request->QtyRefundedOrExchangedWithVendor == $Stock->StockQty) {
             DB::table('stock_piles')->where('id', $id)->update([
 
-                'StockQty' => 0,
+                'StockQty'     => 0,
                 'ActiveStatus' => 'false',
 
             ]);
@@ -152,27 +152,27 @@ class ReconciliationsController extends Controller
     {
         $id = $request->id;
 
-        $Profit = $Drugs->UnitSellingPrice - $Drugs->UnitBuyingPrice;
+        $Profit          = $Drugs->UnitSellingPrice - $Drugs->UnitBuyingPrice;
         $ProjectedProfit = $Profit * $request->AmountOfMoneyRecovered;
 
         $GetRefund = DB::table('drug_refund_logs')->insert([
-            "uuid" => $Drugs->uuid,
-            "SellingPrice" => $Drugs->UnitSellingPrice,
-            "DID" => $Drugs->DID,
-            "VID" => $Drugs->VID,
-            "StockID" => $Drugs->StockID,
-            "BuyingPrice" => $Drugs->UnitBuyingPrice,
-            "LossMargin" => 'NULL',
-            "ProfitMargin" => 'NULL',
-            "RefundedQty" => $request->QtyRefundedOrExchangedWithVendor,
+            "uuid"               => $Drugs->uuid,
+            "SellingPrice"       => $Drugs->UnitSellingPrice,
+            "DID"                => $Drugs->DID,
+            "VID"                => $Drugs->VID,
+            "StockID"            => $Drugs->StockID,
+            "BuyingPrice"        => $Drugs->UnitBuyingPrice,
+            "LossMargin"         => 'NULL',
+            "ProfitMargin"       => 'NULL',
+            "RefundedQty"        => $request->QtyRefundedOrExchangedWithVendor,
             // "QtyRecovered" => $Drugs->StockQty,
-            "BatchNumber" => $Drugs->BatchNumber,
-            "RecoveredAmount" => $request->AmountOfMoneyRecovered,
-            "RefundDetails" => $request->RefundDetails,
+            "BatchNumber"        => $Drugs->BatchNumber,
+            "RecoveredAmount"    => $request->AmountOfMoneyRecovered,
+            "RefundDetails"      => $request->RefundDetails,
             "RefundRegisteredBy" => \Auth::user()->name,
-            "RefundMonth" => date('m'),
-            "RefundYear" => date('Y'),
-            "created_at" => date('Y-m-d'),
+            "RefundMonth"        => date('m'),
+            "RefundYear"         => date('Y'),
+            "created_at"         => date('Y-m-d'),
 
         ]);
     }
@@ -181,7 +181,7 @@ class ReconciliationsController extends Controller
     {
         // dd($request->all());
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
 
         ]);
@@ -220,7 +220,7 @@ class ReconciliationsController extends Controller
         } elseif ($request->QuantityDisposed == $Stock->StockQty) {
             DB::table('stock_piles')->where('id', $id)->update([
 
-                'StockQty' => 0,
+                'StockQty'     => 0,
                 'ActiveStatus' => 'false',
 
             ]);
@@ -237,24 +237,24 @@ class ReconciliationsController extends Controller
     public function CreateDisposalLog($Drugs, $request)
     {
         $GetRefund = DB::table('drug_disposal_logs')->insert([
-            "uuid" => $Drugs->uuid,
-            "SellingPrice" => $Drugs->UnitSellingPrice,
-            "DID" => $Drugs->DID,
-            "VID" => $Drugs->VID,
-            "StockID" => $Drugs->StockID,
-            "BuyingPrice" => $Drugs->UnitBuyingPrice,
+            "uuid"                      => $Drugs->uuid,
+            "SellingPrice"              => $Drugs->UnitSellingPrice,
+            "DID"                       => $Drugs->DID,
+            "VID"                       => $Drugs->VID,
+            "StockID"                   => $Drugs->StockID,
+            "BuyingPrice"               => $Drugs->UnitBuyingPrice,
             "DisposalLossWithoutProfit" => $request->QuantityDisposed * $Drugs->UnitBuyingPrice,
-            "DisposalLossWithProfit" => $request->QuantityDisposed * $Drugs->UnitSellingPrice,
+            "DisposalLossWithProfit"    => $request->QuantityDisposed * $Drugs->UnitSellingPrice,
             //"ProfitMargin" => 'NULL',
-            "QuantityDisposed" => $request->QuantityDisposed,
+            "QuantityDisposed"          => $request->QuantityDisposed,
             // "QtyRecovered" => $Drugs->StockQty,
-            "BatchNumber" => $Drugs->BatchNumber,
+            "BatchNumber"               => $Drugs->BatchNumber,
             //"RecoveredAmount" => $request->AmountOfMoneyRecovered,
-            "DisposalNotes" => $request->DisposalNotes,
-            "DisposalRegisteredBy" => \Auth::user()->name,
-            "DisposedMonth" => date('m'),
-            "DisposedYear" => date('Y'),
-            "created_at" => date('Y-m-d'),
+            "DisposalNotes"             => $request->DisposalNotes,
+            "DisposalRegisteredBy"      => \Auth::user()->name,
+            "DisposedMonth"             => date('m'),
+            "DisposedYear"              => date('Y'),
+            "created_at"                => date('Y-m-d'),
 
         ]);
     }
@@ -262,7 +262,7 @@ class ReconciliationsController extends Controller
     public function ExtendDrugValidity(Request $request)
     {
         $validated = $request->validate([
-            '*' => 'required',
+            '*'     => 'required',
             'files' => 'nullable',
         ]);
 
@@ -274,7 +274,7 @@ class ReconciliationsController extends Controller
 
         DB::table('stock_piles')->where('id', $id)->update([
 
-            "ExpiryDate" => $request->ExpiryDate,
+            "ExpiryDate"       => $request->ExpiryDate,
             "ExtendedValidity" => $msg,
         ]);
 
@@ -283,7 +283,7 @@ class ReconciliationsController extends Controller
                 "The selected stock piles's expiration date was extended successfully");
     }
 
-    public function ReconcileStock(Type $var = null)
+    public function ReconcileStock()
     {
         // $this->SetDrugMonthsToExpiry();
 
@@ -305,12 +305,12 @@ class ReconciliationsController extends Controller
 
         $data = [
 
-            "Page" => "reconcile.Reconcile",
+            "Page"  => "reconcile.Reconcile",
             "Title" => "Stock Reconciliation Operations",
-            "Desc" => "Stock Reconciliation",
+            "Desc"  => "Stock Reconciliation",
             "Drugs" => $Drugs,
-            "Soon" => 'true',
-            "rem" => $rem,
+            "Soon"  => 'true',
+            "rem"   => $rem,
 
         ];
 

@@ -7,7 +7,7 @@ use DB;
 class CreditController extends Controller
 {
 
-    public function SetCreditors(Type $var = null)
+    public function SetCreditors()
     {
         $Counter = DB::table('dispense_logs AS D')
         //->where('D.SID', '!=', 'C.SID')
@@ -32,16 +32,16 @@ class CreditController extends Controller
                 if ($SecondCounter == 0) {
                     DB::table('creditors_logs')->Insert([
 
-                        "SID" => $data->SID,
-                        "CreditCard" => $data->CreditCard,
-                        "PID" => $data->PID,
-                        "DID" => $data->DID,
+                        "SID"          => $data->SID,
+                        "CreditCard"   => $data->CreditCard,
+                        "PID"          => $data->PID,
+                        "DID"          => $data->DID,
                         "CreditAmount" => $data->SubTotal,
-                        "PaidAmount" => 00,
+                        "PaidAmount"   => 00,
                         "CreditStatus" => 'true',
-                        "Balance" => $data->SubTotal,
-                        "Month" => date("m"),
-                        "Year" => date("Y"),
+                        "Balance"      => $data->SubTotal,
+                        "Month"        => date("m"),
+                        "Year"         => date("Y"),
                     ]);
                 }
 
@@ -50,7 +50,7 @@ class CreditController extends Controller
 
     }
 
-    public function CompleteDebt(Type $var = null)
+    public function CompleteDebt()
     {
         $CreditCounter = DB::table('creditors_logs')
             ->where('CreditStatus', 'true')
@@ -83,7 +83,7 @@ class CreditController extends Controller
         }
     }
 
-    public function RunCreditLogic(Type $var = null)
+    public function RunCreditLogic()
     {
         $this->CompleteDebt();
         $this->SetCreditors();

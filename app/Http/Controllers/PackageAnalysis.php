@@ -16,7 +16,7 @@ class PackageAnalysis extends Controller
         $ProcessFixesController->FixTimestampLossOnDispenseLogs();
     }
 
-    public function PatientPackageAnalysis(Type $var = null)
+    public function PatientPackageAnalysis()
     {
         $Analysis = DB::table('dispense_logs AS D')
             ->whereNotNull('D.PID')

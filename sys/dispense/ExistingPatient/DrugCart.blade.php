@@ -3,15 +3,12 @@
      {!! Alert($icon = 'fa-info', $class = 'alert-danger fw-bolder', $Title = 'The selected patient is ' . $Name, $Msg = null) !!}
  </div>
 
- <input type="text" class="d-none" id="PaymentSessionID"
-     value="{{ $PaymentSessionID }}">
+ <input type="text" class="d-none" id="PaymentSessionID" value="{{ $PaymentSessionID }}">
 
- <input type="text" class="d-none" id="DispensedBy"
-     value="{{ Auth::user()->name }}">
+ <input type="text" class="d-none" id="DispensedBy" value="{{ Auth::user()->name }}">
 
 
- <input type="text" class="d-none" id="BillingStatus"
-     value="{{ $BillingStatus }}">
+ <input type="text" class="d-none" id="BillingStatus" value="{{ $BillingStatus }}">
 
 
 
@@ -30,12 +27,12 @@
  </div>
  <div class="card-body pt-3 bg-light table-responsive">
 
-     <a href="{{ route('MgtCons') }}" class="btn mx-1 btn-sm float-end mb-2 btn-info ">
-         <i class="fas me-1 fa-wrench " aria-hidden="true"></i>Update Consumable</a>
+     {{-- <a href="{{ route('MgtCons') }}" class="btn mx-1 btn-sm float-end mb-2 btn-info ">
+         <i class="fas me-1 fa-wrench " aria-hidden="true"></i>Update Consumable</a> --}}
 
-     <a href="{{ route('MgtDrugStore') }}"
+     {{-- <a href="{{ route('MgtDrugStore') }}"
          class="btn mx-1 btn-sm float-end mb-2 btn-info ">
-         <i class="fas me-1 fa-cog " aria-hidden="true"></i>Update Drugs</a>
+         <i class="fas me-1 fa-cog " aria-hidden="true"></i>Update Drugs</a> --}}
 
      {{ HeaderBtn($Toggle = 'ModalUpdatePatient', $Class = 'btn-info btn-sm', $Label = 'Patient Information', $Icon = 'fa-binoculars', $BtnClass = 's') }}
 

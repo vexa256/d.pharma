@@ -35,7 +35,7 @@ class SalesReportLogic extends Controller
         DB::unprepared($SQL);
     }
 
-    public function GenerateMonthsAndYear(Type $var = null)
+    public function GenerateMonthsAndYear()
     {
         $counters = DB::table('dispense_logs')
             ->where('Year', null)
@@ -63,7 +63,7 @@ class SalesReportLogic extends Controller
         }
     }
 
-    public function CreateGeneralSalesReport(Type $var = null)
+    public function CreateGeneralSalesReport()
     {
         /* $Drugs = DB::table('dispense_logs AS D')->join('drugs AS DR', 'DR.DID', 'D.DID')->join('drug_units AS U', 'U.UnitID', 'DR.MeasurementUnits')->join('stock_piles AS S', 'S.StockID', 'D.StockID')->groupBy('D.PaymentMode', 'D.Month', 'D.Year')->selectRaw(' sum(D.SubTotal) as TotalSales, D.PaymentMode, D.Month, D.Year')->toSql();*/
 
@@ -76,7 +76,7 @@ class SalesReportLogic extends Controller
 
     }
 
-    public function CreateDrugSalesReport(Type $var = null)
+    public function CreateDrugSalesReport()
     {
         /*$report = DB::table('dispense_logs AS D')
         ->join('drugs AS DR', 'DR.DID', 'D.DID')
@@ -93,7 +93,7 @@ class SalesReportLogic extends Controller
         }
     }
 
-    public function CreatePatientPurchaseReport(Type $var = null)
+    public function CreatePatientPurchaseReport()
     {
         /* $report = DB::table('dispense_logs AS D')
         ->join('drugs AS DR', 'DR.DID', 'D.DID')
@@ -109,7 +109,7 @@ class SalesReportLogic extends Controller
         }
     }
 
-    public function CreateProfitWithoutCreditReport(Type $var = null)
+    public function CreateProfitWithoutCreditReport()
     {
         /* $report = DB::table('dispense_logs AS D')
         ->where('D.CreditStatus', 'false')
@@ -125,12 +125,12 @@ class SalesReportLogic extends Controller
         }
     }
 
-    public function CreateCreditProfit(Type $var = null)
+    public function CreateCreditProfit()
     {
 
     }
 
-    public function CreateViewReports(Type $var = null)
+    public function CreateViewReports()
     {
 
     }

@@ -106,7 +106,7 @@ class DispenseDrugsController extends Controller
 
     }
 
-    public function DispenseDrugs(Type $var = null)
+    public function DispenseDrugs()
     {
 
         $Drugs = DB::table('drugs AS D')
@@ -117,6 +117,7 @@ class DispenseDrugsController extends Controller
         $payment_methods = DB::table('payment_methods')
             ->where('PaymentMethod', 'not like', '%Insurance%')
             ->where('PaymentMethod', 'not like', '%Credit%')
+            ->where('PaymentMethod', 'not like', '%Hospital Billable%')
             ->get();
 
         // dd($payment_methods);
@@ -383,7 +384,7 @@ class DispenseDrugsController extends Controller
 
     }
 
-    public function GeneratePaymentSession(Type $var = null)
+    public function GeneratePaymentSession()
     {
         $PaymentSessionID = Hash::make(Str::random(40) . date('Y-m-d H:I:S'));
 
@@ -420,7 +421,7 @@ class DispenseDrugsController extends Controller
 
     }
 
-    public function SelectExistingPatient(Type $var = null)
+    public function SelectExistingPatient()
     {
         $Patients = DB::table('patients')->get();
 
@@ -596,6 +597,7 @@ class DispenseDrugsController extends Controller
         $payment_methods = DB::table('payment_methods')
             ->where('PaymentMethod', 'not like', '%Insurance%')
             ->where('PaymentMethod', 'not like', '%Credit%')
+            ->where('PaymentMethod', 'not like', '%Hospital Billable%')
             ->get();
 
         $Cart = DB::table('payment_sessions')->where('SID', $request->session()

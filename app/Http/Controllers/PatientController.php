@@ -12,7 +12,7 @@ ini_set('memory_limit', '2048M');
 class PatientController extends Controller
 {
 
-    public function MgtPatientPackages(Type $var = null)
+    public function MgtPatientPackages()
     {
         $Packages = DB::table('patient_packages')
             ->where('PackageName', 'not like', '%Staff Package%')
@@ -46,11 +46,12 @@ class PatientController extends Controller
 
     }
 
-    public function MgtPaymentMethod(Type $var = null)
+    public function MgtPaymentMethod()
     {
         $PaymentMethods = DB::table('payment_methods')
             ->where('PaymentMethod', 'not like', '%Insurance%')
             ->where('PaymentMethod', 'not like', '%Credit%')
+            ->where('PaymentMethod', 'not like', '%Hospital Billable%')
             ->get();
 
         $rem = [
@@ -79,7 +80,7 @@ class PatientController extends Controller
 
     }
 
-    public function MgtPatients(Type $var = null)
+    public function MgtPatients()
     {
         $Patients        = DB::table('patients')->get();
         $Packages        = DB::table('patient_packages')->get();
@@ -124,7 +125,7 @@ class PatientController extends Controller
 
     }
 
-    public function NokSelectPatients(Type $var = null)
+    public function NokSelectPatients()
     {
         $Patients = DB::table('patients')->get();
 

@@ -8,20 +8,16 @@
 
 
                 <div class="mb-3 col-md-12  py-5   my-5">
-                    <label id="label" for="" class="px-5   my-5 required form-label">Select
+                    <label id="label" for=""
+                        class="px-5   my-5 required form-label">Select
                         Payment Method</label>
                     <select required name="id"
                         class="form-select  py-5   my-5  PaymentMethodSelect"
                         data-control="select2" data-placeholder="Select an option">
-                        <option value="NotSelected">Select a Payment Method
-                        </option>
-                        @isset($payment_methods)
+                        <option value="Hospital Billable">
+                            Hospital Billable</option>
 
-                            @foreach ($payment_methods as $data)
-                                <option value="{{ $data->PaymentMethod }}">
-                                    {{ $data->PaymentMethod }}</option>
-                            @endforeach
-                        @endisset
+
 
                     </select>
 

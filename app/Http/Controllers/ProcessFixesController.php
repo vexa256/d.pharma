@@ -8,7 +8,7 @@ use DB;
 class ProcessFixesController extends Controller
 {
 
-    public function FixTimestampLossOnDispenseLogs(Type $var = null)
+    public function FixTimestampLossOnDispenseLogs()
     {
 
         $counter = DB::table('dispense_logs')

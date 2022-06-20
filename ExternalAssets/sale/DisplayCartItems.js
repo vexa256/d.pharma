@@ -25,7 +25,7 @@ global.DisplayCartTable = (CartItems, Total) => {
         DisplayCartItemsHere.append(Tr);
         DisplayCartItemsHere.append(`<td>${item.PatientName}</td>`);
         DisplayCartItemsHere.append(`<td>${item.PatientPhone}</td>`);
-        DisplayCartItemsHere.append(`<td>${item.PatientEmail}</td>`);
+        // DisplayCartItemsHere.append(`<td>${item.PatientEmail}</td>`);
         DisplayCartItemsHere.append(`<td>${item.DrugName}</td>`);
         DisplayCartItemsHere.append(`<td>${item.GenericName}</td>`);
         DisplayCartItemsHere.append(`<td>${item.Units}</td>`);
