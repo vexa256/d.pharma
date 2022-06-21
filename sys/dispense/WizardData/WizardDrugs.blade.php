@@ -13,7 +13,7 @@
                       <tr class="fw-bold  text-gray-800 border-bottom border-gray-200">
                           <th>Patient</th>
                           <th>Phone</th>
-                          {{-- <th>Email</th> --}}
+                          <th>Email</th>
                           <th>Item Name</th>
                           <th>Generic Name</th>
                           <th>Units </th>
