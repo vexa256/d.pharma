@@ -10,8 +10,7 @@
 <div data-kt-menu-trigger="click" class="menu-item viewer_only menu-accordion">
     <span class="menu-link">
         <span class="menu-icon">
-            <i class="fas text-light fw-bolder fa-2x me-1 fa-syringe"
-                aria-hidden="true"></i>
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-syringe" aria-hidden="true"></i>
         </span>
         <span class="menu-title ms-2 fs-6">Sales</span>
         <span class="menu-arrow"></span>
@@ -21,6 +20,11 @@
         <?php
         MenuItem($link = route('DispenseDrugs'), $label = 'One-time Sale');
         MenuItem($link = route('SelectExistingPatient'), $label = 'Existing Patient Sale');
+        MenuItem($link = route('PriceList'), $label = 'Inventory Price List');
+        
+        // MenuItem($link = route('SelectExistingPatient'), $label = ' Balance Depletion History');
+        
+        // MenuItem($link = route('SelectExistingPatient'), $label = ' Credit Payment History');
         
         //MenuItem($link = route('RestockDrugInventory'), $label = 'Insurance Claims');
         
@@ -33,8 +37,7 @@
 <div data-kt-menu-trigger="click" class="menu-item menu-accordion viewer_only">
     <span class="menu-link">
         <span class="menu-icon">
-            <i class="fas text-light fw-bolder fa-2x me-1 fa-people-carry"
-                aria-hidden="true"></i>
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-people-carry" aria-hidden="true"></i>
         </span>
         <span class="menu-title ms-2 fs-6">Patient Management</span>
         <span class="menu-arrow"></span>
@@ -50,6 +53,8 @@
         
         MenuItem($link = route('PatientBalanceManagement'), $label = 'Patient Balance Status');
         
+        MenuItem($link = route('SelectPatientHistory'), $label = 'Patient Dispense History');
+        
         MenuItem($link = route('PatientCreditManagement'), $label = 'Patient Credit Status');
         MenuItem($link = route('NokSelectPatients'), $label = 'Next of Keens');
         
@@ -64,8 +69,7 @@
 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
     <span class="menu-link">
         <span class="menu-icon">
-            <i class="fas text-light fw-bolder fa-2x me-1 fa-chart-bar"
-                aria-hidden="true"></i>
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-chart-bar" aria-hidden="true"></i>
         </span>
         <span class="menu-title ms-2 fs-6">Analytics and Reports</span>
         <span class="menu-arrow"></span>
@@ -132,8 +136,7 @@
 <div data-kt-menu-trigger="click" class="menu-item viewer_only menu-accordion">
     <span class="menu-link">
         <span class="menu-icon">
-            <i class="fas text-light fw-bolder fa-2x me-1 fa-boxes"
-                aria-hidden="true"></i>
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-boxes" aria-hidden="true"></i>
         </span>
         <span class="menu-title ms-2 fs-6">Inventory Operations</span>
         <span class="menu-arrow"></span>
@@ -156,8 +159,7 @@
 <div data-kt-menu-trigger="click" class="menu-item menu-accordion viewer_only">
     <span class="menu-link">
         <span class="menu-icon">
-            <i class="fas text-light fw-bolder fa-2x me-1 fa-box-open"
-                aria-hidden="true"></i>
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-box-open" aria-hidden="true"></i>
         </span>
         <span class="menu-title ms-2 fs-6">Drug Inventory</span>
         <span class="menu-arrow"></span>
@@ -186,8 +188,7 @@
 <div data-kt-menu-trigger="click" class="menu-item menu-accordion viewer_only ">
     <span class="menu-link">
         <span class="menu-icon">
-            <i class="fas text-light fw-bolder fa-2x me-1 fa-tools"
-                aria-hidden="true"></i>
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-tools" aria-hidden="true"></i>
         </span>
         <span class="menu-title ms-2 fs-6">Consumables</span>
         <span class="menu-arrow"></span>

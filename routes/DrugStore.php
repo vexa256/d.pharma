@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(DrugStoreController::class)->group(function () {
 
+    Route::get('PriceList', 'PriceList')->name('PriceList');
+
     Route::get('DrugSettings/{id}', 'DrugSettings')->name('DrugSettings');
 
     Route::post('AddToDrugList', 'AddToDrugList')->name('AddToDrugList');

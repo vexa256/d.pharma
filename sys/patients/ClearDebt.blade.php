@@ -164,7 +164,7 @@
 
                                         <td>{{ $dat->RegisteredBy }}</td>
 
-                                        <td> {!! date('F j, Y', strtotime($data->created_at)) !!}</td>
+                                        <td> {!! date('F j, Y', strtotime($dat->created_at)) !!}</td>
 
 
 

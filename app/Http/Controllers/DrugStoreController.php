@@ -556,4 +556,25 @@ class DrugStoreController extends Controller
 
         return view('scrn', $data);
     }
+
+    public function PriceList(Type $var = null)
+    {
+        $PriceList = DB::table('drugs AS D')
+            ->join('drug_units AS U', 'U.UnitID', 'D.MeasurementUnits')
+            ->join('drug_categories AS C', 'C.DCID', 'D.DCID')
+            ->select('D.*', 'U.Unit', 'C.CategoryName AS CatName')
+            ->get();
+
+        $data = [
+
+            "Page"      => "drugs.PriceList",
+            "Title"     => "Inventory Price List",
+            "Desc"      => "Price List Settings",
+            "PriceList" => $PriceList,
+
+        ];
+
+        return view('scrn', $data);
+
+    }
 }

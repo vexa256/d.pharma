@@ -160,6 +160,26 @@ class ReportsController extends Controller
 
     public function PatientPurchaseAnalysisSelect(Type $var = null)
     {
+        $Counter = DB::table('dispense_logs AS D')
+            ->where('D.ExistingStatus', 'true')
+            ->count();
+
+        if ($Counter > 0) {
+            $Res = DB::table('dispense_logs AS D')
+                ->join('patients AS P', 'P.PID', 'D.PID')
+                ->where('D.ExistingStatus', 'true')
+                ->select('P.Name', 'P.PID')
+                ->get();
+
+            foreach ($Res as $rec) {
+                DB::table('dispense_logs')->where('PID', $rec->PID)->update([
+
+                    'PatientName' => $rec->Name,
+                ]);
+            }
+        }
+
+        // $Report = DB::table('patients AS P')->get();
         $Report = DB::table('PatientPurchaseReport')->get();
         $data   = [
 

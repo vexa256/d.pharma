@@ -90,7 +90,8 @@ class InventoryController extends Controller
 
         $FormEngine = new FormEngine;
 
-        $DrugCategories = DB::table('drug_categories')->get();
+        $DrugCategories = DB::table('drug_categories')
+            ->where('CategoryName', 'not like', '%Human Medicine%')->get();
 
         $data = [
 
